@@ -20,3 +20,21 @@ Feature: Strict FastPass validation
         Then the turnstile should block entry
         And I should see the outside time window message
         And the student "Anna" should have "13.50" in credit
+
+    Scenario: Student arrives before the time window
+        When the student "Anna" scans her QR Code at "12:00"
+        Then the turnstile should block entry
+        And I should see the outside time window message
+        And the student "Anna" should have "13.50" in credit
+
+    Scenario: Student without a FastPass
+        Given the student "Bruno" was not drawn
+        When the student "Bruno" scans the QR Code at "12:20"
+        Then the turnstile should block entry
+        And I should see the no FastPass message
+
+    Scenario: FastPass student without enough balance
+        Given the student "Anna" has "0.00" in credit
+        When the student "Anna" scans her QR Code at "12:20"
+        Then the turnstile should block entry
+        And I should see the not enough balance message

@@ -72,3 +72,9 @@ Feature: Check what FastPass is active
         And I should see the breakfast FastPass result time
         And I should see dinner FastPass is active
         And I should see lunch FastPass is inactive
+
+    # Negative Scenarios
+    Scenario: Meal without FastPass time frames
+        Given breakfast has no FastPass time frames
+        And it is after dinner end time and before breakfast FastPass time
+        Then I should see breakfast FastPass is unavailable
