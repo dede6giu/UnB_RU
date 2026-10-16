@@ -34,4 +34,10 @@
 /config/*.key
 
 # Ignore vscode configurations
-.vscode/
+.vscode/*
+
+# Ignore RubyMine user-specific settings
+.idea/*workspace.xml
+.idea/*usage.statistics.xml
+.idea/shelf
+!.idea/*.iml
