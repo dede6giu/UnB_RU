@@ -11,7 +11,7 @@ Feature: Restaurant editing
 
     # Positive Scenarios
     Scenario Outline: Rename a restaurant or its campus
-        Given I know all <i_know>
+        Given I know all restaurants
         When I fill in "<i_know_id>" unknowingly
         And I fill in "<knownt_id>" correctly
         And I click the save restaurant button
@@ -20,9 +20,9 @@ Feature: Restaurant editing
         And operators should see the restaurant's new "<i_know_id>" on the "Configuração de Ponto" page
 
         Examples:
-            | i_know            | i_know_id         | knownt_id         |
-            | restaurant names  | restaurant-name   | restaurant-campus |
-            | restaurant campus | restaurant-campus | restaurant-name   |
+            | i_know_id         | knownt_id         |
+            | restaurant-name   | restaurant-campus |
+            | restaurant-campus | restaurant-name   |
 
     # Negative Scenarios
     Scenario Outline: Invalid name

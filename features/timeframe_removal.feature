@@ -12,18 +12,18 @@ Feature: Time frame removal
     # Positive Scenarios
     Scenario: Remove a time frame
         When I click the remove button of the "12:00" to "12:15" time frame
-        And I confirm the removal
+        And I confirm
         Then I should not see the "12:00" to "12:15" time frame in the lunch shift
 
     # Negative Scenarios
     Scenario: Give up mid-removal
         When I click the remove button of the "12:00" to "12:15" time frame
-        And I cancel the removal
+        And I cancel
         Then I should see the "12:00" to "12:15" time frame in the lunch shift
 
     Scenario: Time frame with students enrolled
         Given there are students enrolled in the "12:00" to "12:15" time frame
         When I click the remove button of the "12:00" to "12:15" time frame
-        And I confirm the removal
+        And I confirm
         Then I should see the "12:00" to "12:15" time frame in the lunch shift
         And I should see a time frame with students enrolled message

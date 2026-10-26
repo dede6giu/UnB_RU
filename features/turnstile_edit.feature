@@ -4,11 +4,11 @@ Feature: Turnstile editing
     So that its information stays updated
 
     Background:
-        Given I am logged in as an admin
+        Given I am an admin
         And there are restaurants with turnstiles
         And I know a restaurant
         And I know a turnstile from the restaurant I know
-        And I am on the knowing "Manejar Catraca" page
+        And I am on the turnstile "Manejar Catraca" page
 
     # Positive scenarios
     Scenario: Deactivate a turnstile
@@ -32,7 +32,7 @@ Feature: Turnstile editing
         Then I should be on the knowing "Manejar Catraca" page
         And I should see an existing turnstile message
 
-    Scenario: Rename turnstile with an invalid value
+    Scenario: Rename turnstile with an invalid name
         Given I know all turnstile names
         When I fill "turnstile-name" incorrectly
         Then I should be on the knowing "Manejar Catraca" page

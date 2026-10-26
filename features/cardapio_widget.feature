@@ -3,9 +3,10 @@ Feature: Widget of the menu of the current meal
     I want to see the menu of the next (or current) meal, with the standard, ovo-lacto-vegetarian and strict vegetarian options
 
     Background:
-        Given I am logged as a student
+        Given I am a student
         And I am at the "Portal do Estudante" page
 
+    # Positive Scenarios
     Scenario Outline: Current meal (breakfast)
         Given it is <weekday> during breakfast time
         Then I should see the breakfast menu for <weekday>
@@ -63,7 +64,7 @@ Feature: Widget of the menu of the current meal
             | Saturday  |
 
     Scenario Outline: No meal being served (breakfast to lunch)
-        Given it is <weekday> after breakfast and before lunch time
+        Given it is <weekday> after breakfast time and before lunch time
         Then I should see the lunch menu for <weekday>
 
         Examples:
@@ -77,7 +78,7 @@ Feature: Widget of the menu of the current meal
             | Saturday  |
 
     Scenario Outline: No meal being served (lunch to dinner)
-        Given it is <weekday> after lunch and before dinner time
+        Given it is <weekday> after lunch time and before dinner time
         Then I should see the dinner menu for <weekday>
 
         Examples:
