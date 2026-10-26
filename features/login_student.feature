@@ -4,6 +4,7 @@ Feature: Login as a Student
 
     Background:
         Given there is students
+        And I am on the "Autenticação do Estudante" page
 
     # Positive Scenarios
     Scenario: Correctly enter in an existing account
@@ -13,13 +14,14 @@ Feature: Login as a Student
         And I click on the login button
         Then I should be authenticated
         And I should be on the "Portal do Estudante" page
+        And I should see my balance
 
     # Negative tests
     Scenario: Invalid student ID
         When I fill "student-user" incorrectly
         And I fill "student-pass" correctly
         And I click on the login button
-        Then I should be on the "Cadastro Estudantil" page
+        Then I should be on the "Autenticação do Estudante" page
         And I should see an invalid student id message
 
     Scenario: Incorrect password
@@ -27,7 +29,7 @@ Feature: Login as a Student
         When I fill "student-user" knowingly
         And I fill "student-pass" unknowingly
         And I click on the login button
-        Then I should be on the "Cadastro Estudantil" page
+        Then I should be on the "Autenticação do Estudante" page
         And I should see an incorrect credentials message
 
     Scenario: Non-existing student ID
@@ -35,5 +37,5 @@ Feature: Login as a Student
         When I fill "student-user" unknowingly
         And I fill "student-pass" correctly
         And I click on the login button
-        Then I should be on the "Autenticação do Operador" page
+        Then I should be on the "Autenticação do Estudante" page
         And I should see a incorrect credentials message

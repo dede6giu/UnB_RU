@@ -12,7 +12,7 @@ Feature: Login as an operator
         When I fill "operator-user" knowingly
         And I fill "operator-pass" knowingly
         And I click on the login button
-        Then I should be authenticated in my operator account
+        Then I should be authenticated
         And I should be on the "Configuração de Ponto" page
 
     # Negative scenario
@@ -21,7 +21,7 @@ Feature: Login as an operator
         And I fill "operator-pass" correctly
         And I click on the login button
         Then I should be on the "Autenticação do Operador" page
-        And I should see a invalid operator id message
+        And I should see an invalid operator id message
 
     Scenario: Incorrect password
         Given I know an operator
@@ -29,7 +29,7 @@ Feature: Login as an operator
         And I fill "operator-pass" unknowingly
         And I click on the login button
         Then I should be on the "Autenticação do Operador" page
-        And I should see a incorrect credentials message
+        And I should see an incorrect credentials message
 
     Scenario: Non-existing operator ID
         Given I know all operators
@@ -37,4 +37,4 @@ Feature: Login as an operator
         And I fill "operator-pass" correctly
         And I click on the login button
         Then I should be on the "Autenticação do Operador" page
-        And I should see a incorrect credentials message
+        And I should see an incorrect credentials message

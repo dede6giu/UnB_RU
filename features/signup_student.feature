@@ -18,33 +18,24 @@ Feature: Student Account Creation
     # Negative tests
     Scenario: Account already exists
         Given there is students
-        When I fill "student-user" with existing data
+        And I know a student
+        When I fill "student-user" knowingly
         And I fill "student-name" correctly
         And I fill "student-pass" correctly
         And I click on the register button
         Then I should be on the "Cadastro Estudantil" page
-        And I should see an already existing student message
+        And I should see an existing student message
 
-    Scenario: Invalid student ID
-        When I fill "student-user" incorrectly
-        And I fill "student-name" correctly
-        And I fill "student-pass" correctly
+    Scenario Outline: Invalid data input
+        When I fill "<correct1>" correctly
+        And I fill "<correct2>" correctly
+        And I fill "<incorrect>" incorrectly
         And I click on the register button
         Then I should be on the "Cadastro Estudantil" page
-        And I should see an invalid student id message
+        And I should see an <message> message
 
-    Scenario: Empty name
-        When I fill "student-user" correctly
-        # And I leave "student-name" empty
-        And I fill "student-pass" correctly
-        And I click on the register button
-        Then I should be on the "Cadastro Estudantil" page
-        And I should see an invalid student id message
-
-    Scenario: Invalid password
-        When I fill "student-user" correctly
-        And I fill "student-name" correctly
-        And I fill "student-pass" incorrectly
-        And I click on the register button
-        Then I should be on the "Cadastro Estudantil" page
-        And I should see an invalid password message
+        Examples:
+        | correct1     | correct2     | incorrect    | message            |
+        | student-user | student-name | student-pass | invalid password   |
+        | student-user | student-pass | student-name | invalid name       |
+        | student-name | student-pass | student-user | invalid student id |

@@ -41,35 +41,20 @@ Feature: Add Credit to Wallet
             | PIX         |
             | Credit Card |
 
-    Scenario: Invalid Credit Card number
+    Scenario Outline: Invalid Credit Card data
         When I choose Credit Card credit option
-        And I fill "card-number" incorrectly
-        And I fill "card-expire" correctly
-        And I fill "card-secure" correctly
-        And I fill "credit-amount" correctly
+        And I fill "<correct1>" correctly
+        And I fill "<correct2>" correctly
+        And I fill "<correct3>" correctly
+        And I fill "<incorrect>" incorrectly
         And I click on the confirm transaction button
         Then I should be on the "Recarga de Saldo" page
-        And I should see a incorrect Credit Card info message
+        And I should see an <message> message
         And I should see my balance had no change
 
-    Scenario: Invalid Credit Card expire date
-        When I choose Credit Card credit option
-        And I fill "card-number" correctly
-        And I fill "card-expire" incorrectly
-        And I fill "card-secure" correctly
-        And I fill "credit-amount" correctly
-        And I click on the confirm transaction button
-        Then I should be on the "Recarga de Saldo" page
-        And I should see a incorrect Credit Card info message
-        And I should see my balance had no change
-
-    Scenario: Invalid Credit Card security number
-        When I choose Credit Card credit option
-        And I fill "card-number" correctly
-        And I fill "card-expire" correctly
-        And I fill "card-secure" incorrectly
-        And I fill "credit-amount" correctly
-        And I click on the confirm transaction button
-        Then I should be on the "Recarga de Saldo" page
-        And I should see a incorrect Credit Card info message
-        And I should see my balance had no change
+        Examples:
+        | correct1      | correct2      | correct3      | incorrect     | message                  |
+        | card-number   | card-expire   | card-secure   | credit-amount | invalid credit amount    |
+        | card-expire   | card-secure   | credit-amount | card-number   | invalid Credit Card info |
+        | card-secure   | card-number   | credit-amount | card-expire   | invalid Credit Card info |
+        | card-number   | card-expire   | credit-amount | card-secure   | invalid Credit Card info |
