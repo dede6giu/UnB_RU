@@ -1,0 +1,12 @@
+<% content_for :title, "Editing turnstile" %>
+
+<h1>Editing turnstile</h1>
+
+<%= render "form", turnstile: @turnstile %>
+
+<br>
+
+<div>
+  <%= link_to "Show this turnstile", @turnstile %> |
+  <%= link_to "Back to turnstiles", turnstiles_path %>
+</div>

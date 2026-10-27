@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title><%= content_for(:title) || "UnB_RU" %></title>
+    <%= render "headmeta" %>
+  </head>
+  <body>
+    <%= render "header_admin" %>
+    <%= yield %>
+  </body>
+</html>

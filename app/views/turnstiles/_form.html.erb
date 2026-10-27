@@ -1,0 +1,32 @@
+<%= form_with(model: turnstile) do |form| %>
+  <% if turnstile.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(turnstile.errors.count, "error") %> prohibited this turnstile from being saved:</h2>
+
+      <ul>
+        <% turnstile.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :operation, style: "display: block" %>
+    <%= form.text_field :operation %>
+  </div>
+
+  <div>
+    <%= form.label :restaurant_id, style: "display: block" %>
+    <%= form.select :restaurant_id, options_for_select(Restaurant.all.map{|r|["#{r.campus} - #{r.name}", r.id]}) %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

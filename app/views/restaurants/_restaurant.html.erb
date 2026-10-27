@@ -1,0 +1,17 @@
+<div id="<%= dom_id restaurant %>">
+  <div>
+    <strong>Name:</strong>
+    <%= restaurant.name %>
+  </div>
+
+  <div>
+    <strong>Campus:</strong>
+    <%= restaurant.campus %>
+  </div>
+
+  <div>
+    <strong>Turnstiles:</strong>
+    <%= Turnstile.all.where(:restaurant_id => restaurant).order(:name).map{|t| "#{t.name}"} %>
+  </div>
+
+</div>
