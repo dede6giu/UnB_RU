@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_27_162336) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_29_172128) do
   create_table "restaurants", force: :cascade do |t|
     t.string "name"
     t.string "campus"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "campus"], name: "index_restaurants_on_name_and_campus", unique: true
   end
 
   create_table "turnstiles", force: :cascade do |t|
@@ -24,6 +25,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_27_162336) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "restaurant_id", null: false
+    t.index ["name", "restaurant_id"], name: "index_turnstiles_on_name_and_restaurant_id", unique: true
     t.index ["restaurant_id"], name: "index_turnstiles_on_restaurant_id"
   end
 
