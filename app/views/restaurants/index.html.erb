@@ -1,16 +1,49 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Manejamento de Restaurantes" %>
 
-<% content_for :title, "Restaurants" %>
-
-<h1>Restaurants</h1>
-
-<div id="restaurants">
-  <% @restaurants.each do |restaurant| %>
-    <%= render restaurant %>
-    <p>
-      <%= link_to "Show this restaurant", restaurant %>
-    </p>
+<div class="p-12 bg-1">
+  <% if notice != nil %>
+    <p style="color: green"><%= notice %></p>
   <% end %>
+  <!-- CABEÇALHO -->
+  <div class="d-flex p-2 gap-3">
+    <p class="fg-primary fw-medium h1 flex-grow-1">
+      Gestão de Restaurantes e Catracas
+    </p>
+    <%= button_to "Cadastrar Unidade", new_restaurant_path,
+                  class: "btn-outline theme-primary d-flex h-100",
+                  :method => :get%>
+  </div>
+  <!-- DATA GERAL -->
+  <div class="d-flex p-2 gap-6 mt-6">
+    <% class_box = "d-flex bg-white p-5 flex-grow-1 shadow-sm" %>
+    <% class_box_text = "fs-2xl fg-primary fw-medium" %>
+    <div class="<%= class_box %>">
+      <div class="d-flex flex-grow-1 flex-column">
+        <div class="fs-sm fg-4">TOTAL DE RESTAURANTES</div>
+        <div class="<%= class_box_text %>"><%= @restaurants.count %> Unidades</div>
+      </div>
+      <%= image_tag "placeholder.png", width: 80, height: 80 %>
+    </div>
+    <div class="<%= class_box %>">
+      <div class="d-flex flex-grow-1 flex-column">
+        <div class="fs-sm fg-4">CATRACAS OPERANDO</div>
+        <div class="<%= class_box_text %>"><%= Turnstile.all.where("operation = 'Operando' or operation = 'FastPass'").count %> Catracas</div>
+      </div>
+      <%= image_tag "placeholder.png", width: 80, height: 80 %>
+    </div>
+    <div class="<%= class_box %>">
+      <div class="d-flex flex-grow-1 flex-column">
+        <div class="fs-sm fg-4">CATRACAS FASTPASS</div>
+        <div class="<%= class_box_text %>"><%= Turnstile.all.where(operation: "FastPass").count %> Catracas</div>
+      </div>
+      <%= image_tag "placeholder.png", width: 80, height: 80 %>
+    </div>
+  </div>
+
+  <div id="restaurants">
+    <% @restaurants.each do |restaurant| %>
+      <%= render restaurant %>
+    <% end %>
+  </div>
 </div>
 
-<%= link_to "New restaurant", new_restaurant_path %>

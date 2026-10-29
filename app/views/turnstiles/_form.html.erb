@@ -18,7 +18,7 @@
 
   <div>
     <%= form.label :operation, style: "display: block" %>
-    <%= form.text_field :operation %>
+    <%= form.select :operation, options_for_select(%w(Inativa Ativa Operando FastPass)) %>
   </div>
 
   <div>
