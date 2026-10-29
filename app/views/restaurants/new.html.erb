@@ -1,11 +1,7 @@
-<% content_for :title, "New restaurant" %>
+<% content_for :title, "Nova Unidade" %>
 
-<h1>New restaurant</h1>
+<div class="bg-1 h-max p-12">
+  <div class="h1 fg-primary">Nova Unidade</div>
 
-<%= render "form", restaurant: @restaurant %>
-
-<br>
-
-<div>
-  <%= link_to "Back to restaurants", restaurants_path %>
+  <%= render "form_new", restaurant: @restaurant %>
 </div>

@@ -1,0 +1,34 @@
+<div id="form">
+  <%= form_with(model: restaurant) do |form| %>
+    <% if restaurant.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h2>
+
+        <ul>
+          <% restaurant.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="p-4">
+      <%= form.label :name, style: "display: block", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4">
+      <%= form.label :campus, style: "display: block", class: "form-label" %>
+      <%= form.text_field :campus, class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4">
+      <%= form.submit "Criar Restaurante", class: "btn-subtle theme-success" %>
+    </div>
+
+    <div class="p-4">
+      <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
+    </div>
+
+  <% end %>
+</div>
