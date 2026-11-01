@@ -9,6 +9,7 @@ class TurnstilesController < ApplicationController
 
   # GET /turnstiles/1 or /turnstiles/1.json
   def show
+    @restaurant = Restaurant.find(@turnstile.restaurant_id)
   end
 
   # GET /turnstiles/new
@@ -18,6 +19,7 @@ class TurnstilesController < ApplicationController
 
   # GET /turnstiles/1/edit
   def edit
+    @restaurant = Restaurant.find(@turnstile.restaurant_id)
   end
 
   # POST /turnstiles or /turnstiles.json
@@ -26,7 +28,7 @@ class TurnstilesController < ApplicationController
 
     respond_to do |format|
       if @turnstile.save
-        format.html { redirect_to @turnstile, notice: "Turnstile was successfully created." }
+        format.html { redirect_to restaurants_path, notice: "Catraca criada com sucesso." }
         format.json { render :show, status: :created, location: @turnstile }
       else
         format.html { render :new, status: :unprocessable_content }
@@ -39,11 +41,12 @@ class TurnstilesController < ApplicationController
   def update
     respond_to do |format|
       if @turnstile.update(turnstile_params)
-        format.html { redirect_to @turnstile, notice: "Turnstile was successfully updated.", status: :see_other }
+        format.html { redirect_to restaurants_path, notice: "Catraca atualizada com sucesso.", status: :see_other }
         format.json { render :show, status: :ok, location: @turnstile }
       else
         format.html { render :edit, status: :unprocessable_content }
         format.json { render json: @turnstile.errors, status: :unprocessable_content }
+        @turnstile.reload
       end
     end
   end
@@ -53,7 +56,7 @@ class TurnstilesController < ApplicationController
     @turnstile.destroy!
 
     respond_to do |format|
-      format.html { redirect_to turnstiles_path, notice: "Turnstile was successfully destroyed.", status: :see_other }
+      format.html { redirect_to restaurants_path, notice: "Catraca destruída com sucesso.", status: :see_other }
       format.json { head :no_content }
     end
   end

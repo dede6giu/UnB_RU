@@ -1,11 +1,7 @@
-<% content_for :title, "New turnstile" %>
+<% content_for :title, "Nova Catraca" %>
 
-<h1>New turnstile</h1>
+<div class="bg-1 h-max p-12">
+  <div class="h1 fg-primary">Nova Catraca</div>
 
-<%= render "form", turnstile: @turnstile %>
-
-<br>
-
-<div>
-  <%= link_to "Back to turnstiles", turnstiles_path %>
+  <%= render "form_new", turnstile: @turnstile %>
 </div>

@@ -39,11 +39,12 @@ class RestaurantsController < ApplicationController
   def update
     respond_to do |format|
       if @restaurant.update(restaurant_params)
-        format.html { redirect_to @restaurant, notice: "Restaurante atualizado com sucesso.", status: :see_other }
+        format.html { redirect_to restaurants_path, notice: "Restaurante atualizado com sucesso.", status: :see_other }
         format.json { render :show, status: :ok, location: @restaurant }
       else
         format.html { render :edit, status: :unprocessable_content }
         format.json { render json: @restaurant.errors, status: :unprocessable_content }
+        @restaurant.reload
       end
     end
   end

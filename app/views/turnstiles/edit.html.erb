@@ -1,12 +1,7 @@
-<% content_for :title, "Editing turnstile" %>
+<% content_for :title, "Editar Catraca" %>
 
-<h1>Editing turnstile</h1>
+<div class="bg-1 h-max p-12">
+  <div class="h1 fg-primary">Editando Catraca "<%= @turnstile.name %>" da Unidade "<%= @restaurant.name %> (<%= @restaurant.campus %>)"</div>
 
-<%= render "form", turnstile: @turnstile %>
-
-<br>
-
-<div>
-  <%= link_to "Show this turnstile", @turnstile %> |
-  <%= link_to "Back to turnstiles", turnstiles_path %>
+  <%= render "form_edit", turnstile: @turnstile %>
 </div>

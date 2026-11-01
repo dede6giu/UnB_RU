@@ -1,8 +1,8 @@
 <div id="form">
   <%= form_with(model: restaurant) do |form| %>
     <% if restaurant.errors.any? %>
-      <div style="color: red">
-        <h2><%= pluralize(restaurant.errors.count, "error") %> prohibited this restaurant from being saved:</h2>
+      <div class="fg-danger">
+        <div class="h2"><%= restaurant.errors.count %> erros impediram a operação:</div>
 
         <ul>
           <% restaurant.errors.each do |error| %>
@@ -13,12 +13,12 @@
     <% end %>
 
     <div class="p-4">
-      <%= form.label :name, style: "display: block", class: "form-label" %>
+      <%= form.label :name, "Nome", style: "display: block", class: "form-label" %>
       <%= form.text_field :name, class: "form-control w-25" %>
     </div>
 
     <div class="p-4">
-      <%= form.label :campus, style: "display: block", class: "form-label" %>
+      <%= form.label :campus, "Campus", style: "display: block", class: "form-label" %>
       <%= form.text_field :campus, class: "form-control w-25" %>
     </div>
 
@@ -28,10 +28,8 @@
                   data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" },
                   class: "btn-subtle theme-danger" %>
     </div>
-
-    <div class="p-4">
-      <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
-    </div>
-
   <% end %>
+  <div class="p-4">
+    <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
+  </div>
 </div>
