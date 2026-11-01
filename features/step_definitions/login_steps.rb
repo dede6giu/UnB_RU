@@ -1,53 +1,64 @@
 Given('there is admins') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @password = '123456'
+  admin = {
+    user: '000000000',
+    password: @password,
+    name: 'algum',
+    role: 'admin'
+  }
+  Account.create!(admin)
 end
 
 Given('I am on the {string} page') do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  visit path_to(string)
 end
 
 Given('I know an admin') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @admin = Account.find_by(role: 'admin')
 end
 
 When('I fill {string} knowingly') do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  valor = string.end_with?('-user') ? @admin.user : @password
+  fill_in string, with: valor
 end
 
 When('I click on the login button') do
-  pending # Write code here that turns the phrase above into concrete actions
+  click_button 'Login'
 end
 
 Then('I should be authenticated') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content('Sucesso na autenticação do administrador.')
 end
 
 Then('I should be on the {string} page') do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_title(string)
 end
 
 When('I fill {string} incorrectly') do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  valor = string.end_with?('-user') ? '0000000015' : '000000'
+  fill_in string, with: valor
 end
 
 When('I fill {string} correctly') do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  valor = string.end_with?('-user') ? @admin.user : @password
+  fill_in string, with: valor
 end
 
 Then('I should see an invalid admin id message') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content('Matrícula inválida.')
 end
 
 Then('I should see an incorrect credentials message') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content('Matrícula ou senha incorretas.')
 end
 
 Given('I know all admins') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @admins = Account.where(role: 'admin')
 end
 
 When('I fill {string} unknowingly') do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+  valor = string.end_with?('-user') ? '232022674' : @password
+  fill_in string, with: valor
 end
 
 Given('there is operators') do

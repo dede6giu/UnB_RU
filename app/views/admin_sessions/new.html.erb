@@ -1,0 +1,18 @@
+<% content_for :title, "Autenticação de Admin" %>
+<h1>Autenticação de Administrador</h1>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<form action="/admin_sessions" method="post">
+  <label for="admin-user">Usuário:</label>
+  <input type="text" id="admin-user" name="admin[user]"><br><br>
+  <label for="admin-password">Senha:</label>
+  <input type="password" id="admin-pass" name="admin[password]"><br><br>
+  <input type="submit" value="Login">
+</form>
