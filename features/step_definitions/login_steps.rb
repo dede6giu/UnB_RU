@@ -1,7 +1,7 @@
 Given('there is admins') do
-  @password = '123456'
+  @password = 'senha123'
   @conta = {
-    user: '000000000',
+    user: '1000000',
     password: @password,
     name: 'algum',
     role: 'admin'
@@ -56,15 +56,17 @@ Given('I know all admins') do
   @admins = Account.where(role: 'admin')
 end
 
+# Matrícula com formato válido que não pertence a nenhuma conta criada nos steps acima.
 When('I fill {string} unknowingly') do |string|
-  valor = string.end_with?('-user') ? '232022674' : '987654'
+  matricula = string.start_with?('student-') ? '232054321' : '7654321'
+  valor = string.end_with?('-user') ? matricula : 'errada99'
   fill_in string, with: valor
 end
 
 Given('there is operators') do
-  @password = '123456'
+  @password = 'senha123'
   @conta = {
-    user: '111111111',
+    user: '2000000',
     password: @password,
     name: 'algum',
     role: 'operator'
@@ -85,9 +87,9 @@ Given('I know all operators') do
 end
 
 Given('there is students') do
-  @password = '123456'
+  @password = 'senha123'
   @conta = {
-    user: '222222222',
+    user: '232012345',
     password: @password,
     name: 'algum',
     role: 'student'

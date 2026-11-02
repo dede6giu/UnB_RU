@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   get "access_points/new", to: "access_points#new"
   post "access_points", to: "access_points#create"
   get "student_portal/new", to: "student_portal#new"
-  post "student_portal", to: "student_portal#create"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
