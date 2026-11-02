@@ -85,21 +85,28 @@ Given('I know all operators') do
 end
 
 Given('there is students') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @password = '123456'
+  @conta = {
+    user: '222222222',
+    password: @password,
+    name: 'algum',
+    role: 'student'
+  }
+  Account.create!(@conta)
 end
 
 Given('I know a student') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @conta = Account.find_by(role: 'student')
 end
 
 Then('I should see my balance') do
-  pending # Write code here that turns the phrase above into concrete actions
+  pending # Depende de balance_cents
 end
 
 Then('I should see an invalid student id message') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content('Matrícula inválida.')
 end
 
 Given('I know all students') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @students = Account.where(role: 'student')
 end
