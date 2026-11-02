@@ -1,12 +1,12 @@
 Given('there is admins') do
   @password = '123456'
-  admin = {
+  @conta = {
     user: '000000000',
     password: @password,
     name: 'algum',
     role: 'admin'
   }
-  Account.create!(admin)
+  Account.create!(@conta)
 end
 
 Given('I am on the {string} page') do |string|
@@ -14,11 +14,11 @@ Given('I am on the {string} page') do |string|
 end
 
 Given('I know an admin') do
-  @admin = Account.find_by(role: 'admin')
+  @conta = Account.find_by(role: 'admin')
 end
 
 When('I fill {string} knowingly') do |string|
-  valor = string.end_with?('-user') ? @admin.user : @password
+  valor = string.end_with?('-user') ? @conta[:user] : @password
   fill_in string, with: valor
 end
 
@@ -27,7 +27,7 @@ When('I click on the login button') do
 end
 
 Then('I should be authenticated') do
-  expect(page).to have_content('Sucesso na autenticação do administrador.')
+  expect(page).to have_content('Sucesso na autenticação.')
 end
 
 Then('I should be on the {string} page') do |string|
@@ -40,7 +40,7 @@ When('I fill {string} incorrectly') do |string|
 end
 
 When('I fill {string} correctly') do |string|
-  valor = string.end_with?('-user') ? @admin.user : @password
+  valor = string.end_with?('-user') ? @conta[:user] : @password
   fill_in string, with: valor
 end
 
@@ -57,24 +57,31 @@ Given('I know all admins') do
 end
 
 When('I fill {string} unknowingly') do |string|
-  valor = string.end_with?('-user') ? '232022674' : @password
+  valor = string.end_with?('-user') ? '232022674' : '987654'
   fill_in string, with: valor
 end
 
 Given('there is operators') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @password = '123456'
+  @conta = {
+    user: '111111111',
+    password: @password,
+    name: 'algum',
+    role: 'operator'
+  }
+  Account.create!(@conta)
 end
 
 Given('I know an operator') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @conta = Account.find_by(role: 'operator')
 end
 
 Then('I should see an invalid operator id message') do
-  pending # Write code here that turns the phrase above into concrete actions
+  expect(page).to have_content('Matrícula inválida.')
 end
 
 Given('I know all operators') do
-  pending # Write code here that turns the phrase above into concrete actions
+  @operators = Account.where(role: 'operator')
 end
 
 Given('there is students') do

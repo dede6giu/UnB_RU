@@ -1,0 +1,18 @@
+<% content_for :title, "Autenticação do Operador" %>
+<h1>Autenticação do Operador</h1>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<form action="/operator_sessions" method="post">
+  <label for="operator-user">Usuário:</label>
+  <input type="text" id="operator-user" name="operator[user]"><br><br>
+  <label for="operator-password">Senha:</label>
+  <input type="password" id="operator-pass" name="operator[password]"><br><br>
+  <input type="submit" value="Login">
+</form>

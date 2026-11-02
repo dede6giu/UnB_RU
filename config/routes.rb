@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   get "admin_sessions/new", to: "admin_sessions#new"
   post "admin_sessions", to: "admin_sessions#create"
+  get "operator_sessions/new", to: "operator_sessions#new"
+  post "operator_sessions", to: "operator_sessions#create"
+  get "access_points/new", to: "access_points#new"
+  post "access_points", to: "access_points#create"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
