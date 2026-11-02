@@ -1,10 +1,11 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "StudentPortals", type: :request do
-  describe "GET /new" do
-    it "returns http success" do
-      get "/student_portal/new"
+RSpec.describe "StudentPortal", type: :request do
+  describe "GET /student_portal/new" do
+    it "mostra a página Portal do Estudante" do
+      get student_portal_new_path
       expect(response).to have_http_status(:success)
+      expect(response.body).to include("Portal do Estudante")
     end
   end
 end
