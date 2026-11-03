@@ -23,7 +23,7 @@ When('I fill {string} knowingly') do |string|
 end
 
 When('I click on the login button') do
-  click_button 'Login'
+  click_button 'Entrar'
 end
 
 Then('I should be authenticated') do
