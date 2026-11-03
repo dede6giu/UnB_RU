@@ -12,7 +12,7 @@ class StudentSessionsController < ApplicationController
     if student && student.authenticate(student_params[:password])
       session[:student_id] = student.id
 
-      redirect_to student_portal_new_path, notice: "Sucesso na autenticação."
+      redirect_to student_portal_path, notice: "Sucesso na autenticação."
     else
       flash.now[:alert] = "Matrícula ou senha incorretas."
       render :new, status: :unprocessable_entity

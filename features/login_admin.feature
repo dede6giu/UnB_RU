@@ -7,7 +7,6 @@ Feature: Login as an admin
         And I am on the "Autenticação de Admin" page
 
     # Positive Scenarios
-    @wip
     Scenario: Valid admin login
         Given I know an admin
         When I fill "admin-user" knowingly

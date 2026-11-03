@@ -12,7 +12,7 @@ class OperatorSessionsController < ApplicationController
     operator = Account.find_by(user: operator_params[:user], role: "operator")
     if operator && operator.authenticate(operator_params[:password])
       session[:operator_id] = operator.id
-      redirect_to access_points_new_path, notice: "Sucesso na autenticação."
+      redirect_to new_access_point_path, notice: "Sucesso na autenticação."
     else
       flash.now[:alert] = "Matrícula ou senha incorretas."
       render :new, status: :unprocessable_entity

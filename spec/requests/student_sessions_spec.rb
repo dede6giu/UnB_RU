@@ -6,21 +6,21 @@ RSpec.describe "StudentSessions", type: :request do
   end
 
   def entrar(user:, password:)
-    post student_sessions_path, params: { student: { user: user, password: password } }
+    post student_session_path, params: { student: { user: user, password: password } }
   end
 
-  describe "GET /student_sessions/new" do
+  describe "GET /student_session/new" do
     it "mostra a página de login" do
-      get student_sessions_new_path
+      get new_student_session_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Autenticação do Estudante")
     end
   end
 
-  describe "POST /student_sessions" do
+  describe "POST /student_session" do
     it "autentica e vai para o Portal do Estudante" do
       entrar(user: "232012345", password: "senha123")
-      expect(response).to redirect_to(student_portal_new_path)
+      expect(response).to redirect_to(student_portal_path)
       expect(flash[:notice]).to eq("Sucesso na autenticação.")
       expect(session[:student_id]).to eq(estudante.id)
     end

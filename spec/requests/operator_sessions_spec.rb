@@ -6,21 +6,21 @@ RSpec.describe "OperatorSessions", type: :request do
   end
 
   def entrar(user:, password:)
-    post operator_sessions_path, params: { operator: { user: user, password: password } }
+    post operator_session_path, params: { operator: { user: user, password: password } }
   end
 
-  describe "GET /operator_sessions/new" do
+  describe "GET /operator_session/new" do
     it "mostra a página de login" do
-      get operator_sessions_new_path
+      get new_operator_session_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Autenticação do Operador")
     end
   end
 
-  describe "POST /operator_sessions" do
+  describe "POST /operator_session" do
     it "autentica e vai para a Configuração de Ponto" do
       entrar(user: "2000000", password: "senha123")
-      expect(response).to redirect_to(access_points_new_path)
+      expect(response).to redirect_to(new_access_point_path)
       expect(flash[:notice]).to eq("Sucesso na autenticação.")
       expect(session[:operator_id]).to eq(operador.id)
     end

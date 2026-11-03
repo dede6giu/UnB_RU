@@ -6,21 +6,21 @@ RSpec.describe "AdminSessions", type: :request do
   end
 
   def entrar(user:, password:)
-    post admin_sessions_path, params: { admin: { user: user, password: password } }
+    post admin_session_path, params: { admin: { user: user, password: password } }
   end
 
-  describe "GET /admin_sessions/new" do
+  describe "GET /admin_session/new" do
     it "mostra a página de login" do
-      get admin_sessions_new_path
+      get new_admin_session_path
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Autenticação de Admin")
     end
   end
 
-  describe "POST /admin_sessions" do
+  describe "POST /admin_session" do
     it "autentica com matrícula e senha certas" do
       entrar(user: "1000000", password: "senha123")
-      expect(response).to redirect_to(admin_sessions_new_path)
+      expect(response).to redirect_to(restaurants_path)
       expect(flash[:notice]).to eq("Sucesso na autenticação.")
       expect(session[:admin_id]).to eq(admin.id)
     end
