@@ -1,0 +1,39 @@
+<div id="form">
+  <%= form_with(model: turnstile) do |form| %>
+    <% if turnstile.errors.any? %>
+      <div class="fg-danger">
+        <div class="h2"><%= turnstile.errors.count %> erros impediram a operação:</div>
+
+        <ul>
+          <% turnstile.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="p-4">
+      <%= form.label :name, "Nome", style: "display: block", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4">
+      <%= form.label :operation, "Operação", style: "display: block", class: "form-label" %>
+      <%= form.select :operation, options_for_select(%w(Inativa Ativa Operando FastPass)), {},
+                      class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4">
+      <%= form.label :restaurant_id, "Restaurante", style: "display: block", class: "form-label" %>
+      <%= form.select :restaurant_id, options_for_select(Restaurant.all.map{|r|["#{r.campus} - #{r.name}", r.id]}), {},
+                      class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4 d-flex gap-6">
+      <%= form.submit "Criar Catraca", class: "btn-subtle theme-success" %>
+    </div>
+  <% end %>
+  <div class="p-4">
+    <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
+  </div>
+</div>
