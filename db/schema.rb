@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_03_163213) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_04_021653) do
   create_table "accounts", force: :cascade do |t|
     t.string "user"
     t.string "name"
@@ -37,6 +37,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_163213) do
     t.index ["account_id"], name: "index_students_on_account_id", unique: true
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.string "kind", null: false
+    t.string "payment_method"
+    t.integer "amount_cents", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_transactions_on_student_id"
+  end
+
   create_table "turnstiles", force: :cascade do |t|
     t.string "name"
     t.string "operation"
@@ -48,5 +58,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_03_163213) do
   end
 
   add_foreign_key "students", "accounts"
+  add_foreign_key "transactions", "students"
   add_foreign_key "turnstiles", "restaurants"
 end
