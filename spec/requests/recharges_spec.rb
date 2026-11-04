@@ -28,6 +28,17 @@ RSpec.describe "Recharges", type: :request do
       end
     end
 
+    it "mostra o formulário de recarga com PIX" do
+      entrar
+      get new_recharge_path
+      formulario = Nokogiri::HTML(response.body).at_css('form[action="/recharge"][method="post"]')
+      expect(formulario).not_to be_nil
+      pacotes = formulario.css('input[type="radio"][name="recharge[package]"]').map { |campo| campo["value"] }
+      expect(pacotes).to eq(%w[2 5 10 20])
+      expect(formulario.at_css('input#credit-amount[name="recharge[quantity]"]')).not_to be_nil
+      expect(formulario.at_css('button[type="submit"]').text).to include("Confirmar")
+    end
+
     it "manda para o login quem não está autenticado" do
       get new_recharge_path
       expect(response).to redirect_to(new_student_session_path)
@@ -35,8 +46,9 @@ RSpec.describe "Recharges", type: :request do
   end
 
   describe "POST /recharge com PIX" do
-    def recarregar(quantidade)
-      post recharge_path, params: { recharge: { payment_method: "pix", quantity: quantidade } }
+    def recarregar(quantidade = nil, pacote: nil)
+      campos = { payment_method: "pix", quantity: quantidade, package: pacote }.compact
+      post recharge_path, params: { recharge: campos }
     end
 
     it "soma as refeições ao saldo e registra o lançamento PIX" do
@@ -57,6 +69,25 @@ RSpec.describe "Recharges", type: :request do
       end
       expect(estudante.reload.balance_cents).to eq(1800)
       expect(Transaction.count).to eq(0)
+    end
+
+    it "usa o pacote escolhido quando \"outra quantidade\" está vazia" do
+      entrar
+      recarregar("", pacote: "10")
+      expect(estudante.reload.balance_cents).to eq(1800 + 10 * 450)
+    end
+
+    it "usa a \"outra quantidade\" quando preenchida, mesmo com pacote escolhido" do
+      entrar
+      recarregar("3", pacote: "10")
+      expect(estudante.reload.balance_cents).to eq(1800 + 3 * 450)
+    end
+
+    it "recusa \"outra quantidade\" inválida sem cair no pacote escolhido" do
+      entrar
+      recarregar("abc", pacote: "5")
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(estudante.reload.balance_cents).to eq(1800)
     end
 
     it "não recarrega para quem não está autenticado" do

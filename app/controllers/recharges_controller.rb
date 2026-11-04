@@ -8,7 +8,7 @@ class RechargesController < ApplicationController
   end
 
   def create
-    quantity = Integer(params.dig(:recharge, :quantity), exception: false)
+    quantity = Integer(chosen_quantity, exception: false)
     if quantity && @student.add_credit(quantity * MEAL_PRICE_CENTS, "pix")
       redirect_to student_portal_path, notice: "Recarga realizada com sucesso."
     else
@@ -18,6 +18,11 @@ class RechargesController < ApplicationController
   end
 
   private
+
+  # sem "outra quantidade" preenchida o valor é o do pacote
+  def chosen_quantity
+    params.dig(:recharge, :quantity).presence || params.dig(:recharge, :package)
+  end
 
   # A sessão guarda o id da Account; o saldo está no Student ligado a ela.
   def require_student

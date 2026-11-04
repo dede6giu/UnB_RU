@@ -21,19 +21,38 @@
     <h1 class="h3 fw-semibold fg-primary">Recarga de Saldo</h1>
     <p class="fs-sm fg-3 mb-4">Adicione créditos para usar no RU.</p>
 
-    <div class="card shadow-sm">
-      <div class="card-body p-6">
-        <h2 class="h5 fw-semibold mb-4">Escolha o pacote de refeições</h2>
-        <div class="d-flex flex-wrap gap-4">
-          <% RechargesController::PACKAGES.each do |quantidade| %>
-            <div class="bg-1 rounded-3 p-4" style="min-width: 200px;">
-              <div class="fw-medium"><%= quantidade %> Refeições</div>
-              <div class="fs-xl fw-bold fg-primary"><%= reais(quantidade * RechargesController::MEAL_PRICE_CENTS) %></div>
-              <div class="fs-xs fg-4"><%= reais(RechargesController::MEAL_PRICE_CENTS) %> / un</div>
-            </div>
-          <% end %>
+    <%= form_with url: recharge_path, scope: :recharge do |form| %>
+      <div class="card shadow-sm mb-6">
+        <div class="card-body p-6">
+          <h2 class="h5 fw-semibold mb-4">Escolha o pacote de refeições</h2>
+          <div class="d-flex flex-wrap gap-4 mb-4">
+            <% selected_package = (params.dig(:recharge, :package) || 5).to_i %>
+            <% RechargesController::PACKAGES.each do |quantidade| %>
+              <%= form.label :package, value: quantidade, class: "bg-1 rounded-3 p-4", style: "min-width: 200px;" do %>
+                <div class="fw-medium">
+                  <%= form.radio_button :package, quantidade, checked: quantidade == selected_package %>
+                  <%= quantidade %> Refeições
+                </div>
+                <div class="fs-xl fw-bold fg-primary"><%= reais(quantidade * RechargesController::MEAL_PRICE_CENTS) %></div>
+                <div class="fs-xs fg-4"><%= reais(RechargesController::MEAL_PRICE_CENTS) %> / un</div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <label for="credit-amount" class="form-label fw-medium">Outra quantidade (opcional)</label>
+          <%= form.number_field :quantity, id: "credit-amount", min: 1, class: "form-control",
+                                value: params.dig(:recharge, :quantity),
+                                placeholder: "Deixe vazio para usar o pacote escolhido" %>
         </div>
       </div>
-    </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body p-6">
+          <h2 class="h5 fw-semibold mb-2">Método de pagamento</h2>
+          <p class="fs-sm fg-3 mb-4">PIX Instantâneo: o saldo é liberado em segundos.</p>
+          <button type="submit" class="btn-solid theme-primary w-100">Confirmar</button>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
