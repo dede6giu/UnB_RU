@@ -23,8 +23,28 @@ RSpec.describe Student, type: :model do
   end
 
   describe "#add_credit" do
-    it "soma o valor ao saldo"
-    it "registra uma Transaction de crédito com o meio de pagamento"
-    it "recusa valor zero ou negativo sem mudar o saldo"
+    before { estudante.update!(balance_cents: 1000) }
+
+    it "soma o valor ao saldo" do
+      expect(estudante.add_credit(2500, "pix")).to be(true)
+      expect(estudante.reload.balance_cents).to eq(3500)
+    end
+
+    it "registra uma Transaction de crédito com o meio de pagamento" do
+      expect { estudante.add_credit(2500, "credit_card") }.to change { Transaction.count }.by(1)
+      lancamento = estudante.transactions.last
+      expect(lancamento.kind).to eq("credit")
+      expect(lancamento.payment_method).to eq("credit_card")
+      expect(lancamento.amount_cents).to eq(2500)
+    end
+
+    it "recusa valor zero ou negativo sem mudar o saldo" do
+      [ 0, -100 ].each do |valor|
+        expect(estudante.add_credit(valor, "pix")).to be(false)
+      end
+      expect(estudante.balance_cents).to eq(1000)
+      expect(estudante.reload.balance_cents).to eq(1000)
+      expect(estudante.transactions.count).to eq(0)
+    end
   end
 end
