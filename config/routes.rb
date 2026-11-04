@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resource :student_session, only: [ :new, :create ]
   resource :access_point, only: [ :new, :create ]
   resource :student_portal, only: [ :show ], controller: "student_portal"
+  resource :recharge, only: [ :new ]
 
   # scope /admin/<whatever>
   scope "/admin" do

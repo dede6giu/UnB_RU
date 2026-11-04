@@ -1,0 +1,39 @@
+<% content_for :title, "Recarga de Saldo" %>
+<div data-bs-theme="light" class="bg-1 min-vh-100">
+  <%= render "header_estudante" %>
+
+  <div class="mx-auto mt-8" style="max-width: 720px;">
+    <%= render "flash" %>
+
+    <div class="card shadow-sm mb-6">
+      <div class="card-body p-6 d-flex justify-content-between align-items-center">
+        <div>
+          <div class="fs-xs fg-3 text-uppercase">Conta do estudante</div>
+          <div class="fs-lg fw-semibold"><%= @student.account.name %></div>
+        </div>
+        <div class="text-end">
+          <div class="fs-xs fg-3 text-uppercase">Saldo atual</div>
+          <div class="fs-xl fw-bold fg-primary"><%= reais(@student.balance_cents) %></div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="h3 fw-semibold fg-primary">Recarga de Saldo</h1>
+    <p class="fs-sm fg-3 mb-4">Adicione créditos para usar no RU.</p>
+
+    <div class="card shadow-sm">
+      <div class="card-body p-6">
+        <h2 class="h5 fw-semibold mb-4">Escolha o pacote de refeições</h2>
+        <div class="d-flex flex-wrap gap-4">
+          <% RechargesController::PACKAGES.each do |quantidade| %>
+            <div class="bg-1 rounded-3 p-4" style="min-width: 200px;">
+              <div class="fw-medium"><%= quantidade %> Refeições</div>
+              <div class="fs-xl fw-bold fg-primary"><%= reais(quantidade * RechargesController::MEAL_PRICE_CENTS) %></div>
+              <div class="fs-xs fg-4"><%= reais(RechargesController::MEAL_PRICE_CENTS) %> / un</div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
