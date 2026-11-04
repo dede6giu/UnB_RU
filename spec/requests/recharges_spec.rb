@@ -33,4 +33,36 @@ RSpec.describe "Recharges", type: :request do
       expect(response).to redirect_to(new_student_session_path)
     end
   end
+
+  describe "POST /recharge com PIX" do
+    def recarregar(quantidade)
+      post recharge_path, params: { recharge: { payment_method: "pix", quantity: quantidade } }
+    end
+
+    it "soma as refeições ao saldo e registra o lançamento PIX" do
+      entrar
+      expect { recarregar(5) }.to change { Transaction.count }.by(1)
+      expect(estudante.reload.balance_cents).to eq(1800 + 5 * 450)
+      expect(estudante.transactions.last.payment_method).to eq("pix")
+      expect(response).to redirect_to(student_portal_path)
+      expect(flash[:notice]).to eq("Recarga realizada com sucesso.")
+    end
+
+    it "recusa quantidade inválida sem mudar o saldo" do
+      entrar
+      [ "0", "-3", "abc", "", "2.5" ].each do |quantidade|
+        recarregar(quantidade)
+        expect(response).to have_http_status(:unprocessable_entity), "esperava recusar #{quantidade.inspect}"
+        expect(response.body).to include("Quantidade inválida.")
+      end
+      expect(estudante.reload.balance_cents).to eq(1800)
+      expect(Transaction.count).to eq(0)
+    end
+
+    it "não recarrega para quem não está autenticado" do
+      recarregar(5)
+      expect(response).to redirect_to(new_student_session_path)
+      expect(Transaction.count).to eq(0)
+    end
+  end
 end

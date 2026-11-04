@@ -7,6 +7,16 @@ class RechargesController < ApplicationController
   def new
   end
 
+  def create
+    quantity = Integer(params.dig(:recharge, :quantity), exception: false)
+    if quantity && @student.add_credit(quantity * MEAL_PRICE_CENTS, "pix")
+      redirect_to student_portal_path, notice: "Recarga realizada com sucesso."
+    else
+      flash.now[:alert] = "Quantidade inválida."
+      render :new, status: :unprocessable_entity
+    end
+  end
+
   private
 
   # A sessão guarda o id da Account; o saldo está no Student ligado a ela.
