@@ -11,7 +11,15 @@ RSpec.describe Student, type: :model do
       expect(estudante.balance_cents).to eq(0)
     end
 
-    it "é inválido com saldo negativo"
+    it "é inválido com saldo negativo" do
+      estudante.balance_cents = -1
+      expect(estudante).not_to be_valid
+    end
+
+    it "é válido com saldo zero" do
+      estudante.balance_cents = 0
+      expect(estudante).to be_valid
+    end
   end
 
   describe "#add_credit" do
