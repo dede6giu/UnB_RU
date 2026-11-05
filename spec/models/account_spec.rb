@@ -136,6 +136,14 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe "chave" do
+    it "usa a matrícula como chave" do
+      conta.save!
+      expect(conta.id).to eq("1234567")
+      expect(Account.find("1234567")).to eq(conta)
+    end
+  end
+
   describe "carteira do estudante" do
     it "cria a carteira com saldo zero junto com a conta de estudante" do
       conta.role = "student"

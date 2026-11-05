@@ -1,5 +1,5 @@
 class Student < ApplicationRecord
-  belongs_to :account
+  belongs_to :account, foreign_key: :user, inverse_of: :student
   has_many :transactions
 
   # Dinheiro em centavos inteiros (R$ 12,50 = 1250): o SQLite guarda decimal

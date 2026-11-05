@@ -7,9 +7,9 @@ module StudentAuthentication
 
   private
 
-  # A sessão guarda o id da Account; o saldo está no Student ligado a ela.
+  # a sessão guarda a matrícula, que é a chave da conta e do estudante
   def require_student
-    @student = Student.find_by(account_id: session[:student_id])
+    @student = Student.find_by(user: session[:student_id])
     redirect_to new_student_session_path, alert: "Faça login para continuar." unless @student
   end
 end

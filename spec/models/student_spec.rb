@@ -6,6 +6,15 @@ RSpec.describe Student, type: :model do
   end
   let(:estudante) { conta.student }
 
+  it "usa a matrícula da conta como chave" do
+    expect(estudante.id).to eq("232012345")
+    expect(Student.find("232012345")).to eq(estudante)
+  end
+
+  it "começa sem bloqueio do FastPass" do
+    expect(estudante.blocked_until).to be_nil
+  end
+
   describe "saldo" do
     it "começa em zero" do
       expect(estudante.balance_cents).to eq(0)
