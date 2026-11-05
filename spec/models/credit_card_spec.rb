@@ -25,7 +25,7 @@ RSpec.describe CreditCard, type: :model do
     end
 
     it "é inválido se a validade não estiver no formato MM/AA" do
-      [ "1299", "13/99", "00/99", "1/99", "" ].each do |validade|
+      [ "13/99", "00/99", "1/99", "129", "" ].each do |validade|
         cartao.expiry = validade
         expect(cartao).not_to be_valid, "esperava que #{validade.inspect} fosse recusado"
       end
@@ -38,6 +38,11 @@ RSpec.describe CreditCard, type: :model do
 
     it "é válido com validade no mês atual" do
       cartao.expiry = Date.current.strftime("%m/%y")
+      expect(cartao).to be_valid
+    end
+
+    it "aceita a validade sem a barra" do
+      cartao.expiry = "1299"
       expect(cartao).to be_valid
     end
 
