@@ -51,7 +51,8 @@ RSpec.describe Recharge, type: :model do
       expect(recarga.errors.first.message).to eq("Dados do cartão inválidos.")
 
       recarga.card_number = "4111111111111111"
-      recarga.card_expiry = "12/99"
+      recarga.card_expiry_month = "12"
+      recarga.card_expiry_year = "99"
       recarga.card_cvv = "123"
       expect(recarga).to be_valid
     end

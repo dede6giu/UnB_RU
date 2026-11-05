@@ -74,8 +74,14 @@
             <div class="d-flex gap-4 mb-3">
               <div class="flex-grow-1">
                 <label for="card-expire" class="form-label fw-medium">Validade</label>
-                <%= form.text_field :card_expiry, id: "card-expire", class: "form-control", value: nil, maxlength: 5,
-                                    autocomplete: "cc-exp", inputmode: "numeric", placeholder: "MM/AA" %>
+                <div class="d-flex align-items-center gap-2">
+                  <%= form.text_field :card_expiry_month, id: "card-expire", class: "form-control", value: nil, maxlength: 2,
+                                      autocomplete: "cc-exp-month", inputmode: "numeric", placeholder: "MM" %>
+                  <span class="fs-lg fg-3">/</span>
+                  <%= form.text_field :card_expiry_year, id: "card-expire-year", class: "form-control", value: nil, maxlength: 2,
+                                      autocomplete: "cc-exp-year", inputmode: "numeric", placeholder: "AA",
+                                      "aria-label": "Ano da validade" %>
+                </div>
               </div>
               <div class="flex-grow-1">
                 <label for="card-secure" class="form-label fw-medium">CVV</label>

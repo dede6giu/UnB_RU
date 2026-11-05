@@ -19,6 +19,7 @@ class RechargesController < ApplicationController
   private
 
   def recharge_params
-    params.require(:recharge).permit(:package, :quantity, :payment_method, :card_number, :card_expiry, :card_cvv)
+    params.require(:recharge).permit(:package, :quantity, :payment_method,
+                                     :card_number, :card_expiry_month, :card_expiry_year, :card_cvv)
   end
 end

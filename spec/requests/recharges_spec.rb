@@ -8,7 +8,9 @@ RSpec.describe "Recharges", type: :request do
     conta.student.update!(balance_cents: 1800)
     conta.student
   end
-  let(:cartao) { { card_number: "4111111111111111", card_expiry: "12/99", card_cvv: "987" } }
+  let(:cartao) do
+    { card_number: "4111111111111111", card_expiry_month: "12", card_expiry_year: "99", card_cvv: "987" }
+  end
 
   def entrar
     post student_session_path, params: { student: { user: "232012345", password: "senha123" } }
@@ -117,9 +119,11 @@ RSpec.describe "Recharges", type: :request do
 
   it "esconde os dados do cartão nos logs" do
     filtro = ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters)
-    filtrado = filtro.filter("card_number" => "4111111111111111", "card_expiry" => "12/99", "card_cvv" => "987")
+    filtrado = filtro.filter("card_number" => "4111111111111111", "card_expiry_month" => "12",
+                             "card_expiry_year" => "99", "card_cvv" => "987")
     expect(filtrado["card_number"]).to eq("[FILTERED]")
-    expect(filtrado["card_expiry"]).to eq("[FILTERED]")
+    expect(filtrado["card_expiry_month"]).to eq("[FILTERED]")
+    expect(filtrado["card_expiry_year"]).to eq("[FILTERED]")
     expect(filtrado["card_cvv"]).to eq("[FILTERED]")
   end
 end
