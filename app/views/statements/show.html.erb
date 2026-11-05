@@ -1,0 +1,40 @@
+<% content_for :title, "Extrato e Histórico de Refeições" %>
+<div data-bs-theme="light" class="bg-1 min-vh-100">
+  <%= render "header_estudante" %>
+
+  <div class="mx-auto mt-8" style="max-width: 960px;">
+    <%= render "flash" %>
+
+    <h1 class="h3 fw-semibold fg-primary">Extrato e Histórico de Refeições</h1>
+    <p class="fs-sm fg-3 mb-4">Saldo atual: <strong><%= reais(@student.balance_cents) %></strong></p>
+
+    <div class="card shadow-sm">
+      <div class="card-body p-0">
+        <% if @transactions.empty? %>
+          <p class="p-6 mb-0 fg-3">Você ainda não tem lançamentos.</p>
+        <% else %>
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>Data e hora</th>
+                <th>Lançamento</th>
+                <th>Meio</th>
+                <th class="text-end">Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @transactions.each do |transaction| %>
+                <tr>
+                  <td><%= entry_time(transaction) %></td>
+                  <td><%= entry_label(transaction) %></td>
+                  <td><%= payment_label(transaction) %></td>
+                  <td class="text-end fw-semibold"><%= signed_amount(transaction) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
