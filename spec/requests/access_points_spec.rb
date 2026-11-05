@@ -122,5 +122,23 @@ RSpec.describe "AccessPoints", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Tem certeza que deseja desconectar do ponto de acesso?")
     end
+    it "troca de catraca libera a anterior automaticamente" do
+      restaurant = Restaurant.create!(name: "RU", campus: "Darcy Ribeiro")
+      operator = Account.create!(user: "2000000", password: "senha123", name: "Operador", role: "operator")
+      turnstile1 = restaurant.turnstiles.create!(name: "T1", operation: "Ativa")
+      turnstile2 = restaurant.turnstiles.create!(name: "T2", operation: "Ativa")
+      post operator_session_path, params: { operator: { user: operator.user, password: operator.password } }
+      post access_point_path, params: { access_point: { turnstile_id: turnstile1.id } }
+      post access_point_path, params: { access_point: { turnstile_id: turnstile2.id } }
+      expect(response).to redirect_to(access_point_path)
+      follow_redirect!
+      expect(response.body).to include("Operação iniciada com sucesso.")
+      turnstile1.reload
+      turnstile2.reload
+      expect(turnstile1.operator_id).to be_nil
+      expect(turnstile1.operation).to eq("Ativa")
+      expect(turnstile2.operator_id).to eq(operator.id)
+      expect(turnstile2.operation).to eq("Operando")
+    end
   end
 end

@@ -19,7 +19,11 @@ class AccessPointsController < ApplicationController
     elsif turnstile.operation == "Operando"
       render_error("O ponto de acesso escolhido já está em operação.")
     else
-      turnstile.update!(operator_id: operator.id, operation: "Operando")
+      current_turnstile = Turnstile.find_by(operator_id: operator.id)
+      Turnstile.transaction do
+        current_turnstile&.update!(operator_id: nil, operation: "Ativa")
+        turnstile.update!(operator_id: operator.id, operation: "Operando")
+      end
       redirect_to access_point_path, notice: "Operação iniciada com sucesso."
     end
   end
