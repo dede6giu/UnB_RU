@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resource :admin_session, only: [ :new, :create ]
   resource :operator_session, only: [ :new, :create ]
   resource :student_session, only: [ :new, :create ]
-  resource :access_point, only: [ :new, :create ]
+  resource :access_point, only: [ :new, :create, :show, :destroy ]
   resource :student_portal, only: [ :show ], controller: "student_portal"
 
   # scope /admin/<whatever>

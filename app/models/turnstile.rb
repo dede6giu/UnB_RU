@@ -1,5 +1,6 @@
 class Turnstile < ApplicationRecord
   belongs_to :restaurant, foreign_key: :restaurant_id, optional: false
+  belongs_to :operator, class_name: "Account", optional: true
   validates :name, presence: true
   validates :operation, presence: true
   validates :restaurant_id, presence: true
