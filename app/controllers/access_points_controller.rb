@@ -1,5 +1,7 @@
 class AccessPointsController < ApplicationController
-  before_action :load_turnstiles, only: %i[new create]
+  layout "operator"
+  helper_method :current_operator
+  before_action :load_restaurants, only: %i[new create]
 
   def new
   end
@@ -45,8 +47,12 @@ class AccessPointsController < ApplicationController
 
   before_action :exigir_operador
 
-  def load_turnstiles
-    @turnstiles = Turnstile.all
+  def load_restaurants
+    @restaurants = Restaurant.includes(:turnstiles).order(:campus, :name)
+  end
+
+  def current_operator
+    @current_operator ||= Account.find_by(id: session[:operator_id], role: "operator")
   end
 
   def render_error(message)
