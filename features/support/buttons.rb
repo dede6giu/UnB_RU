@@ -3,6 +3,10 @@ module ButtonPaths
     case button_alias
     when "create restaurant"
       "commit"
+    when "save restaurant"
+      "commit"
+    when "remove restaurant"
+      "btn_destroy"
     else
       raise "Can't find mapping from \"#{button_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"

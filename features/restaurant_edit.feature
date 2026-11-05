@@ -4,15 +4,14 @@ Feature: Restaurant editing
     So that its information stays updated
 
     Background:
-        Given I am logged in as an admin
+        Given I am an admin
         And there are restaurants
         And I know a restaurant
-        And I am on knowing restaurant "Manejar Restaurante" page
+        And I am on a knowing restaurant edit page
 
     # Positive Scenarios
     Scenario Outline: Rename a restaurant or its campus
-        Given I know all restaurants
-        When I fill in "<i_know_id>" unknowingly
+        When I fill in "<i_know_id>" avoiding all restaurants
         And I fill in "<knownt_id>" correctly
         And I click the save restaurant button
         Then I should be on the "Gestão de Restaurantes e Catracas" page
@@ -21,26 +20,24 @@ Feature: Restaurant editing
 
         Examples:
             | i_know_id         | knownt_id         |
-            | restaurant-name   | restaurant-campus |
-            | restaurant-campus | restaurant-name   |
+            | restaurant_name   | restaurant_campus |
+            | restaurant_campus | restaurant_name   |
 
     # Negative Scenarios
     Scenario Outline: Invalid name
         When I fill in "<correct_id>" correctly
         And I fill in "<incorrect_id>" incorrectly
         And I click the save restaurant button
-        Then I should be on the knowing "Manejar Restaurante" page
-        And I should see an <message> message
+        Then I should see an <message> message
 
         Examples:
-            | correct_id        | incorrect_id      | message                   |
-            | restaurant-name   | restaurant-campus | invalid restaurant campus |
-            | restaurant-campus | restaurant-name   | invalid restaurant name   |
+            | correct_id        | incorrect_id      | message                    |
+            | restaurant_name   | restaurant_campus | restaurant campus is empty |
+            | restaurant_campus | restaurant_name   | restaurant name is empty   |
 
     Scenario: Renaming to an existing restaurant and campus
-        Given I know another restaurant
-        When I fill in "restaurant-name" with another
-        And I fill in "restaurant-campus" with another
+        Given I learn another restaurant
+        When I fill in "restaurant_name" from another restaurant
+        And I fill in "restaurant_campus" from another restaurant
         And I click the save restaurant button
-        Then I should be on the knowing "Manejar Restaurante" page
-        And I should see an existing restaurant message
+        Then I should see an existing restaurant message

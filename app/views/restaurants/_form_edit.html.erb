@@ -26,7 +26,8 @@
       <%= form.submit "Atualizar Restaurante", class: "btn-subtle theme-success" %>
       <%= link_to "Remover Unidade", restaurant_path(@restaurant),
                   data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" },
-                  class: "btn-subtle theme-danger" %>
+                  class: "btn-subtle theme-danger",
+                  id: "btn_destroy" %>
     </div>
   <% end %>
   <div class="p-4">

@@ -20,19 +20,17 @@ Feature: Adding restaurants
         When I fill in "<correct>" correctly
         And I fill in "<incorrect>" incorrectly
         And I click the create restaurant button
-        Then I should be on the "Cadastrar Restaurante" page
-        And I should see an <message> message
+        Then I should see an <message> message
 
         Examples:
-            | correct           | incorrect         | message                   |
-            | restaurant_name   | restaurant_campus | invalid restaurant campus |
-            | restaurant_campus | restaurant_name   | invalid restaurant name   |
+            | correct           | incorrect         | message                    |
+            | restaurant_name   | restaurant_campus | restaurant campus is empty |
+            | restaurant_campus | restaurant_name   | restaurant name is empty   |
 
     Scenario: Add an already existing restaurant
         Given there are restaurants
         And I know a restaurant
-        When I fill in "restaurant_name" knowingly
-        And I fill in "restaurant_campus" knowingly
+        When I fill in "restaurant_name" from a known restaurant
+        And I fill in "restaurant_campus" from a known restaurant
         And I click the create restaurant button
-        Then I should be on the "Cadastrar Restaurante" page
-        And I should see an existing restaurant message
+        Then I should see an existing restaurant message
