@@ -33,7 +33,7 @@ Feature: Add Credit to Wallet
         And I fill "credit-amount" incorrectly
         And I click on the confirm transaction button
         Then I should be on the "Recarga de Saldo" page
-        And I should see a incorrect credit amount message
+        And I should see an invalid credit amount message
         And I should see my balance had no change
 
         Examples:

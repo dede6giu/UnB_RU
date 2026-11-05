@@ -2,8 +2,7 @@ require "rails_helper"
 
 RSpec.describe Transaction, type: :model do
   let(:estudante) do
-    conta = Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student")
-    Student.create!(account: conta)
+    Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student").student
   end
   let(:lancamento) do
     Transaction.new(student: estudante, kind: "credit", payment_method: "pix", amount_cents: 2500)

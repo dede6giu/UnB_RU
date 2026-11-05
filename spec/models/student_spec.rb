@@ -4,7 +4,7 @@ RSpec.describe Student, type: :model do
   let(:conta) do
     Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student")
   end
-  let(:estudante) { Student.new(account: conta) }
+  let(:estudante) { conta.student }
 
   describe "saldo" do
     it "começa em zero" do

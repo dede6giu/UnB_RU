@@ -5,6 +5,11 @@ class Account < ApplicationRecord
   STUDENT_USER_FORMAT = /\A(?:[01]\d|2[0-6])(?:10|20)\d{5}\z/
 
   has_secure_password
+  has_one :student
+
+  # Todo estudante precisa de carteira, venha a conta do cadastro, do admin ou dos testes.
+  after_create :create_student!, if: -> { role == "student" }
+
   validates :user, presence: true
   validates :name, presence: true
   validates :role, presence: true

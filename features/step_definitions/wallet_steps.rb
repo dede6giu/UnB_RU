@@ -1,5 +1,5 @@
-# Valores dos campos da recarga para "I fill ... correctly/incorrectly".
-# "credit-amount" é a quantidade de refeições ("Outra quantidade" da tela).
+# Valores usados pelo "I fill ... correctly/incorrectly" do login_steps.rb.
+# "credit-amount" é a "Outra quantidade" da tela, em refeições.
 WALLET_CORRECT_VALUES = {
   'credit-amount' => '5',
   'card-number' => '4111111111111111',
@@ -16,29 +16,28 @@ WALLET_INCORRECT_VALUES = {
 
 WALLET_BALANCE_CENTS = 1800
 
-# Também usado por outras features (cardapio_widget, history_student, ...).
+# Outras features usam este passo também, então não criar outro igual.
 Given('I am a student') do
   @password = 'senha123'
-  conta = Account.find_by(user: '232012345') ||
-          Account.create!(user: '232012345', password: @password, name: 'Estudante', role: 'student')
-  Student.find_or_create_by!(account: conta)
+  conta = Account.create!(user: '232012345', password: @password, name: 'Estudante', role: 'student')
+  @student = conta.student
 
   visit new_student_session_path
   fill_in 'student-user', with: conta.user
   fill_in 'student-pass', with: @password
   click_button 'Entrar'
+  expect(page).to have_content('Sucesso na autenticação.')
 end
 
 Given('I have balance') do
-  Student.last.update!(balance_cents: WALLET_BALANCE_CENTS)
-  @balance_before = WALLET_BALANCE_CENTS
+  @student.update!(balance_cents: WALLET_BALANCE_CENTS)
 end
 
-When(/^I choose (?:the )?PIX credit option$/) do
+When('I choose PIX credit option') do
   choose 'PIX Instantâneo'
 end
 
-When(/^I choose (?:the )?Credit Card credit option$/) do
+When('I choose (the )Credit Card credit option') do
   choose 'Cartão de Crédito'
 end
 
@@ -46,23 +45,26 @@ When('I click on the confirm transaction button') do
   click_button 'Confirmar'
 end
 
+# 5 refeições de R$ 4,50
 Then('I should see the new PIX extract entry') do
-  expect(page).to have_css('tbody tr', text: /Recarga de Saldo.*PIX/m)
+  within('tbody') do
+    expect(page).to have_content('Recarga de Saldo')
+    expect(page).to have_content('PIX')
+    expect(page).to have_content('+ R$ 22,50')
+  end
 end
 
 Then('I should see the new Credit Card extract entry') do
-  expect(page).to have_css('tbody tr', text: /Recarga de Saldo.*Cartão de Crédito/m)
+  within('tbody') do
+    expect(page).to have_content('Recarga de Saldo')
+    expect(page).to have_content('Cartão de Crédito')
+    expect(page).to have_content('+ R$ 22,50')
+  end
 end
 
+# R$ 18,00 que já tinha + R$ 22,50 da recarga
 Then('I should see my balance increased by the added amount') do
-  added = WALLET_CORRECT_VALUES['credit-amount'].to_i * RechargesController::MEAL_PRICE_CENTS
-  expected = @balance_before + added
-  expect(Student.last.balance_cents).to eq(expected)
-  expect(page).to have_content("Saldo atual: #{ApplicationController.helpers.reais(expected)}")
-end
-
-Then('I should see a incorrect credit amount message') do
-  expect(page).to have_content('Quantidade inválida.')
+  expect(page).to have_content('Saldo atual: R$ 40,50')
 end
 
 Then('I should see an invalid credit amount message') do
@@ -74,6 +76,6 @@ Then('I should see an invalid Credit Card info message') do
 end
 
 Then('I should see my balance had no change') do
-  expect(Student.last.balance_cents).to eq(@balance_before)
-  expect(page).to have_content(ApplicationController.helpers.reais(@balance_before))
+  expect(page).to have_content('R$ 18,00')
+  expect(@student.reload.balance_cents).to eq(WALLET_BALANCE_CENTS)
 end
