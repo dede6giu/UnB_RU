@@ -56,8 +56,17 @@ RSpec.describe "Recharges", type: :request do
       expect { recarregar(5) }.to change { Transaction.count }.by(1)
       expect(estudante.reload.balance_cents).to eq(1800 + 5 * 450)
       expect(estudante.transactions.last.payment_method).to eq("pix")
-      expect(response).to redirect_to(student_portal_path)
+      expect(response).to redirect_to(statement_path)
       expect(flash[:notice]).to eq("Recarga realizada com sucesso.")
+    end
+
+    it "mostra no extrato a mensagem de sucesso e a nova entrada PIX" do
+      entrar
+      recarregar(5)
+      follow_redirect!
+      expect(response.body).to include("Recarga realizada com sucesso.")
+      linha = Nokogiri::HTML(response.body).at_css("tbody tr").text
+      expect(linha).to include("Recarga de Saldo").and include("PIX").and include("+ R$ 22,50")
     end
 
     it "recusa quantidade inválida sem mudar o saldo" do

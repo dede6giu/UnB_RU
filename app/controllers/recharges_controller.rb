@@ -10,7 +10,7 @@ class RechargesController < ApplicationController
   def create
     quantity = Integer(chosen_quantity, exception: false)
     if quantity && @student.add_credit(quantity * MEAL_PRICE_CENTS, "pix")
-      redirect_to student_portal_path, notice: "Recarga realizada com sucesso."
+      redirect_to statement_path, notice: "Recarga realizada com sucesso."
     else
       flash.now[:alert] = "Quantidade inválida."
       render :new, status: :unprocessable_entity
