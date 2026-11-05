@@ -2,8 +2,6 @@ class Student < ApplicationRecord
   belongs_to :account, foreign_key: :user, inverse_of: :student
   has_many :transactions
 
-  # Dinheiro em centavos inteiros (R$ 12,50 = 1250): o SQLite guarda decimal
-  # como ponto flutuante, que perde precisão.
   validates :balance_cents, numericality: { greater_than_or_equal_to: 0 }
 
   def add_credit(amount_cents, payment_method)

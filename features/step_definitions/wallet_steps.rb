@@ -1,5 +1,3 @@
-# Valores usados pelo "I fill ... correctly/incorrectly" do login_steps.rb.
-# "credit-amount" é a "Outra quantidade" da tela, em refeições.
 WALLET_CORRECT_VALUES = {
   'credit-amount' => '5',
   'card-number' => '4111111111111111',
@@ -16,7 +14,6 @@ WALLET_INCORRECT_VALUES = {
 
 WALLET_BALANCE_CENTS = 1800
 
-# Outras features usam este passo também, então não criar outro igual.
 Given('I am a student') do
   @password = 'senha123'
   conta = Account.create!(user: '232012345', password: @password, name: 'Estudante', role: 'student')

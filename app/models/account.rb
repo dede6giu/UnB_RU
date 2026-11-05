@@ -1,5 +1,5 @@
 class Account < ApplicationRecord
-  # Admin e operador: 7 dígitos
+  # Admin e operador: 7 dígitos quaisquer.
   STAFF_USER_FORMAT = /\A\d{7}\z/
   # Estudante: AA SS DDDDD (ano 00–26, semestre 10 ou 20, 5 dígitos).
   STUDENT_USER_FORMAT = /\A(?:[01]\d|2[0-6])(?:10|20)\d{5}\z/

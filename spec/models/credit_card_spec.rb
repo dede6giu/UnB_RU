@@ -47,7 +47,6 @@ RSpec.describe CreditCard, type: :model do
     end
 
     it "usa a data de Brasília para saber se venceu" do
-      # 22h de 30/11 em Brasília já é 1º/12 em UTC
       travel_to Time.utc(2026, 12, 1, 1, 0) do
         cartao.expiry = "11/26"
         expect(cartao).to be_valid

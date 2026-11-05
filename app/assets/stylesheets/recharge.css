@@ -1,12 +1,8 @@
-/* Tela de recarga. Sem JS: o :has() deixa o CSS reagir ao que está marcado ou preenchido. */
-
-/* os dados do cartão só aparecem com "Cartão de Crédito" marcado, e o texto do PIX só com o PIX */
 .recharge-form:not(:has(#recharge_payment_method_credit_card:checked)) .card-fields,
 .recharge-form:has(#recharge_payment_method_credit_card:checked) .pix-info {
   display: none;
 }
 
-/* com "outra quantidade" preenchida, os pacotes não valem: ficam apagados e sem a bolinha */
 .recharge-form:has(#credit-amount:not(:placeholder-shown)) .package {
   opacity: 0.4;
 }
