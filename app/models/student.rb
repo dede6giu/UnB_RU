@@ -13,6 +13,7 @@ class Student < ApplicationRecord
 
     transaction do
       lancamento.save!
+      # soma direto no banco, assim duas recargas ao mesmo tempo não se perdem
       increment!(:balance_cents, amount_cents)
     end
     true
