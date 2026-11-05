@@ -1,6 +1,7 @@
 <% content_for :title, "Recarga de Saldo" %>
 <div data-bs-theme="light" class="bg-1 min-vh-100">
   <%= render "header_estudante" %>
+  <%= render "nav_estudante" %>
 
   <div class="mx-auto mt-8" style="max-width: 720px;">
     <%= render "flash" %>
@@ -14,11 +15,12 @@
         <div class="text-end">
           <div class="fs-xs fg-3 text-uppercase">Saldo atual</div>
           <div class="fs-xl fw-bold fg-primary"><%= reais(@student.balance_cents) %></div>
+          <div class="fs-xs fg-3"><%= pluralize(@student.balance_cents / Recharge::MEAL_PRICE_CENTS, "refeição", "refeições") %></div>
         </div>
       </div>
     </div>
 
-    <h1 class="h3 fw-semibold fg-primary">Recarga de Saldo</h1>
+    <h1 class="h3 fw-semibold fg-primary">Recarregar Saldo</h1>
     <p class="fs-sm fg-3 mb-4">Adicione créditos para usar no RU.</p>
 
     <%= form_with model: @recharge, url: recharge_path do |form| %>
@@ -58,12 +60,10 @@
             <% end %>
           </div>
 
-          <div id="pix-panel">
-            <p class="fs-sm fg-3 mb-0">PIX Instantâneo: o saldo é liberado em segundos.</p>
-          </div>
+          <p class="fs-sm fg-3">PIX Instantâneo: o saldo é liberado em segundos.</p>
 
           <%# os campos do cartão sempre voltam vazios, mesmo depois de um erro %>
-          <div id="card-panel">
+          <div>
             <p class="fs-sm fg-3">Preencha os dados do cartão só se escolher Cartão de Crédito.</p>
             <div class="mb-3">
               <label for="card-number" class="form-label fw-medium">Número do cartão</label>

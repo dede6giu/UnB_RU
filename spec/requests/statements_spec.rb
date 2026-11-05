@@ -63,6 +63,13 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).to include("Você ainda não tem lançamentos.")
     end
 
+    it "tem links para o início e a recarga" do
+      entrar
+      get statement_path
+      expect(response.body).to include('href="/student_portal"')
+      expect(response.body).to include('href="/recharge/new"')
+    end
+
     it "manda para o login quem não entrou" do
       get statement_path
       expect(response).to redirect_to(new_student_session_path)

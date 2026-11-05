@@ -1,13 +1,11 @@
 class Account < ApplicationRecord
-  # Admin e operador: 7 dígitos quaisquer.
+  # Admin e operador: 7 dígitos
   STAFF_USER_FORMAT = /\A\d{7}\z/
   # Estudante: AA SS DDDDD (ano 00–26, semestre 10 ou 20, 5 dígitos).
   STUDENT_USER_FORMAT = /\A(?:[01]\d|2[0-6])(?:10|20)\d{5}\z/
 
   has_secure_password
   has_one :student
-
-  # Todo estudante precisa de carteira, venha a conta do cadastro, do admin ou dos testes.
   after_create :create_student!, if: -> { role == "student" }
 
   validates :user, presence: true

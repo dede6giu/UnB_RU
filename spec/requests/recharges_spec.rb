@@ -25,8 +25,16 @@ RSpec.describe "Recharges", type: :request do
       expect(response).to have_http_status(:success)
       expect(response.body).to include("Recarga de Saldo")
       expect(response.body).to include("R$ 18,00")
+      expect(response.body).to include("4 refeições")
       expect(response.body).to include("20 Refeições")
       expect(response.body).to include("R$ 90,00")
+    end
+
+    it "tem links para o início e o extrato" do
+      entrar
+      get new_recharge_path
+      expect(response.body).to include('href="/student_portal"')
+      expect(response.body).to include('href="/statement"')
     end
 
     it "manda para o login quem não entrou" do
