@@ -1,0 +1,44 @@
+/*
+ * This is a manifest file that'll be compiled into application.css.
+ *
+ * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
+ * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
+ * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
+ * depending on specificity.
+ *
+ * Consider organizing styles into separate files for maintainability.
+ */
+
+:root { color-scheme: light; }
+body { margin: 0; background: #f4f7f5; color: #263746; font-family: Arial, sans-serif; }
+
+.public-site-header { min-height: 92px; display: flex; align-items: center; gap: 10px; padding: 12px 20px; background: #fff; }
+.public-site-header__logo { width: 120px; height: 60px; object-fit: cover; }
+.public-site-header__divider { height: 60px; border-left: 1px solid #cbd1d5; }
+.public-site-header__title { padding-left: 0; color: #0673ce; font-size: 16px; }
+.public-site-nav { display: flex; align-items: center; min-height: 55px; gap: 16px; padding: 8px 13px; background: #e1e4e6; }
+.public-site-nav__link { padding: 9px 14px; border-radius: 8px; color: #0875cf; text-decoration: none; }
+.public-site-nav__link[aria-current="page"] { color: white; background: #087df0; }
+
+.public-menu { width: 100%; padding: 15px 5px 48px; color: #263746; }
+.public-menu__content { margin: 0; }
+.public-menu__content h1 { margin: 0 0 8px; color: #0873ce; font-size: 2.5rem; font-weight: 400; }
+.public-menu__intro { margin: 0 0 18px; }
+.public-menu__day-picker label { display: block; margin-bottom: 5px; }
+.public-menu__form { display: flex; flex-wrap: wrap; gap: 6px; }
+.public-menu__form select { min-width: 150px; min-height: 39px; padding: 6px 10px; border: 1px solid #adb5bd; border-radius: 5px; background: #fff; color: #263746; }
+.public-menu__submit { min-height: 39px; padding: 6px 12px; border: 1px solid #087df0; border-radius: 5px; color: #fff; background: #087df0; }
+.public-menu__content h2 { margin: 18px 0 10px; color: #0873ce; font-size: 2rem; font-weight: 400; }
+.public-menu__meals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 470px), 1fr)); gap: 14px; }
+.meal-card { padding: 14px 16px; border: 1px solid #d7dcdf; border-radius: 4px; background: #fff; }
+.meal-card--current { border-top: 4px solid #087df0; }
+.meal-card__heading { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.meal-card h3 { margin: 0; color: #0873ce; font-size: 1.35rem; font-weight: 500; }
+.meal-card__items { margin: 10px 0 0; }
+.meal-card__items > div { display: grid; grid-template-columns: minmax(10rem, 1fr) 2fr; gap: 8px; padding: 8px 0; border-top: 1px solid #e8ebed; }
+.meal-card__items dt { font-weight: 600; }
+.meal-card__items dd { margin: 0; }
+.meal-card__items ul { margin: 0; padding-left: 20px; }
+.meal-card__badge { padding: 4px 9px; border-radius: 16px; color: #fff; background: #087df0; font-size: .85rem; }
+.public-menu__empty { margin: 12px 0; padding: 12px; border: 1px solid #d7dcdf; background: #fff; }
+@media (max-width: 600px) { .public-site-header { min-height: 76px; padding: 8px 12px; } .public-site-header__logo { width: 90px; height: 48px; } .public-site-header__divider { height: 48px; } .meal-card__items > div { grid-template-columns: 1fr; gap: 3px; } }

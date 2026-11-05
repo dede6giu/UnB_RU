@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get "cardapio", to: "menus#show", as: :public_menu
+
   # scope /admin/<whatever>
   scope "/admin" do
     resources :restaurants

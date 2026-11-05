@@ -1,0 +1,9 @@
+<header class="public-site-header">
+  <%= image_tag "placeholder.png", class: "public-site-header__logo", alt: "Restaurante Universitário" %>
+  <span class="public-site-header__divider" aria-hidden="true"></span>
+  <span class="public-site-header__title">RESTAURANTE UNIVERSITÁRIO</span>
+</header>
+
+<nav class="public-site-nav" aria-label="Navegação principal">
+  <%= link_to "Cardápio", public_menu_path, class: "public-site-nav__link", aria: { current: "page" } %>
+</nav>

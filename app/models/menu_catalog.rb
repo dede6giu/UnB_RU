@@ -17,6 +17,25 @@ class MenuCatalog
     ["jantar", "Janta"]
   ].freeze
 
+  FIELD_LABELS = {
+    "bebidas" => "Bebidas", "panificacao" => "Panificação", "opcao_extra" => "Opção extra",
+    "gordura" => "Gordura", "complemento_padrao" => "Complemento padrão",
+    "complemento_ovolactovegetariano" => "Complemento ovolactovegetariano",
+    "complemento_vegetariano_estrito" => "Complemento vegetariano estrito", "fruta" => "Fruta",
+    "salada_1" => "Salada 1", "salada_2" => "Salada 2", "molho_para_salada" => "Molho para salada",
+    "prato_principal_padrao" => "Prato principal padrão",
+    "prato_principal_ovolactovegetariano" => "Prato principal ovolactovegetariano",
+    "prato_principal_vegetariano_estrito" => "Prato principal vegetariano estrito",
+    "guarnicao" => "Guarnição", "acompanhamentos" => "Acompanhamentos",
+    "sobremesa" => "Sobremesa", "bebida" => "Bebida", "sopa" => "Sopa", "torrada" => "Torrada"
+  }.freeze
+
+  SERVING_WINDOWS = {
+    "cafe_da_manha" => [7 * 60 * 60, 9 * 60 * 60 + 30 * 60],
+    "almoco" => [11 * 60 * 60, 14 * 60 * 60 + 30 * 60],
+    "jantar" => [17 * 60 * 60, 19 * 60 * 60 + 30 * 60]
+  }.freeze
+
   def initialize(path: Rails.root.join("cardapio.json"))
     @menus = JSON.parse(File.read(path))
   end
@@ -33,5 +52,12 @@ class MenuCatalog
       content = day[meal_key]
       { key: meal_key, label: label, content: content } if content
     end
+  end
+
+  def current_meal_at(time = Time.current)
+    seconds = time.seconds_since_midnight
+    SERVING_WINDOWS.find do |_meal_key, (starts_at, ends_at)|
+      starts_at <= seconds && seconds < ends_at
+    end&.first
   end
 end

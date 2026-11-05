@@ -1,0 +1,50 @@
+<% content_for :title, "Cardápio" %>
+<main class="public-menu">
+  <section class="public-menu__content" aria-labelledby="selected-day">
+    <h1>Cardápio</h1>
+    <p class="public-menu__intro">Consulte a refeição servida agora ou escolha outro dia.</p>
+    <div class="public-menu__day-picker">
+      <label for="cardapio-weekday">Dia da semana</label>
+      <%= form_with url: public_menu_path, method: :get, class: "public-menu__form" do %>
+        <%= select_tag :weekday,
+          options_for_select(@catalog.weekdays.each_with_index.map { |name, index| [name, index] }, @selected_weekday),
+          id: "cardapio-weekday", onchange: "this.form.requestSubmit()" %>
+        <%= submit_tag "Ver cardápios", class: "public-menu__submit" %>
+      <% end %>
+    </div>
+
+    <h2 id="selected-day"><%= @weekday_name %></h2>
+
+    <% if @menus.any? %>
+      <div class="public-menu__meals">
+        <% @menus.each do |menu| %>
+          <article class="meal-card <%= "meal-card--current" if menu[:key] == @current_meal_key %>">
+            <div class="meal-card__heading">
+              <h3><%= menu[:label] %></h3>
+              <% if menu[:key] == @current_meal_key %><span class="meal-card__badge">Sendo servida agora</span><% end %>
+            </div>
+            <dl class="meal-card__items">
+              <% menu[:content].each do |field, value| %>
+                <% next if value.nil? %>
+                <div>
+                  <dt><%= MenuCatalog::FIELD_LABELS.fetch(field, field.humanize) %></dt>
+                  <dd>
+                    <% if value.is_a?(Array) %>
+                      <ul><% value.each do |item| %><li><%= item %></li><% end %></ul>
+                    <% else %>
+                      <%= value %>
+                    <% end %>
+                  </dd>
+                </div>
+              <% end %>
+            </dl>
+          </article>
+        <% end %>
+      </div>
+    <% elsif params[:weekday].present? %>
+      <p class="public-menu__empty">Não há cardápio cadastrado para <%= @weekday_name %>.</p>
+    <% else %>
+      <p class="public-menu__empty">Não há uma refeição sendo servida neste momento.</p>
+    <% end %>
+  </section>
+</main>
