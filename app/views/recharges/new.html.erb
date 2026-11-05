@@ -46,11 +46,47 @@
         </div>
       </div>
 
+      <% selected_method = params.dig(:recharge, :payment_method) == "credit_card" ? "credit_card" : "pix" %>
       <div class="card shadow-sm">
         <div class="card-body p-6">
-          <h2 class="h5 fw-semibold mb-2">Método de pagamento</h2>
-          <p class="fs-sm fg-3 mb-4">PIX Instantâneo: o saldo é liberado em segundos.</p>
-          <button type="submit" class="btn-solid theme-primary w-100">Confirmar</button>
+          <h2 class="h5 fw-semibold mb-4">Selecione o método de pagamento</h2>
+          <div class="d-flex gap-4 mb-4">
+            <%= form.label :payment_method, value: "pix", class: "bg-1 rounded-3 p-3 fw-medium" do %>
+              <%= form.radio_button :payment_method, "pix", checked: selected_method == "pix" %>
+              PIX Instantâneo
+            <% end %>
+            <%= form.label :payment_method, value: "credit_card", class: "bg-1 rounded-3 p-3 fw-medium" do %>
+              <%= form.radio_button :payment_method, "credit_card", checked: selected_method == "credit_card" %>
+              Cartão de Crédito
+            <% end %>
+          </div>
+
+          <div id="pix-panel">
+            <p class="fs-sm fg-3 mb-0">PIX Instantâneo: o saldo é liberado em segundos.</p>
+          </div>
+
+          <div id="card-panel">
+            <p class="fs-sm fg-3">Preencha os dados do cartão só se escolher Cartão de Crédito.</p>
+            <div class="mb-3">
+              <label for="card-number" class="form-label fw-medium">Número do cartão</label>
+              <%= form.text_field :card_number, id: "card-number", class: "form-control", value: nil,
+                                  autocomplete: "cc-number", inputmode: "numeric", placeholder: "16 dígitos" %>
+            </div>
+            <div class="d-flex gap-4 mb-3">
+              <div class="flex-grow-1">
+                <label for="card-expire" class="form-label fw-medium">Validade</label>
+                <%= form.text_field :card_expiry, id: "card-expire", class: "form-control", value: nil,
+                                    autocomplete: "cc-exp", inputmode: "numeric", placeholder: "MM/AA" %>
+              </div>
+              <div class="flex-grow-1">
+                <label for="card-secure" class="form-label fw-medium">CVV</label>
+                <%= form.text_field :card_cvv, id: "card-secure", class: "form-control", value: nil,
+                                    autocomplete: "cc-csc", inputmode: "numeric", placeholder: "3 dígitos" %>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-solid theme-primary w-100 mt-4">Confirmar</button>
         </div>
       </div>
     <% end %>
