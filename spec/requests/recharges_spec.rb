@@ -201,6 +201,16 @@ RSpec.describe "Recharges", type: :request do
       expect(Transaction.count).to eq(0)
     end
 
+    it "avisa da quantidade inválida antes dos dados do cartão" do
+      entrar
+      [ "abc", "0", "-2", "" ].each do |quantidade|
+        recarregar_no_cartao(quantidade)
+        expect(response.body).to include("Quantidade inválida."), "esperava o aviso de quantidade para #{quantidade.inspect}"
+        expect(response.body).not_to include("Dados do cartão inválidos.")
+      end
+      expect(Transaction.count).to eq(0)
+    end
+
     it "não devolve os dados do cartão na página de erro" do
       entrar
       recarregar_no_cartao("abc", **cartao)

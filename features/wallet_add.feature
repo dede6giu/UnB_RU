@@ -12,7 +12,7 @@ Feature: Add Credit to Wallet
         When I choose PIX credit option
         And I fill "credit-amount" correctly
         And I click on the confirm transaction button
-        Then I should be on the "Extrato de Refeições" page
+        Then I should be on the "Extrato e Histórico de Refeições" page
         And I should see the new PIX extract entry
         And I should see my balance increased by the added amount
 
@@ -23,7 +23,7 @@ Feature: Add Credit to Wallet
         And I fill "card-secure" correctly
         And I fill "credit-amount" correctly
         And I click on the confirm transaction button
-        Then I should be on the "Extrato de Refeições" page
+        Then I should be on the "Extrato e Histórico de Refeições" page
         And I should see the new Credit Card extract entry
         And I should see my balance increased by the added amount
 

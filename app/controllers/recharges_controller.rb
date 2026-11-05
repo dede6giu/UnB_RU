@@ -8,7 +8,7 @@ class RechargesController < ApplicationController
   end
 
   def create
-    error = payment_error || credit_error
+    error = quantity_error || payment_error || credit_error
 
     if error
       flash.now[:alert] = error
@@ -25,7 +25,7 @@ class RechargesController < ApplicationController
     params.dig(:recharge, :quantity).presence || params.dig(:recharge, :package)
   end
 
-  # o formulário ainda não tem a escolha de meio de pagamento, então o padrão é o PIX
+  # sem o campo, o padrão é o pix
   def payment_method
     params.dig(:recharge, :payment_method).presence || "pix"
   end
@@ -38,11 +38,17 @@ class RechargesController < ApplicationController
     end
   end
 
-  # só roda com o pagamento já validado, porque grava a recarga
-  def credit_error
-    quantity = Integer(chosen_quantity, exception: false)
-    return "Quantidade inválida." unless quantity
+  def quantity
+    Integer(chosen_quantity, exception: false)
+  end
 
+  # a quantidade é validada antes do pagamento, como na ordem do formulário
+  def quantity_error
+    "Quantidade inválida." unless quantity&.positive?
+  end
+
+  # só roda com quantidade e pagamento já validados, porque grava a recarga
+  def credit_error
     "Quantidade inválida." unless @student.add_credit(quantity * MEAL_PRICE_CENTS, payment_method)
   end
 
