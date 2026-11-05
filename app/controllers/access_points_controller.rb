@@ -6,6 +6,7 @@ class AccessPointsController < ApplicationController
 
   def show
     @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
+    redirect_to new_access_point_path if @turnstile.nil?
   end
 
   def create
@@ -21,6 +22,19 @@ class AccessPointsController < ApplicationController
       turnstile.update!(operator_id: operator.id, operation: "Operando")
       redirect_to access_point_path, notice: "Operação iniciada com sucesso."
     end
+  end
+
+  def destroy
+    turnstile = Turnstile.find_by(operator_id: session[:operator_id])
+    if turnstile.nil?
+      redirect_to new_access_point_path, alert: "Nenhum ponto de acesso em operação."
+    else
+      turnstile.update!(operator_id: nil, operation: "Ativa")
+      redirect_to new_access_point_path, notice: "Operação encerrada com sucesso."
+    end
+  end
+
+  def confirm_disconnect
   end
 
   private
