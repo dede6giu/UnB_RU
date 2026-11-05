@@ -10,11 +10,6 @@ class AccessPointsController < ApplicationController
 
   def create
     operator = Account.find_by(id: session[:operator_id], role: "operator")
-    if operator.nil?
-      redirect_to new_operator_session_path
-      return
-    end
-
     turnstile = Turnstile.find_by(id: params.dig(:access_point, :turnstile_id))
     if turnstile.nil?
       render_error("Escolha um ponto de acesso para iniciar a operação.")
@@ -30,6 +25,8 @@ class AccessPointsController < ApplicationController
 
   private
 
+  before_action :exigir_operador
+
   def load_turnstiles
     @turnstiles = Turnstile.all
   end
@@ -38,4 +35,10 @@ class AccessPointsController < ApplicationController
     flash.now[:alert] = message
     render :new, status: :unprocessable_entity
   end
+
+    def exigir_operador
+    return if session[:operator_id].present?
+
+    redirect_to new_operator_session_path, alert: "Faça login para continuar."
+    end
 end
