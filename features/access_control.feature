@@ -1,17 +1,17 @@
 Feature: Basic Access Control
     As the application
-    I want to check if a student has enough balance before allowing them in, and then debting them
+    I want to check if a student has enough balance before allowing them in, and then debiting them
 
     Background:
         Given I am the application
-        And there is students with enough balance
-        And there is students without enough balance
+        And there are students with enough balance
+        And there are students without enough balance
 
     # Positive Scenarios
     Scenario: Debit Student with Balance
         When I check a student with enough balance
         Then I should send an allow student message
-        And I the student balance should be a meal lower
+        And the student balance should be a meal lower
 
     # Negative Scenarios
     Scenario: Block Student without Balance
