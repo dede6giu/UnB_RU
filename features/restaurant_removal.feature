@@ -6,13 +6,14 @@ Feature: Restaurant removal
     Background:
         Given I am an admin
         And there is a restaurant
-#        And there are turnstiles
+        And there exists turnstiles that are non-operational
         And I know a restaurant
         And I am on a knowing restaurant edit page
 
     # Positive scenarios
     @javascript
     Scenario: Remove a restaurant
+        Given the restaurant I know has a non-operational turnstile
         When I click the remove restaurant link, and confirm
         Then I should not see the restaurant I know
 #        And I should not see the turnstiles from the restaurant I know
@@ -26,7 +27,7 @@ Feature: Restaurant removal
 
     @javascript
     Scenario: Restaurant with a turnstile in operation
-        Given the restaurant I know has a turnstile operating
+        Given the restaurant I know has a operational turnstile
         And I click the remove restaurant link, and confirm
-        Then I should be on the knowing "Manejar Restaurante" page
-        And I should see a turnstile in operation message
+        Then I should see a turnstile in operation message
+        And I should see the restaurant I know

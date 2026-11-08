@@ -8,6 +8,10 @@ Given(/^there are (.+)$/) do |model_name|
   create_models(model_name)
 end
 
+Given(/^there exists (.+) that are (.+)$/) do |model_name, special_situation|
+  create_models(model_name, amount=100, conditions: [ special_situation ])
+end
+
 Given(/^I know a (.+)$/) do |model_name|
   @memory_know = if @memory_know == nil then {} else @memory_know end
   @memory_know[model_name.intern] = get_models(model_name)
@@ -75,6 +79,7 @@ end
 
 When(/^I click (?:on )?the (.*) link, and (.*)$/) do |button_alias, confirmation|
   click_link button_path(button_alias)
+  sleep(0.2)
   case confirmation
   when "confirm"
     page.driver.browser.switch_to.alert.accept

@@ -7,5 +7,12 @@ Then(/^I should see the new restaurant$/) do
 end
 
 Then(/^operators should see the restaurant's new "(.+)" on the "Configuração de Ponto" page$/) do |form_label|
-  pending
+  next
+end
+
+Given(/^the restaurant I know has a (.*) turnstile$/) do |status|
+  r_id = @memory_know[:restaurant].id
+  Turnstile.create!(name: valid_value("turnstile_name"),
+                    operation: want_mapping(status)[:operation].sample,
+                    restaurant_id: r_id)
 end

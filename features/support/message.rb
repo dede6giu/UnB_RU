@@ -9,6 +9,8 @@ module MessageTexts
       'Campus não pode ser vazio'
     when /existing restaurant/
       'Restaurante já existente'
+    when /turnstile in operation/
+      'Há catracas em operação'
 
     else
       raise "Can't find mapping from \"#{message_alias}\" to a message.\n" +

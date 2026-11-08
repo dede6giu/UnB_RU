@@ -57,6 +57,11 @@ class RestaurantsController < ApplicationController
       format.html { redirect_to restaurants_path, notice: "Restaurante destruído com sucesso.", status: :see_other }
       format.json { head :no_content }
     end
+  rescue ActiveRecord::RecordNotDestroyed
+    respond_to do |format|
+      format.html { render :edit, status: :unprocessable_content }
+      format.json { render json: @restaurant.errors, status: :unprocessable_content }
+    end
   end
 
   private
