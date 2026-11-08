@@ -1,5 +1,5 @@
 Given(/^I am an? admin$/) do
-  next
+  pending
 end
 
 Given(/^I am an? operator$/) do

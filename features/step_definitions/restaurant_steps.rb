@@ -7,7 +7,7 @@ Then(/^I should see the new restaurant$/) do
 end
 
 Then(/^operators should see the restaurant's new "(.+)" on the "Configuração de Ponto" page$/) do |form_label|
-  next
+  pending
 end
 
 Given(/^the restaurant I know has a (.*) turnstile$/) do |status|
