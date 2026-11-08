@@ -16,7 +16,7 @@ Feature: Basic Access Control
     # Negative Scenarios
     Scenario: Block Student without Balance
         When I check a student without enough balance
-        Then I should send an block student message
+        Then I should send a block student message
 
     Scenario: Block unregistered students
         When I check an unregistered student

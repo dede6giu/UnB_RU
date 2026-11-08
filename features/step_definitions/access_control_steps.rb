@@ -50,7 +50,7 @@ When('I check a student without enough balance') do
   end
 end
 
-Then('I should send an block student message') do
+Then('I should send a block student message') do
   expect(@message).to eq(:block)
 end
 
