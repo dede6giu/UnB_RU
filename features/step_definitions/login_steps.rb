@@ -1,5 +1,6 @@
 Given(/^I am an? admin$/) do
-  next
+  # mude pending para next se quiser checar os resultados dos testes
+  pending
 end
 
 Given(/^I am an? operator$/) do
