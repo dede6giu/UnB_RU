@@ -8,7 +8,7 @@ class Restaurant < ApplicationRecord
   end
 
   def check_operating_turnstiles
-    errors.add(:other, "Há catracas em operação") unless
+    errors.add(:operating_turnstiles, "Há catracas em operação") unless
       (Turnstile.all.where(restaurant_id: id, operation: %w[ Operando FastPass ]).count) == 0
   end
 end

@@ -1,16 +1,5 @@
 <div id="form">
   <%= form_with(model: restaurant) do |form| %>
-    <% if restaurant.errors.any? %>
-      <div class="fg-danger">
-        <div class="h2"><%= restaurant.errors.count %> erros impediram a operação:</div>
-
-        <ul>
-          <% restaurant.errors.each do |error| %>
-            <li><%= error.message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
 
     <div class="p-4">
       <%= form.label :name, "Nome", style: "display: block", class: "form-label" %>
@@ -29,8 +18,21 @@
                   class: "btn-subtle theme-danger",
                   id: "btn_destroy" %>
     </div>
+
+    <div class="p-4">
+      <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
+    </div>
+
+    <% if restaurant.errors.any? %>
+      <div class="fg-danger">
+        <div class="h2"><%= restaurant.errors.count %> erros impediram a operação:</div>
+
+        <ul>
+          <% restaurant.errors.each do |error| %>
+            <li><%= error.message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   <% end %>
-  <div class="p-4">
-    <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
-  </div>
 </div>

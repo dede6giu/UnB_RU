@@ -5,6 +5,8 @@ module ValuesGenerator
       vg_not_empty_string(avoid)
     when "turnstile_name"
       vg_not_empty_string(avoid)
+    when "turnstile_operation"
+      %w[ Inativa Ativa Operando FastPass ].sample
     else
       raise "Can't find mapping from \"#{field}\" to a valid_value method.\n" +
             "Now, go and add a mapping in #{__FILE__}"
@@ -15,6 +17,8 @@ module ValuesGenerator
     case field
     when "restaurant_name",
       "restaurant_campus"
+      vg_empty_string
+    when "turnstile_name"
       vg_empty_string
     else
       raise "Can't find mapping from \"#{field}\" to a invalid_value method.\n" +
@@ -47,6 +51,8 @@ module ValuesGenerator
     case model_name
     when /restaurants?/
       Restaurant.order("RANDOM()").first
+    when /turnstiles?/
+      Turnstile.order("RANDOM()").first
     else
       raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
             "Now, go and add a mapping in #{__FILE__}"
@@ -58,6 +64,8 @@ module ValuesGenerator
     case model_name
     when /restaurants?/
       Restaurant.where("id != #{id}").order("RANDOM()").first
+    when /turnstiles?/
+      Turnstile.where("id != #{id}").order("RANDOM()").first
     else
       raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
             "Now, go and add a mapping in #{__FILE__}"
@@ -65,15 +73,8 @@ module ValuesGenerator
   end
 
   def parametrize_form_label(form_label)
-    case form_label
-    when /restaurant_name/
-      "name"
-    when /restaurant_campus/
-      "campus"
-    else
-      raise "Can't find mapping from \"#{form_label}\" to a model's parameter.\n" +
-            "Now, go and add a mapping in #{__FILE__}"
-    end
+    form_label =~ /_(.*)/
+    $1
   end
 
   def get_all_parameter_values(model_name, form_label)

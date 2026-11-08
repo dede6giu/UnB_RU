@@ -3,6 +3,8 @@ module ModelParameters
     case model_name
     when /restaurants?/
       [ :name, :campus ]
+    when /turnstiles?/
+      [ :name, :operation, :restaurant_id ]
     else
       raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
             "Now, go and add a mapping in #{__FILE__}"

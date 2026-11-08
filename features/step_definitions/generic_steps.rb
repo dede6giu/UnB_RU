@@ -30,6 +30,24 @@ Given(/^I learn another (.+)$/) do |model_name|
   @memory_another[model_name.intern] = get_another(model_name, @memory_know[model_name.intern].id)
 end
 
+When(/^from the "(.*)" dropdown I choose anything$/) do |form_label|
+  @form_fill = if @form_fill == nil then {} else @form_fill end
+  if form_label == "turnstile_restaurant_id"
+    restaurant = Restaurant.order("RANDOM()").first
+    fill_value = "#{restaurant.campus} - #{restaurant.name}"
+  else
+    fill_value = valid_value(form_label)
+  end
+  @form_fill[form_label.intern] = fill_value
+  select fill_value, from: form_label
+end
+
+When(/^from the "(.*)" dropdown I choose "(.*)"$/) do |form_label, fill_value|
+  @form_fill = if @form_fill == nil then {} else @form_fill end
+  @form_fill[form_label.intern] = fill_value
+  select fill_value, from: form_label
+end
+
 When(/^I fill (?:in )?"(.+)" correctly$/) do |form_label|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   fill_value = valid_value(form_label)
@@ -51,9 +69,20 @@ When(/^I fill (?:in )?"(.+)" from a known (.+)$/) do |form_label, model_name|
   fill_in form_label, with: known_value
 end
 
+When(/^from the "(.*)" dropdown I choose from a known (.*)$/) do |form_label, model_name|
+  @form_fill = if @form_fill == nil then {} else @form_fill end
+  if form_label == "turnstile_restaurant_id"
+    restaurant = Restaurant.where(id: @memory_know[model_name.intern].restaurant_id).first
+    known_value = "#{restaurant.campus} - #{restaurant.name}"
+  else
+    known_value = @memory_know[model_name.intern].send(parametrize_form_label(form_label))
+  end
+  @form_fill[form_label.intern] = known_value
+  select known_value, from: form_label
+end
+
 When(/^I fill (?:in )?"(.+)" avoiding a known (.+)$/) do |form_label, model_name|
   @form_fill = if @form_fill == nil then {} else @form_fill end
-  known_value = @memory_know[model_name.intern].send(parametrize_form_label(form_label))
   fill_value = valid_value(form_label, avoid=[ known_value ])
   @form_fill[form_label.intern] = fill_value
   fill_in form_label, with: fill_value
@@ -71,6 +100,18 @@ When(/^I fill (?:in )?"(.+)" from another (.+)$/) do |form_label, model_name|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   @form_fill[form_label.intern] = @memory_another[model_name.intern][form_label.intern]
   fill_in form_label, with: @memory_another[model_name.intern].send(parametrize_form_label(form_label))
+end
+
+When(/^from the "(.*)" dropdown I choose from another (.*)$/) do |form_label, model_name|
+  @form_fill = if @form_fill == nil then {} else @form_fill end
+  if form_label == "turnstile_restaurant_id"
+    restaurant = Restaurant.where(id: @memory_another[model_name.intern].restaurant_id).first
+    fill_value = "#{restaurant.campus} - #{restaurant.name}"
+  else
+    fill_value = @memory_another[model_name.intern].send(parametrize_form_label(form_label))
+  end
+  @form_fill[form_label.intern] = fill_value
+  select fill_value, from: form_label
 end
 
 When(/^I click (?:on )?the (.*) button$/) do |button_alias|
@@ -115,8 +156,14 @@ Then(/^I should see the (.*) I know$/) do |model_name|
 end
 
 Then(/^I should not see the (.*) I know$/) do |model_name|
-  model_params = list_parameter_names(model_name)
-  model_params.each do |p|
-    assert expect(page).not_to have_content(@memory_know[model_name.intern].send(p))
+  begin
+    find_by_id("#{model_name}_#{@memory_know[model_name.intern].id}")
+    fail
+  rescue Capybara::ElementNotFound
+    next
   end
+  # model_params = list_parameter_names(model_name)
+  # model_params.each do |p|
+  #   assert expect(page).not_to have_content(@memory_know[model_name.intern].send(p))
+  # end
 end

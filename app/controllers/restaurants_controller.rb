@@ -42,9 +42,9 @@ class RestaurantsController < ApplicationController
         format.html { redirect_to restaurants_path, notice: "Restaurante atualizado com sucesso.", status: :see_other }
         format.json { render :show, status: :ok, location: @restaurant }
       else
+        @restaurant.reload
         format.html { render :edit, status: :unprocessable_content }
         format.json { render json: @restaurant.errors, status: :unprocessable_content }
-        @restaurant.reload
       end
     end
   end

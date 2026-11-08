@@ -29,5 +29,5 @@ Feature: Restaurant removal
     Scenario: Restaurant with a turnstile in operation
         Given the restaurant I know has a operational turnstile
         And I click the remove restaurant link, and confirm
-        Then I should see a turnstile in operation message
+        Then I should see a turnstiles in operation message
         And I should see the restaurant I know

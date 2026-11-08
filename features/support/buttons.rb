@@ -1,11 +1,10 @@
 module ButtonPaths
   def button_path(button_alias)
     case button_alias
-    when "create restaurant"
+    when "create restaurant", "save restaurant",
+      "create turnstile", "save turnstile"
       "commit"
-    when "save restaurant"
-      "commit"
-    when "remove restaurant"
+    when "remove restaurant", "remove turnstile"
       "btn_destroy"
     else
       raise "Can't find mapping from \"#{button_alias}\" to a path.\n" +
