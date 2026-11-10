@@ -8,4 +8,12 @@ class Transaction < ApplicationRecord
   validates :amount_cents, numericality: { greater_than: 0 }
   validates :kind, inclusion: { in: KINDS }
   validates :payment_method, inclusion: { in: PAYMENT_METHODS }, if: -> { kind == "credit" }
+
+  def self.debits
+    where(kind: "debit")
+  end
+
+  def self.credits
+    where(kind: "credit")
+  end
 end

@@ -44,4 +44,11 @@ RSpec.describe Transaction, type: :model do
       expect(lancamento).to be_valid
     end
   end
+
+  it "separa as refeições das recargas" do
+    recarga = Transaction.create!(student: estudante, kind: "credit", payment_method: "pix", amount_cents: 4500)
+    refeicao = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450)
+    expect(Transaction.debits).to eq([ refeicao ])
+    expect(Transaction.credits).to eq([ recarga ])
+  end
 end
