@@ -47,6 +47,17 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).to include("Refeição")
     end
 
+    it "mostra o total gasto, as refeições e o total recarregado" do
+      lancar(estudante, kind: "credit", cents: 4500, payment_method: "pix", quando: 3.days.ago)
+      lancar(estudante, kind: "credit", cents: 2250, payment_method: "credit_card", quando: 2.days.ago)
+      3.times { lancar(estudante, kind: "debit", cents: 450, quando: 1.day.ago) }
+      entrar
+      get statement_path
+      expect(response.body).to include("R$ 13,50")
+      expect(response.body).to include("3 refeições")
+      expect(response.body).to include("R$ 67,50")
+    end
+
     it "mostra a data e a hora no horário de Brasília" do
       lancar(estudante, kind: "debit", cents: 450, quando: Time.utc(2026, 11, 3, 15, 30))
       entrar

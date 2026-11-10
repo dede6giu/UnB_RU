@@ -61,7 +61,7 @@ end
 
 # R$ 18,00 que já tinha + R$ 22,50 da recarga
 Then('I should see my balance increased by the added amount') do
-  expect(page).to have_content('Saldo atual: R$ 40,50')
+  expect(page).to have_content('Saldo restante: R$ 40,50')
 end
 
 Then('I should see an invalid credit amount message') do
