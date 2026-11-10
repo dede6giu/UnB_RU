@@ -2,11 +2,18 @@ require "rails_helper"
 
 RSpec.describe Transaction, type: :model do
   let(:estudante) do
-    conta = Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student")
-    Student.create!(account: conta)
+    Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student").student
   end
   let(:lancamento) do
     Transaction.new(student: estudante, kind: "credit", payment_method: "pix", amount_cents: 2500)
+  end
+
+  it "guarda a matrícula do estudante" do
+    expect(lancamento.student_id).to eq("232012345")
+  end
+
+  it "não tem acesso quando é uma recarga" do
+    expect(lancamento.access_id).to be_nil
   end
 
   describe "validações" do

@@ -1,7 +1,13 @@
 class CreditCard
   include ActiveModel::Model
 
-  attr_accessor :number, :expiry, :cvv
+  attr_reader :number
+  attr_accessor :expiry, :cvv
+
+  # quem digita o número costuma copiar os espaços do cartão
+  def number=(value)
+    @number = value.to_s.delete(" ")
+  end
 
   validates :number, format: { with: /\A\d{16}\z/ }
   validates :cvv, format: { with: /\A\d{3}\z/ }
@@ -10,7 +16,7 @@ class CreditCard
 
   private
 
-  # Só roda com o formato já válido; o cartão vale até o fim do mês impresso.
+  # só roda com o formato já válido
   def expiry_not_in_the_past
     return if errors.include?(:expiry)
 

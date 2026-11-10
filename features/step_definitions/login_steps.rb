@@ -36,12 +36,12 @@ end
 
 When('I fill {string} incorrectly') do |string|
   valor = WALLET_INCORRECT_VALUES[string] || (string.end_with?('-user') ? '0000000015' : '000000')
-  fill_in string, with: valor
+  preencher string, valor
 end
 
 When('I fill {string} correctly') do |string|
   valor = WALLET_CORRECT_VALUES[string] || (string.end_with?('-user') ? @conta[:user] : @password)
-  fill_in string, with: valor
+  preencher string, valor
 end
 
 Then('I should see an invalid admin id message') do

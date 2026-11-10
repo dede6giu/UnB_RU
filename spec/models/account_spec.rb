@@ -135,4 +135,29 @@ RSpec.describe Account, type: :model do
       expect(conta.password_digest).not_to eq("senha123")
     end
   end
+
+  describe "chave" do
+    it "usa a matrícula como chave" do
+      conta.save!
+      expect(conta.id).to eq("1234567")
+      expect(Account.find("1234567")).to eq(conta)
+    end
+  end
+
+  describe "carteira do estudante" do
+    it "cria a carteira com saldo zero junto com a conta de estudante" do
+      conta.role = "student"
+      conta.user = "232012345"
+      conta.save!
+      expect(conta.student).to be_persisted
+      expect(conta.student.balance_cents).to eq(0)
+    end
+
+    it "não cria carteira para admin nem operador" do
+      { "admin" => "1234567", "operator" => "7654321" }.each do |papel, matricula|
+        outra = Account.create!(user: matricula, password: "senha123", name: "Alguém", role: papel)
+        expect(outra.student).to be_nil, "esperava que #{papel} não tivesse carteira"
+      end
+    end
+  end
 end
