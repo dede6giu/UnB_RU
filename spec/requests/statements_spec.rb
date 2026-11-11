@@ -156,5 +156,42 @@ RSpec.describe "Statements", type: :request do
       get statement_path
       expect(response).to redirect_to(new_student_session_path)
     end
+
+    it "tem o botão Exportar PDF com os filtros escolhidos" do
+      entrar
+      get statement_path, params: { period: "all", type: "meal" }
+      expect(response.body).to include('href="/statement.pdf?period=all&amp;type=meal"')
+    end
+  end
+
+  describe "GET /statement.pdf" do
+    def texto_do_pdf
+      PDF::Reader.new(StringIO.new(response.body)).pages.map(&:text).join("\n")
+    end
+
+    it "baixa um PDF com todos os lançamentos do filtro, não só os da página" do
+      11.times { lancar(estudante, kind: "debit", cents: 450, quando: 1.day.ago) }
+      lancar(estudante, kind: "credit", cents: 4500, payment_method: "pix", quando: 1.day.ago)
+      entrar
+      get statement_path(format: :pdf), params: { type: "meal" }
+      expect(response.media_type).to eq("application/pdf")
+      expect(response.headers["Content-Disposition"]).to match(/\Aattachment; filename="extrato-\d{4}-\d{2}-\d{2}\.pdf"/)
+      expect(texto_do_pdf.scan("- R$ 4,50").size).to eq(11)
+      expect(texto_do_pdf).not_to include("+ R$ 45,00")
+    end
+
+    it "sem lançamentos no filtro, volta para o extrato com um aviso" do
+      lancar(estudante, kind: "credit", cents: 4500, payment_method: "pix", quando: 40.days.ago)
+      entrar
+      get statement_path(format: :pdf), params: { period: "this_month" }
+      expect(response).to redirect_to(statement_path(period: "this_month"))
+      follow_redirect!
+      expect(response.body).to include("Não há lançamentos para exportar.")
+    end
+
+    it "manda para o login quem não entrou" do
+      get statement_path(format: :pdf)
+      expect(response).to redirect_to(new_student_session_path)
+    end
   end
 end

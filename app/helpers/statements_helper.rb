@@ -19,4 +19,18 @@ module StatementsHelper
   def entry_time(transaction)
     transaction.created_at.strftime("%d/%m/%Y %H:%M")
   end
+
+  def period_label(period)
+    option_label(PERIOD_OPTIONS, period)
+  end
+
+  def type_label(type)
+    option_label(TYPE_OPTIONS, type)
+  end
+
+  # a primeira opção é o padrão, o mesmo que o Transaction.in_period e o of_type usam
+  def option_label(options, value)
+    option = options.find { |opcao| opcao.last == value }
+    (option || options.first).first
+  end
 end

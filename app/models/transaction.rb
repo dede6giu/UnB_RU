@@ -18,6 +18,19 @@ class Transaction < ApplicationRecord
     where(kind: "credit")
   end
 
+  def self.spent_cents
+    debits.sum(:amount_cents)
+  end
+
+  # cada débito é uma refeição
+  def self.meals_count
+    debits.count
+  end
+
+  def self.recharged_cents
+    credits.sum(:amount_cents)
+  end
+
   # sem período, ou com um que não existe, vale o padrão da tela: últimos 30 dias
   def self.in_period(period)
     case period

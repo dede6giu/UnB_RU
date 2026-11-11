@@ -6,7 +6,11 @@
   <div class="mx-auto mt-8" style="max-width: 960px;">
     <%= render "flash" %>
 
-    <h1 class="h3 fw-semibold fg-primary mb-4">Extrato e Histórico de Refeições</h1>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="h3 fw-semibold fg-primary mb-0">Extrato e Histórico de Refeições</h1>
+      <%= link_to "Exportar PDF", statement_path(format: :pdf, period: params[:period], type: params[:type]),
+                  class: "btn-outline theme-secondary" %>
+    </div>
 
     <div class="card shadow-sm mb-6">
       <div class="card-body p-6">
