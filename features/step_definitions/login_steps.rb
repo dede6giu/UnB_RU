@@ -1,3 +1,15 @@
+Given(/^I am an? admin$/) do
+  pending
+end
+
+Given(/^I am an? operator$/) do
+  pending
+end
+
+Given(/^I am an? student$/) do
+  pending
+end
+
 Given('there is admins') do
   @password = 'senha123'
   @conta = {
