@@ -58,10 +58,32 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).to include("R$ 67,50")
     end
 
+    it "mostra os últimos 30 dias por padrão e tudo com o filtro, e os totais acompanham" do
+      lancar(estudante, kind: "credit", cents: 9000, payment_method: "pix", quando: 40.days.ago)
+      lancar(estudante, kind: "credit", cents: 2250, payment_method: "pix", quando: 5.days.ago)
+      entrar
+
+      get statement_path
+      expect(response.body).to include("+ R$ 22,50")
+      expect(response.body).not_to include("R$ 90,00")
+
+      get statement_path, params: { period: "all" }
+      expect(response.body).to include("+ R$ 90,00")
+      expect(response.body).to include("R$ 112,50")
+    end
+
+    it "avisa quando não há lançamentos no período, mas há em outros" do
+      lancar(estudante, kind: "credit", cents: 9000, payment_method: "pix", quando: 40.days.ago)
+      entrar
+      get statement_path
+      expect(response.body).to include("Nenhum lançamento neste período.")
+      expect(response.body).not_to include("Você ainda não tem lançamentos.")
+    end
+
     it "mostra a data e a hora no horário de Brasília" do
       lancar(estudante, kind: "debit", cents: 450, quando: Time.utc(2026, 11, 3, 15, 30))
       entrar
-      get statement_path
+      get statement_path, params: { period: "all" }
       expect(response.body).to include("03/11/2026 12:30")
     end
 

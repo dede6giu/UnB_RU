@@ -8,6 +8,19 @@
 
     <h1 class="h3 fw-semibold fg-primary mb-4">Extrato e Histórico de Refeições</h1>
 
+    <div class="card shadow-sm mb-6">
+      <div class="card-body p-6">
+        <%= form_with url: statement_path, method: :get, class: "d-flex align-items-end gap-4" do |form| %>
+          <div>
+            <%= form.label :period, "Período de referência", class: "form-label fw-medium" %>
+            <%= form.select :period, StatementsHelper::PERIOD_OPTIONS, { selected: params[:period] }, class: "form-control" %>
+          </div>
+          <%= form.submit "Filtrar", name: nil, class: "btn-solid theme-primary" %>
+          <%= link_to "Limpar filtros", statement_path, class: "fs-sm" %>
+        <% end %>
+      </div>
+    </div>
+
     <div class="row g-4 mb-6">
       <div class="md:col-4">
         <div class="card shadow-sm h-100">
@@ -38,8 +51,10 @@
 
     <div class="card shadow-sm">
       <div class="card-body p-0">
-        <% if @transactions.empty? %>
+        <% if @student.transactions.empty? %>
           <p class="p-6 mb-0 fg-3">Você ainda não tem lançamentos.</p>
+        <% elsif @transactions.empty? %>
+          <p class="p-6 mb-0 fg-3">Nenhum lançamento neste período.</p>
         <% else %>
           <table class="table mb-0">
             <thead>

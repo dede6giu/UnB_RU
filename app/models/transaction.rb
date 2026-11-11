@@ -16,4 +16,13 @@ class Transaction < ApplicationRecord
   def self.credits
     where(kind: "credit")
   end
+
+  # sem período, ou com um que não existe, vale o padrão da tela: últimos 30 dias
+  def self.in_period(period)
+    case period
+    when "this_month" then where("created_at >= ?", Time.current.beginning_of_month)
+    when "all" then all
+    else where("created_at >= ?", 30.days.ago)
+    end
+  end
 end

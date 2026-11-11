@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe Transaction, type: :model do
+  include ActiveSupport::Testing::TimeHelpers
+
   let(:estudante) do
     Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student").student
   end
@@ -50,5 +52,17 @@ RSpec.describe Transaction, type: :model do
     refeicao = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450)
     expect(Transaction.debits).to eq([ refeicao ])
     expect(Transaction.credits).to eq([ recarga ])
+  end
+
+  it "filtra pelos últimos 30 dias, por este mês ou mostra tudo" do
+    travel_to Time.zone.local(2026, 11, 20, 12, 0) do
+      antiga = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450, created_at: Time.zone.local(2026, 10, 1))
+      mes_passado = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450, created_at: Time.zone.local(2026, 10, 25))
+      deste_mes = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450, created_at: Time.zone.local(2026, 11, 5))
+
+      expect(Transaction.in_period("last_30_days")).to contain_exactly(mes_passado, deste_mes)
+      expect(Transaction.in_period("this_month")).to contain_exactly(deste_mes)
+      expect(Transaction.in_period("all")).to contain_exactly(antiga, mes_passado, deste_mes)
+    end
   end
 end
