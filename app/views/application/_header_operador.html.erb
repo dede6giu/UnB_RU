@@ -1,0 +1,26 @@
+<% nav_active = "nav-link active bg-primary fg-white" %>
+<% nav_inactive = "nav-link" %>
+<% na_configuracao = %w[new create].include?(action_name) %>
+
+<div id="header" class="d-flex flex-wrap align-items-center gap-6 px-6 py-3 bg-white border-bottom">
+  <%= render "brand", selo: "OPERACIONAL", subtitulo: "Painel do Operador" %>
+
+  <ul class="nav gap-2 flex-grow-1">
+    <li class="nav-item">
+      <%= link_to "Configuração de Ponto", new_access_point_path, class: na_configuracao ? nav_active : nav_inactive %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Terminal de Validação", access_point_path, class: na_configuracao ? nav_inactive : nav_active %>
+    </li>
+    <li class="nav-item">
+      <span class="nav-link disabled" aria-disabled="true">Histórico Local</span>
+    </li>
+  </ul>
+
+  <% if current_operator %>
+    <div class="text-end">
+      <div class="fs-sm fw-medium"><%= current_operator.name %></div>
+      <div class="fs-xs fg-3">Operador · <%= current_operator.user %></div>
+    </div>
+  <% end %>
+</div>

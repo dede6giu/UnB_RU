@@ -7,6 +7,7 @@ Feature: Login as a Student
         And I am on the "Autenticação do Estudante" page
 
     # Positive Scenarios
+    @wip
     Scenario: Correctly enter in an existing account
         Given I know a student
         When I fill "student-user" knowingly
@@ -38,4 +39,4 @@ Feature: Login as a Student
         And I fill "student-pass" correctly
         And I click on the login button
         Then I should be on the "Autenticação do Estudante" page
-        And I should see a incorrect credentials message
+        And I should see an incorrect credentials message

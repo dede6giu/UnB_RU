@@ -1,0 +1,13 @@
+<% content_for :title, "Terminal de Validação" %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<p><%= @turnstile.name %></p>
+
+<%= button_to "Desconectar do Ponto de Acesso", confirm_disconnect_access_point_path, method: :get %>

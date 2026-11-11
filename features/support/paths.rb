@@ -1,3 +1,4 @@
+# Traduz nomes de páginas usados nos cenários para as rotas reais da aplicação.
 module NavigationHelpers
   def path_to(page_alias)
     restaurant_base = '/admin/restaurants'
@@ -14,6 +15,14 @@ module NavigationHelpers
       restaurant_base + '/new'
     when /Cadastrar Catracas?/
       turnstile_base + '/new'
+
+    # Autentication paths
+    when /^Autenticação de Admin$/ then new_admin_session_path
+    when /^Autenticação do Operador$/ then new_operator_session_path
+    when /^Autenticação do Estudante$/ then new_student_session_path
+    when /^Configuração de Ponto$/ then new_access_point_path
+    when /^Portal do Estudante$/ then student_portal_path
+    when /^Terminal de Validação$/ then access_point_path
 
     else
       raise "Can't find mapping from \"#{page_alias}\" to a path.\n" +

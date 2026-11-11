@@ -4,6 +4,7 @@ class Turnstile < ApplicationRecord
   validates :operation, presence: { message: "Operação não pode ser vazio" }
   validates :restaurant_id, presence: { message: "Catraca tem que estar associada a um restaurante" }
   validates :name, uniqueness: { scope: :restaurant_id, message: "Catraca já existente" }
+  belongs_to :operator, class_name: "Account", optional: true
   validate :operation_valid_values
   before_destroy :check_operating, prepend: true do
     throw(:abort) if errors.present?
