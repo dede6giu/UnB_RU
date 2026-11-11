@@ -5,9 +5,8 @@ HISTORY_ENTRIES = [
 ].freeze
 
 Given('I have transaction history') do
-  student = Student.last
   HISTORY_ENTRIES.each do |entry|
-    Transaction.create!(student: student, kind: entry[:kind], payment_method: entry[:payment_method],
+    Transaction.create!(student: @student, kind: entry[:kind], payment_method: entry[:payment_method],
                         amount_cents: entry[:amount_cents], created_at: entry[:ago].ago)
   end
   visit path_to('Extrato e Histórico de Refeições')
