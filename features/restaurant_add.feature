@@ -16,7 +16,7 @@ Feature: Adding restaurants
         And I should see the new restaurant
 
     # Negative Scenarios
-    Scenario Outline: Add a restaurant with an invalid data
+    Scenario Outline: Add a restaurant with invalid data
         When I fill in "<correct_id>" correctly
         And I fill in "<incorrect_id>" incorrectly
         And I click the create restaurant button
@@ -29,10 +29,10 @@ Feature: Adding restaurants
             | restaurant-campus | restaurant-name   | invalid restaurant name   |
 
     Scenario: Add an already existing restaurant
-        Given there is a restaurant
+        Given there are restaurants
         And I know a restaurant
         When I fill in "restaurant-name" knowingly
         And I fill in "restaurant-campus" knowingly
         And I click the create restaurant button
         Then I should be on the "Cadastrar Restaurante" page
-        And I should see an already existing restaurant error message
+        And I should see an existing restaurant message
