@@ -1,0 +1,99 @@
+<% content_for :title, "Recarga de Saldo" %>
+<div data-bs-theme="light" class="bg-1 min-vh-100">
+  <%= render "header_estudante" %>
+  <%= render "nav_estudante" %>
+
+  <div class="mx-auto mt-8" style="max-width: 720px;">
+    <%= render "flash" %>
+
+    <div class="card shadow-sm mb-6">
+      <div class="card-body p-6">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <div class="fs-xs fg-3 text-uppercase">Conta do estudante</div>
+            <div class="fs-lg fw-semibold"><%= @student.account.name %></div>
+          </div>
+          <div class="text-end">
+            <div class="fs-xs fg-3 text-uppercase">Saldo atual</div>
+            <div class="fs-xl fw-bold fg-primary"><%= reais(@student.balance_cents) %></div>
+            <div class="fs-xs fg-3"><%= pluralize(@student.balance_cents / Recharge::MEAL_PRICE_CENTS, "refeição", "refeições") %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="h3 fw-semibold fg-primary">Recarregar Saldo</h1>
+    <p class="fs-sm fg-3 mb-4">Adicione créditos para usar no RU.</p>
+
+    <%= form_with model: @recharge, url: recharge_path, class: "recharge-form" do |form| %>
+      <div class="card shadow-sm mb-6">
+        <div class="card-body p-6">
+          <h2 class="h5 fw-semibold mb-4">Escolha o pacote de refeições</h2>
+          <div class="d-flex flex-wrap gap-4 mb-4">
+            <% Recharge::PACKAGES.each do |quantidade| %>
+              <%= form.label :package, value: quantidade, class: "package bg-1 rounded-3 p-4", style: "min-width: 200px;" do %>
+                <div class="fw-medium">
+                  <%= form.radio_button :package, quantidade %>
+                  <%= quantidade %> Refeições
+                </div>
+                <div class="fs-xl fw-bold fg-primary"><%= reais(quantidade * Recharge::MEAL_PRICE_CENTS) %></div>
+                <div class="fs-xs fg-4"><%= reais(Recharge::MEAL_PRICE_CENTS) %> / un</div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <label for="credit-amount" class="form-label fw-medium">Outra quantidade (opcional)</label>
+          <%= form.number_field :quantity, id: "credit-amount", min: 1, max: Recharge::MAX_MEALS, class: "form-control",
+                                placeholder: "Deixe vazio para usar o pacote escolhido" %>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body p-6">
+          <h2 class="h5 fw-semibold mb-4">Selecione o método de pagamento</h2>
+          <div class="d-flex gap-4 mb-4">
+            <%= form.label :payment_method, value: "pix", class: "bg-1 rounded-3 p-3 fw-medium" do %>
+              <%= form.radio_button :payment_method, "pix" %>
+              PIX Instantâneo
+            <% end %>
+            <%= form.label :payment_method, value: "credit_card", class: "bg-1 rounded-3 p-3 fw-medium" do %>
+              <%= form.radio_button :payment_method, "credit_card" %>
+              Cartão de Crédito
+            <% end %>
+          </div>
+
+          <p class="pix-info fs-sm fg-3">PIX Instantâneo: o saldo é liberado em segundos.</p>
+
+          <%# os campos do cartão sempre voltam vazios, mesmo depois de um erro %>
+          <div class="card-fields">
+            <div class="mb-3">
+              <label for="card-number" class="form-label fw-medium">Número do cartão</label>
+              <%= form.text_field :card_number, id: "card-number", class: "form-control", value: nil, maxlength: 19,
+                                  autocomplete: "cc-number", inputmode: "numeric", placeholder: "0000 0000 0000 0000" %>
+            </div>
+            <div class="d-flex gap-4 mb-3">
+              <div class="flex-grow-1">
+                <label for="card-expire" class="form-label fw-medium">Validade</label>
+                <div class="d-flex align-items-center gap-2">
+                  <%= form.text_field :card_expiry_month, id: "card-expire", class: "form-control", value: nil, maxlength: 2,
+                                      autocomplete: "cc-exp-month", inputmode: "numeric", placeholder: "MM" %>
+                  <span class="fs-lg fg-3">/</span>
+                  <%= form.text_field :card_expiry_year, id: "card-expire-year", class: "form-control", value: nil, maxlength: 2,
+                                      autocomplete: "cc-exp-year", inputmode: "numeric", placeholder: "AA",
+                                      "aria-label": "Ano da validade" %>
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <label for="card-secure" class="form-label fw-medium">CVV</label>
+                <%= form.text_field :card_cvv, id: "card-secure", class: "form-control", value: nil, maxlength: 3,
+                                    autocomplete: "cc-csc", inputmode: "numeric", placeholder: "000" %>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-solid theme-primary w-100 mt-4">Confirmar</button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

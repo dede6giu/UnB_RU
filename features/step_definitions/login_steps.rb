@@ -47,13 +47,13 @@ Then('I should be on the {string} page') do |string|
 end
 
 When('I fill {string} incorrectly') do |string|
-  valor = string.end_with?('-user') ? '0000000015' : '000000'
-  fill_in string, with: valor
+  valor = WALLET_INCORRECT_VALUES[string] || (string.end_with?('-user') ? '0000000015' : '000000')
+  preencher string, valor
 end
 
 When('I fill {string} correctly') do |string|
-  valor = string.end_with?('-user') ? @conta[:user] : @password
-  fill_in string, with: valor
+  valor = WALLET_CORRECT_VALUES[string] || (string.end_with?('-user') ? @conta[:user] : @password)
+  preencher string, valor
 end
 
 Then('I should see an invalid admin id message') do
