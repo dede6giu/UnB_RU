@@ -1,5 +1,6 @@
 Given('I have a turnstile') do
-  restaurante = Restaurant.create!(name: "RU", campus: "Darcy Ribeiro")
+restaurante = Restaurant.find_or_create_by!(name: "RU", campus: "Darcy Ribeiro")
+@turnstile = restaurante.turnstiles.find_or_create_by!(name: "T1") { |t| t.operation = "Ativa" }
   @turnstile = restaurante.turnstiles.create!(name: "T1", operation: "Ativa")
   visit new_access_point_path
   choose(@turnstile.name)
