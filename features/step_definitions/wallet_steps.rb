@@ -42,8 +42,14 @@ When('I click on the confirm transaction button') do
   click_button 'Confirmar'
 end
 
+Then('I should see a successful recharge message') do
+  expect(page).to have_content('Recarga realizada com sucesso.')
+end
+
+# depois da recarga o estudante continua na página de recarga, então o passo abre o extrato
 # 5 refeições de R$ 4,50
 Then('I should see the new PIX extract entry') do
+  visit path_to('Extrato e Histórico de Refeições')
   within('tbody') do
     expect(page).to have_content('Recarga de Saldo')
     expect(page).to have_content('PIX')
@@ -52,6 +58,7 @@ Then('I should see the new PIX extract entry') do
 end
 
 Then('I should see the new Credit Card extract entry') do
+  visit path_to('Extrato e Histórico de Refeições')
   within('tbody') do
     expect(page).to have_content('Recarga de Saldo')
     expect(page).to have_content('Cartão de Crédito')
@@ -61,7 +68,8 @@ end
 
 # R$ 18,00 que já tinha + R$ 22,50 da recarga
 Then('I should see my balance increased by the added amount') do
-  expect(page).to have_content('Saldo restante: R$ 40,50')
+  expect(page).to have_content('R$ 40,50')
+  expect(@student.reload.balance_cents).to eq(WALLET_BALANCE_CENTS + 2250)
 end
 
 Then('I should see an invalid credit amount message') do
