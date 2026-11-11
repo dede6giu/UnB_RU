@@ -1,5 +1,5 @@
 module ValuesGenerator
-  def valid_value(field, avoid=[])
+  def valid_value(field, avoid = [])
     case field
     when "restaurant_name", "restaurant_campus"
       vg_not_empty_string(avoid)
@@ -26,7 +26,7 @@ module ValuesGenerator
     end
   end
 
-  def create_models(model_name, amount=100, options={})
+  def create_models(model_name, amount = 100, options = {})
     if options[:conditions] != nil
       options[:avoid] = avoid_mapping(options[:conditions])
     else
@@ -60,7 +60,6 @@ module ValuesGenerator
   end
 
   def get_another(model_name, id)
-
     case model_name
     when /restaurants?/
       Restaurant.where("id != #{id}").order("RANDOM()").first
@@ -123,7 +122,7 @@ module ValuesGenerator
     result
   end
 
-  def vg_not_empty_string(avoid=[])
+  def vg_not_empty_string(avoid = [])
     if avoid == nil then avoid = [] end
     string_size = Random.new.rand(30.0) + 1
     begin
@@ -136,7 +135,7 @@ module ValuesGenerator
     ""
   end
 
-  def vg_operation_mode(avoid=[])
+  def vg_operation_mode(avoid = [])
     if avoid == nil then avoid = [] end
     operation_modes = %w[Inativa Ativa Operando FastPass]
     begin

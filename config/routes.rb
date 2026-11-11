@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   # scope /admin/<whatever>
   scope "/admin" do
     resources :restaurants
