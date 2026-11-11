@@ -3,7 +3,6 @@ class StatementPdf
   include ApplicationHelper
   include StatementsHelper
 
-  # as fontes que já vêm no PDF não têm letras como o "Ł" de "Łukasz", e o nome é digitado no cadastro
   FONTS = Rails.root.join("vendor/fonts")
 
   def initialize(student, transactions, period:, type:)

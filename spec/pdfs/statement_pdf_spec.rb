@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe StatementPdf do
-  # nome com letra que não existe nas fontes que já vêm no PDF: sem a DejaVu, a exportação quebrava
+  # nome com letra que não existe nas fontes que já vêm no PDF
   let(:conta) do
     Account.create!(user: "232012345", password: "senha123", name: "Łukasz Kowalski", role: "student")
   end

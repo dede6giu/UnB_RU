@@ -28,7 +28,7 @@ module StatementsHelper
     option_label(TYPE_OPTIONS, type)
   end
 
-  # a primeira opção é o padrão, o mesmo que o Transaction.in_period e o of_type usam
+  # a primeira opção é o padrão
   def option_label(options, value)
     option = options.find { |opcao| opcao.last == value }
     (option || options.first).first
