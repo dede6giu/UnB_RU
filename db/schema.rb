@@ -52,7 +52,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_021653) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "restaurant_id", null: false
-    t.integer "operator_id"
+    t.string "operator_id"
     t.index ["name", "restaurant_id"], name: "index_turnstiles_on_name_and_restaurant_id", unique: true
     t.index ["operator_id"], name: "index_turnstiles_on_operator_id"
     t.index ["restaurant_id"], name: "index_turnstiles_on_restaurant_id"
@@ -60,6 +60,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_021653) do
 
   add_foreign_key "students", "accounts", column: "user", primary_key: "user"
   add_foreign_key "transactions", "students", primary_key: "user"
-  add_foreign_key "turnstiles", "accounts", column: "operator_id"
+  add_foreign_key "turnstiles", "accounts", column: "operator_id", primary_key: "user"
   add_foreign_key "turnstiles", "restaurants"
 end
