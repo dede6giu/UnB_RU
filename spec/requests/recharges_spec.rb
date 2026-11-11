@@ -46,10 +46,10 @@ RSpec.describe "Recharges", type: :request do
   end
 
   describe "POST /recharge" do
-    it "recarrega com PIX e vai para o extrato" do
+    it "recarrega com PIX e continua na página de recarga" do
       entrar
       recarregar(package: "5", payment_method: "pix")
-      expect(response).to redirect_to(statement_path)
+      expect(response).to redirect_to(new_recharge_path)
       expect(estudante.reload.balance_cents).to eq(1800 + 5 * 450)
       expect(estudante.transactions.last.payment_method).to eq("pix")
     end
@@ -57,16 +57,19 @@ RSpec.describe "Recharges", type: :request do
     it "recarrega com cartão" do
       entrar
       recarregar(cartao.merge(package: "5", payment_method: "credit_card"))
-      expect(response).to redirect_to(statement_path)
+      expect(response).to redirect_to(new_recharge_path)
       expect(estudante.reload.balance_cents).to eq(1800 + 5 * 450)
       expect(estudante.transactions.last.payment_method).to eq("credit_card")
     end
 
-    it "mostra a recarga nova no extrato" do
+    it "mostra a mensagem e o saldo novo na recarga, e a recarga nova no extrato" do
       entrar
       recarregar(quantity: "5", payment_method: "pix")
       follow_redirect!
       expect(response.body).to include("Recarga realizada com sucesso.")
+      expect(response.body).to include("R$ 40,50")
+
+      get statement_path
       expect(response.body).to include("+ R$ 22,50")
     end
 

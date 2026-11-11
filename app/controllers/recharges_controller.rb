@@ -9,7 +9,7 @@ class RechargesController < ApplicationController
     @recharge = Recharge.new(recharge_params.merge(student: @student))
 
     if @recharge.save
-      redirect_to statement_path, notice: "Recarga realizada com sucesso."
+      redirect_to new_recharge_path, notice: "Recarga realizada com sucesso."
     else
       flash.now[:alert] = @recharge.errors.first.message
       render :new, status: :unprocessable_content
