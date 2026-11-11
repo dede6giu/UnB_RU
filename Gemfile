@@ -40,6 +40,10 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+# Gera o PDF do extrato (#41). A 2.4 usa a gem matrix sem declarar, e ela só vem no grupo de teste
+gem "prawn", "~> 2.5"
+gem "prawn-table"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -68,4 +72,6 @@ group :test do
   gem "selenium-webdriver"
   gem "cucumber-rails", require: false
   gem "database_cleaner"
+  # Lê o texto do PDF do extrato nos testes
+  gem "pdf-reader"
 end
