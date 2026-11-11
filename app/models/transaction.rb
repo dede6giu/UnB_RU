@@ -2,6 +2,7 @@ class Transaction < ApplicationRecord
   # credit: recarga da carteira; debit: refeição paga com o saldo.
   KINDS = %w[credit debit]
   PAYMENT_METHODS = %w[pix credit_card]
+  PER_PAGE = 10
 
   belongs_to :student
 
@@ -24,5 +25,14 @@ class Transaction < ApplicationRecord
     when "all" then all
     else where("created_at >= ?", 30.days.ago)
     end
+  end
+
+  def self.page(number)
+    offset((number - 1) * PER_PAGE).limit(PER_PAGE)
+  end
+
+  # sem lançamentos ainda existe uma página, a que mostra o aviso
+  def self.total_pages
+    [ (count / PER_PAGE.to_f).ceil, 1 ].max
   end
 end

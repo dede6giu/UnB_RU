@@ -80,6 +80,33 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).not_to include("Você ainda não tem lançamentos.")
     end
 
+    it "mostra 10 lançamentos por página e os totais continuam sendo do período inteiro" do
+      (1..12).each do |i|
+        lancar(estudante, kind: "credit", cents: i * 1000, payment_method: "pix", quando: i.hours.ago)
+      end
+      entrar
+
+      get statement_path
+      expect(response.body).to include("+ R$ 100,00")
+      expect(response.body).not_to include("+ R$ 110,00")
+
+      get statement_path, params: { page: 2 }
+      expect(response.body).to include("+ R$ 120,00")
+      expect(response.body).not_to include("+ R$ 10,00")
+      expect(response.body).to include("Página 2 de 2")
+      expect(response.body).to include("R$ 780,00")
+
+      get statement_path, params: { page: 99 }
+      expect(response.body).to include("Página 2 de 2")
+    end
+
+    it "mantém o período escolhido ao trocar de página" do
+      11.times { lancar(estudante, kind: "debit", cents: 450, quando: 40.days.ago) }
+      entrar
+      get statement_path, params: { period: "all" }
+      expect(response.body).to include('href="/statement?page=2&amp;period=all"')
+    end
+
     it "mostra a data e a hora no horário de Brasília" do
       lancar(estudante, kind: "debit", cents: 450, quando: Time.utc(2026, 11, 3, 15, 30))
       entrar

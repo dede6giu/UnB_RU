@@ -66,7 +66,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @transactions.each do |transaction| %>
+              <% @page_transactions.each do |transaction| %>
                 <tr>
                   <td><%= entry_time(transaction) %></td>
                   <td><%= entry_label(transaction) %></td>
@@ -76,6 +76,20 @@
               <% end %>
             </tbody>
           </table>
+
+          <% if @total_pages > 1 %>
+            <div class="d-flex justify-content-between align-items-center p-4 fs-sm">
+              <span>Página <%= @page %> de <%= @total_pages %></span>
+              <div class="d-flex gap-4">
+                <% if @page > 1 %>
+                  <%= link_to "Anterior", statement_path(page: @page - 1, period: params[:period]) %>
+                <% end %>
+                <% if @page < @total_pages %>
+                  <%= link_to "Próxima", statement_path(page: @page + 1, period: params[:period]) %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>

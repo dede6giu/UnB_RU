@@ -65,4 +65,16 @@ RSpec.describe Transaction, type: :model do
       expect(Transaction.in_period("all")).to contain_exactly(antiga, mes_passado, deste_mes)
     end
   end
+
+  it "divide em páginas de 10, com pelo menos uma página" do
+    expect(Transaction.total_pages).to eq(1)
+
+    lancamentos = (1..12).map do |i|
+      Transaction.create!(student: estudante, kind: "debit", amount_cents: 450, created_at: i.hours.ago)
+    end
+    do_mais_novo = Transaction.order(created_at: :desc)
+    expect(do_mais_novo.page(1)).to eq(lancamentos.first(10))
+    expect(do_mais_novo.page(2)).to eq(lancamentos.last(2))
+    expect(Transaction.total_pages).to eq(2)
+  end
 end
