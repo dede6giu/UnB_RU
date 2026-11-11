@@ -15,6 +15,10 @@
             <%= form.label :period, "Período de referência", class: "form-label fw-medium" %>
             <%= form.select :period, StatementsHelper::PERIOD_OPTIONS, { selected: params[:period] }, class: "form-control" %>
           </div>
+          <div>
+            <%= form.label :type, "Tipo de lançamento", class: "form-label fw-medium" %>
+            <%= form.select :type, StatementsHelper::TYPE_OPTIONS, { selected: params[:type] }, class: "form-control" %>
+          </div>
           <%= form.submit "Filtrar", name: nil, class: "btn-solid theme-primary" %>
           <%= link_to "Limpar filtros", statement_path, class: "fs-sm" %>
         <% end %>
@@ -54,7 +58,7 @@
         <% if @student.transactions.empty? %>
           <p class="p-6 mb-0 fg-3">Você ainda não tem lançamentos.</p>
         <% elsif @transactions.empty? %>
-          <p class="p-6 mb-0 fg-3">Nenhum lançamento neste período.</p>
+          <p class="p-6 mb-0 fg-3">Nenhum lançamento com esses filtros.</p>
         <% else %>
           <table class="table mb-0">
             <thead>
@@ -82,10 +86,10 @@
               <span>Página <%= @page %> de <%= @total_pages %></span>
               <div class="d-flex gap-4">
                 <% if @page > 1 %>
-                  <%= link_to "Anterior", statement_path(page: @page - 1, period: params[:period]) %>
+                  <%= link_to "Anterior", statement_path(page: @page - 1, period: params[:period], type: params[:type]) %>
                 <% end %>
                 <% if @page < @total_pages %>
-                  <%= link_to "Próxima", statement_path(page: @page + 1, period: params[:period]) %>
+                  <%= link_to "Próxima", statement_path(page: @page + 1, period: params[:period], type: params[:type]) %>
                 <% end %>
               </div>
             </div>

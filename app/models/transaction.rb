@@ -27,6 +27,14 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def self.of_type(type)
+    case type
+    when "credit" then credits
+    when "meal" then debits
+    else all
+    end
+  end
+
   def self.page(number)
     offset((number - 1) * PER_PAGE).limit(PER_PAGE)
   end

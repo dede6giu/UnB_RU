@@ -72,11 +72,11 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).to include("R$ 112,50")
     end
 
-    it "avisa quando não há lançamentos no período, mas há em outros" do
+    it "avisa quando os filtros não acham nada, mas há lançamentos" do
       lancar(estudante, kind: "credit", cents: 9000, payment_method: "pix", quando: 40.days.ago)
       entrar
       get statement_path
-      expect(response.body).to include("Nenhum lançamento neste período.")
+      expect(response.body).to include("Nenhum lançamento com esses filtros.")
       expect(response.body).not_to include("Você ainda não tem lançamentos.")
     end
 
@@ -100,11 +100,33 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).to include("Página 2 de 2")
     end
 
-    it "mantém o período escolhido ao trocar de página" do
+    it "não quebra com uma página que não é número" do
+      entrar
+      get statement_path, params: { page: [ "2" ] }
+      expect(response).to have_http_status(:success)
+    end
+
+    it "mantém o período e o tipo escolhidos ao trocar de página" do
       11.times { lancar(estudante, kind: "debit", cents: 450, quando: 40.days.ago) }
       entrar
-      get statement_path, params: { period: "all" }
-      expect(response.body).to include('href="/statement?page=2&amp;period=all"')
+      get statement_path, params: { period: "all", type: "meal" }
+      expect(response.body).to include('href="/statement?page=2&amp;period=all&amp;type=meal"')
+    end
+
+    it "filtra por recargas ou refeições, e os totais acompanham" do
+      lancar(estudante, kind: "credit", cents: 4500, payment_method: "pix", quando: 2.days.ago)
+      2.times { lancar(estudante, kind: "debit", cents: 450, quando: 1.day.ago) }
+      entrar
+
+      get statement_path, params: { type: "credit" }
+      expect(response.body).to include("+ R$ 45,00")
+      expect(response.body).not_to include("- R$ 4,50")
+      expect(response.body).to include("0 refeições")
+
+      get statement_path, params: { type: "meal" }
+      expect(response.body).to include("- R$ 4,50")
+      expect(response.body).not_to include("+ R$ 45,00")
+      expect(response.body).to include("R$ 9,00")
     end
 
     it "mostra a data e a hora no horário de Brasília" do

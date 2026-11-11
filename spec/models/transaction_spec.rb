@@ -66,6 +66,14 @@ RSpec.describe Transaction, type: :model do
     end
   end
 
+  it "filtra por recargas ou refeições, e sem tipo mostra tudo" do
+    recarga = Transaction.create!(student: estudante, kind: "credit", payment_method: "pix", amount_cents: 4500)
+    refeicao = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450)
+    expect(Transaction.of_type("credit")).to eq([ recarga ])
+    expect(Transaction.of_type("meal")).to eq([ refeicao ])
+    expect(Transaction.of_type(nil)).to contain_exactly(recarga, refeicao)
+  end
+
   it "divide em páginas de 10, com pelo menos uma página" do
     expect(Transaction.total_pages).to eq(1)
 
