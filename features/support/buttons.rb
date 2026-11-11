@@ -6,6 +6,10 @@ module ButtonPaths
       "commit"
     when "remove restaurant", "remove turnstile"
       "btn_destroy"
+    when "login"
+      "Entrar"
+    when "disconnect from turnstile"
+      "Desconectar do Ponto de Acesso"
     else
       raise "Can't find mapping from \"#{button_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"
