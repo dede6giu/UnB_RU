@@ -1,12 +1,7 @@
-# guarda os valores que a tela mostra para conferir que o PDF tem os mesmos
-When('I click the export PDF button') do
-  @values_on_page = all('tbody tr td:last-child').map(&:text)
-  click_on 'Exportar PDF'
-end
-
 When('I filter by transaction type {word}') do |type|
   find('#type').find("option[value='#{type}']").select_option
   click_button 'Filtrar'
+  @values_on_page = all('tbody tr td:last-child').map(&:text)
 end
 
 Then('a PDF file for my transaction history downloads') do

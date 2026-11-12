@@ -10,6 +10,8 @@ Given('I have transaction history') do
                         amount_cents: entry[:amount_cents], created_at: entry[:ago].ago)
   end
   visit path_to('Extrato e Histórico de Refeições')
+  # o passo do PDF confere que ele tem os mesmos valores da tela
+  @values_on_page = all('tbody tr td:last-child').map(&:text)
 end
 
 Then('I should see newest entry first') do

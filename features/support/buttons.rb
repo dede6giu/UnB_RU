@@ -12,6 +12,8 @@ module ButtonPaths
       "Desconectar do Ponto de Acesso"
     when "confirm transaction"
       "Confirmar"
+    when "export PDF"
+      "Exportar PDF"
     else
       pending "Can't find mapping from \"#{button_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"
