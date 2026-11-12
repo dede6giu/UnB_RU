@@ -60,4 +60,34 @@ class MenuCatalog
       starts_at <= seconds && seconds < ends_at
     end&.first
   end
+
+  def widget_menu_at(time = Time.current)
+    current_meal_key = current_meal_at(time)
+    seconds = time.seconds_since_midnight
+
+    if current_meal_key
+      weekday_index = time.wday
+      meal_key = current_meal_key
+      current = true
+    elsif seconds < SERVING_WINDOWS.fetch("almoco").first
+      # The widget feature explicitly expects lunch before breakfast as well
+      # as between breakfast and lunch.
+      weekday_index = time.wday
+      meal_key = "almoco"
+      current = false
+    elsif seconds < SERVING_WINDOWS.fetch("jantar").first
+      weekday_index = time.wday
+      meal_key = "jantar"
+      current = false
+    else
+      weekday_index = (time.wday + 1) % WEEKDAYS.length
+      meal_key = "cafe_da_manha"
+      current = false
+    end
+
+    menus_for(weekday_index).find { |menu| menu[:key] == meal_key }.merge(
+      weekday_index: weekday_index,
+      current: current
+    )
+  end
 end
