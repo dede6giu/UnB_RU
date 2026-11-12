@@ -29,6 +29,13 @@ body { margin: 0; background: #f4f7f5; color: #263746; font-family: Arial, sans-
 .public-menu__form select { min-width: 150px; min-height: 39px; padding: 6px 10px; border: 1px solid #adb5bd; border-radius: 5px; background: #fff; color: #263746; }
 .public-menu__submit { min-height: 39px; padding: 6px 12px; border: 1px solid #087df0; border-radius: 5px; color: #fff; background: #087df0; }
 .public-menu__content h2 { margin: 18px 0 10px; color: #0873ce; font-size: 2rem; font-weight: 400; }
+.meal-widget { margin: 14px 0 20px; padding: 14px; border: 1px solid #ccd9e3; border-left: 5px solid #087df0; border-radius: 4px; background: #edf5fb; }
+.meal-widget__heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
+.meal-widget__eyebrow { margin: 0; color: #0873ce; font-size: .85rem; font-weight: 700; text-transform: uppercase; }
+.meal-widget__heading h2 { margin: 2px 0; }
+.meal-widget__weekday { margin: 0; color: #526675; }
+.meal-widget__status { padding: 5px 10px; border-radius: 16px; color: #fff; background: #087df0; font-size: .85rem; }
+.meal-widget .meal-card { border-color: #d5e1e9; }
 .public-menu__meals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 470px), 1fr)); gap: 14px; }
 .meal-card { padding: 14px 16px; border: 1px solid #d7dcdf; border-radius: 4px; background: #fff; }
 .meal-card--current { border-top: 4px solid #087df0; }

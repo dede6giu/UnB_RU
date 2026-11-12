@@ -1,0 +1,11 @@
+<section class="meal-widget" aria-labelledby="meal-widget-title">
+  <div class="meal-widget__heading">
+    <div>
+      <p class="meal-widget__eyebrow"><%= menu[:current] ? "Sendo servida agora" : "Próxima refeição" %></p>
+      <h2 id="meal-widget-title"><%= menu[:label] %></h2>
+      <p class="meal-widget__weekday"><%= weekday_name %></p>
+    </div>
+    <span class="meal-widget__status"><%= menu[:current] ? "Atual" : "Em seguida" %></span>
+  </div>
+  <%= render "meal_card", menu: menu, current: menu[:current] %>
+</section>

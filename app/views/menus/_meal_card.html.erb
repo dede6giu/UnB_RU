@@ -1,0 +1,21 @@
+<article class="meal-card <%= "meal-card--current" if current %>">
+  <div class="meal-card__heading">
+    <h3><%= menu[:label] %></h3>
+    <% if current %><span class="meal-card__badge">Sendo servida agora</span><% end %>
+  </div>
+  <dl class="meal-card__items">
+    <% menu[:content].each do |field, value| %>
+      <% next if value.nil? %>
+      <div>
+        <dt><%= MenuCatalog::FIELD_LABELS.fetch(field, field.humanize) %></dt>
+        <dd>
+          <% if value.is_a?(Array) %>
+            <ul><% value.each do |item| %><li><%= item %></li><% end %></ul>
+          <% else %>
+            <%= value %>
+          <% end %>
+        </dd>
+      </div>
+    <% end %>
+  </dl>
+</article>
