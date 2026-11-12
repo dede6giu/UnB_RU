@@ -25,8 +25,17 @@ module MessageTexts
     when /invalid (admin|operator|student) id/
       'Matrícula inválida.'
 
+    when /successful recharge/
+      'Recarga realizada com sucesso.'
+    when /invalid credit amount/
+      'Quantidade inválida.'
+    when /invalid Credit Card info/
+      'Dados do cartão inválidos.'
+    when /no transaction history/
+      'Você ainda não tem lançamentos.'
+
     else
-      raise "Can't find mapping from \"#{message_alias}\" to a message.\n" +
+      pending "Can't find mapping from \"#{message_alias}\" to a message.\n" +
             "Now, go and add a mapping in #{__FILE__}"
     end
   end

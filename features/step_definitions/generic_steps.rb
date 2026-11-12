@@ -50,14 +50,14 @@ When(/^I fill (?:in )?"(.+)" correctly$/) do |form_label|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   fill_value = valid_value(form_label)
   @form_fill[form_label.intern] = fill_value
-  fill_in form_label, with: fill_value
+  preencher form_label, fill_value
 end
 
 When(/^I fill (?:in )?"(.+)" incorrectly$/) do |form_label|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   fill_value = invalid_value(form_label)
   @form_fill[form_label.intern] = fill_value
-  fill_in form_label, with: fill_value
+  preencher form_label, fill_value
 end
 
 When(/^I fill (?:in )?"(.+)" from a known (.+)$/) do |form_label, model_name|
