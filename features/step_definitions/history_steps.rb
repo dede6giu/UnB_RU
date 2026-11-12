@@ -20,8 +20,3 @@ Then('I should see newest entry first') do
     rows.zip(newest_first).each { |row, text| expect(row).to include(text) }
   end
 end
-
-Then('I should see a no transaction history message') do
-  expect(page).to have_content('Você ainda não tem lançamentos.')
-  expect(page).to have_no_css('tbody tr')
-end
