@@ -35,7 +35,7 @@ Then('I should send an allow student message') do
   expect(@message).to eq(:allow)
 end
 
-Then('the student balance should be a meal lower') do
+Then("the student's balance should be a meal lower") do
   expected_balance = 10.0 - MEAL_COST
   expect(@student_with_balance[:balance]).to eq(expected_balance)
 end
