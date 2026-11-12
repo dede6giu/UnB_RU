@@ -1,10 +1,8 @@
-require 'uri'
-
-Given(/^there is a (.+)$/) do |model_name|
+Given(/^there is a (restaurant|turnstile)$/) do |model_name|
   create_models(model_name, amount=1)
 end
 
-Given(/^there are (.+)$/) do |model_name|
+Given(/^there are (restaurants|turnstiles)$/) do |model_name|
   create_models(model_name)
 end
 
@@ -12,7 +10,7 @@ Given(/^there exists (.+) that are (.+)$/) do |model_name, special_situation|
   create_models(model_name, amount=100, conditions: [ special_situation ])
 end
 
-Given(/^I know a (.+)$/) do |model_name|
+Given(/^I know a (restaurant|turnstile)$/) do |model_name|
   @memory_know = if @memory_know == nil then {} else @memory_know end
   @memory_know[model_name.intern] = get_models(model_name)
 end
@@ -136,8 +134,7 @@ When(/^I go to the "(.*)" page$/) do |page_alias|
 end
 
 Then(/^I should be on (?:the )?"(.+)" page$/) do |page_alias|
-  current_path = URI.parse(current_url).path
-  assert_equal path_to(page_alias), current_path
+  expect(page).to have_title(page_alias)
 end
 
 Then(/^I should see an? (.*) message$/) do |message_alias|
