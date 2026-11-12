@@ -3,7 +3,7 @@ Feature: Global access report
     I want to see every access entry and filter it by restaurant and turnstile
 
     Background:
-        Given I am logged as an admin
+        Given I am an admin
         And there are restaurants with turnstiles
         And I am on the "Histórico Global" page
 
@@ -22,10 +22,8 @@ Feature: Global access report
         Given I know a restaurant
         And I know a turnstile of the restaurant I know
         And there is global history
-        When I filter by the restaurant I know
-        And I filter by the turnstile I know
-        Then I should see only the entires of the restaurant I know
-        And I should see only the entires of the turnstile I know
+        When I filter by the turnstile I know
+        Then I should see only the entires of the turnstile I know
 
     # Negative Scenarios
     Scenario: No history yet

@@ -10,12 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_08_204136) do
-  create_table "students", force: :cascade do |t|
+ActiveRecord::Schema[8.1].define(version: 2026_11_03_042359) do
+  create_table "accounts", force: :cascade do |t|
+    t.string "user"
     t.string "name"
-    t.string "registration"
-    t.decimal "balance"
+    t.string "password_digest"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user"], name: "index_accounts_on_user", unique: true
   end
+
+  create_table "restaurants", force: :cascade do |t|
+    t.string "name"
+    t.string "campus"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name", "campus"], name: "index_restaurants_on_name_and_campus", unique: true
+  end
+
+  create_table "turnstiles", force: :cascade do |t|
+    t.string "name"
+    t.string "operation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "restaurant_id", null: false
+    t.integer "operator_id"
+    t.index ["name", "restaurant_id"], name: "index_turnstiles_on_name_and_restaurant_id", unique: true
+    t.index ["operator_id"], name: "index_turnstiles_on_operator_id"
+    t.index ["restaurant_id"], name: "index_turnstiles_on_restaurant_id"
+  end
+
+  add_foreign_key "turnstiles", "accounts", column: "operator_id"
+  add_foreign_key "turnstiles", "restaurants"
 end
