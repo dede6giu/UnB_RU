@@ -20,6 +20,11 @@ module MessageTexts
     when /existing turnstile/
       'Catraca já existente'
 
+    when /incorrect credentials/
+      'Matrícula ou senha incorretas.'
+    when /invalid (admin|operator|student) id/
+      'Matrícula inválida.'
+
     else
       raise "Can't find mapping from \"#{message_alias}\" to a message.\n" +
             "Now, go and add a mapping in #{__FILE__}"

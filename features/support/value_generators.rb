@@ -7,6 +7,10 @@ module ValuesGenerator
       vg_not_empty_string(avoid)
     when "turnstile_operation"
       %w[ Inativa Ativa Operando FastPass ].sample
+    when /-user$/
+      @conta[:user]
+    when /-pass$/
+      @password
     else
       raise "Can't find mapping from \"#{field}\" to a valid_value method.\n" +
             "Now, go and add a mapping in #{__FILE__}"
@@ -20,6 +24,10 @@ module ValuesGenerator
       vg_empty_string
     when "turnstile_name"
       vg_empty_string
+    when /-user$/
+      "0000000015"
+    when /-pass$/
+      "000000"
     else
       raise "Can't find mapping from \"#{field}\" to a invalid_value method.\n" +
             "Now, go and add a mapping in #{__FILE__}"
