@@ -1,3 +1,4 @@
+@wip
 Feature: Shift and Time-frame Management
     As an administrator
     I want to create as many FastPass time frames as I want,

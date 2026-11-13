@@ -1,3 +1,4 @@
+@wip
 Feature: Check what FastPass is active
     As a student
     I want to be able to see which FastPass is active, which is open to enter the raffle, which is inactive, and which is pending use

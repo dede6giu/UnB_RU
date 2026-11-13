@@ -1,3 +1,4 @@
+@wip
 Feature: FastPass enrollment
     As a student
     I want to enroll on the free FastPass program choosing one timeslot per meal, so I can have quicker access on the restaurant
