@@ -8,8 +8,10 @@ class AccessControlController < ApplicationController
 
     if student.nil?
       render json: { message: "Estudante Não Cadastrado" }, status: :not_found
-    elsif student.balance_cents >= MEAL_COST_CENTS
-      student.update!(balance_cents: student.balance_cents - MEAL_COST_CENTS)
+      student.transaction do
+        student.update!(balance_cents: student.balance_cents - MEAL_COST_CENTS)
+        student.transactions.create!(kind: "debit", amount_cents: MEAL_COST_CENTS)
+      end
       render json: { message: "Acesso Liberado" }, status: :ok
     else
       render json: { message: "Saldo Insuficiente" }, status: :forbidden
