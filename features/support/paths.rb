@@ -27,6 +27,8 @@ module NavigationHelpers
     when /^Recarga de Saldo$/ then new_recharge_path
     when /^Extrato e Histórico de Refeições$/ then statement_path
 
+    when /^Cadastro Estudantil$/ then student_session_signup_path
+
     else
       raise "Can't find mapping from \"#{page_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"

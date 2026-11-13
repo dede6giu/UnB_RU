@@ -1,4 +1,5 @@
 Given(/^I am an? admin$/) do
+  next
   pending
 end
 
@@ -18,12 +19,16 @@ Given('I know an admin') do
 end
 
 When('I fill {string} knowingly') do |string|
-  valor = string.end_with?('-user') ? @conta[:user] : @password
+  valor = string.end_with?('[-_]user') ? @conta[:user] : @password
   fill_in string, with: valor
 end
 
 Then('I should be authenticated') do
   expect(page).to have_content('Sucesso na autenticação.')
+end
+
+Then('I should be newly registered') do
+  expect(page).to have_content('Sucesso no cadastro.')
 end
 
 Given('I know all admins') do
@@ -68,7 +73,7 @@ Given('there is students') do
 end
 
 Given('I know a student') do
-  @conta = Account.find_by(role: 'student')
+  @conta = Account.where(role: 'student').first
 end
 
 Then('I should see my balance') do

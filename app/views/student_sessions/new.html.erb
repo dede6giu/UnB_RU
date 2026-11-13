@@ -17,7 +17,6 @@
         <div class="mb-4">
           <div class="d-flex justify-content-between">
             <label for="student-user" class="form-label fw-medium">Matrícula</label>
-            <span class="fs-xs fg-4">Obrigatório</span>
           </div>
           <div class="form-control form-adorn">
             <span class="form-adorn-icon">
@@ -33,7 +32,6 @@
         <div class="mb-6">
           <div class="d-flex justify-content-between">
             <label for="student-pass" class="form-label fw-medium">Senha de Acesso</label>
-            <span class="fs-xs fg-4">Obrigatório</span>
           </div>
           <div class="form-control form-adorn">
             <span class="form-adorn-icon">
@@ -55,8 +53,7 @@
         </button>
       <% end %>
       <p class="fs-sm text-center mt-5 mb-0">
-        <%# TODO: quando a rota do cadastro existir, trocar "#" por student_registrations_new_path %>
-        Ainda não tem conta? <%= link_to "Cadastre-se", "#", class: "fw-semibold" %>
+        Ainda não tem conta? <%= link_to "Cadastre-se", "signup", class: "fw-semibold" %>
       </p>
     </div>
   </div>

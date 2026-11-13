@@ -34,6 +34,13 @@ module MessageTexts
     when /no transaction history/
       'Você ainda não tem lançamentos.'
 
+    when /existing student/
+      'Estudante já existente'
+    when /student name is empty/
+      'Nome não pode ser vazio'
+    when /too short password/
+      'Senha deve ter 8 ou mais caracteres'
+
     else
       pending "Can't find mapping from \"#{message_alias}\" to a message.\n" +
             "Now, go and add a mapping in #{__FILE__}"
