@@ -64,7 +64,9 @@ Given('there is students') do
     name: 'algum',
     role: 'student'
   }
+  @balance = 1550
   Account.create!(@conta)
+  Account.find(@conta[:user]).student.update!(balance_cents: @balance)
 end
 
 Given('I know a student') do
@@ -72,7 +74,7 @@ Given('I know a student') do
 end
 
 Then('I should see my balance') do
-  pending # Depende de balance_cents
+  expect(page).to have_content("Saldo: R$ 15,50")
 end
 
 Given('I know all students') do

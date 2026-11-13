@@ -7,7 +7,6 @@ Feature: Login as a Student
         And I am on the "Autenticação do Estudante" page
 
     # Positive Scenarios
-    @wip
     Scenario: Correctly enter in an existing account
         Given I know a student
         When I fill "student-user" knowingly
