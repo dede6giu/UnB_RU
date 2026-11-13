@@ -8,3 +8,5 @@
 <% if flash[:alert] %>
   <p><%= flash[:alert] %></p>
 <% end %>
+
+Saldo: <%= number_to_currency(@student.balance_cents / 100.0, unit: "R$ ", separator: ",", delimiter: ".") %>
