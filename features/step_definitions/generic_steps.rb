@@ -113,7 +113,7 @@ When(/^from the "(.*)" dropdown I choose from another (.*)$/) do |form_label, mo
 end
 
 When(/^I click (?:on )?the (.*) button$/) do |button_alias|
-  click_button button_path(button_alias)
+  click_on button_path(button_alias)
 end
 
 When(/^I click (?:on )?the (.*) link, and (.*)$/) do |button_alias, confirmation|

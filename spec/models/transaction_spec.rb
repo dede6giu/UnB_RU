@@ -66,6 +66,15 @@ RSpec.describe Transaction, type: :model do
     end
   end
 
+  it "soma o gasto, conta as refeições e soma as recargas" do
+    Transaction.create!(student: estudante, kind: "credit", payment_method: "pix", amount_cents: 4500)
+    Transaction.create!(student: estudante, kind: "credit", payment_method: "credit_card", amount_cents: 900)
+    2.times { Transaction.create!(student: estudante, kind: "debit", amount_cents: 450) }
+    expect(Transaction.spent_cents).to eq(900)
+    expect(Transaction.meals_count).to eq(2)
+    expect(Transaction.recharged_cents).to eq(5400)
+  end
+
   it "filtra por recargas ou refeições, e sem tipo mostra tudo" do
     recarga = Transaction.create!(student: estudante, kind: "credit", payment_method: "pix", amount_cents: 4500)
     refeicao = Transaction.create!(student: estudante, kind: "debit", amount_cents: 450)
