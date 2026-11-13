@@ -16,4 +16,16 @@ class Student < ApplicationRecord
     end
     true
   end
+
+  def add_debit(amount_cents)
+    lancamento = Transaction.new(student: self, kind: "debit",
+                                 amount_cents: amount_cents)
+    return false unless lancamento.valid?
+
+    transaction do
+      lancamento.save!
+      decrement!(:balance_cents, amount_cents)
+    end
+    true
+  end
 end

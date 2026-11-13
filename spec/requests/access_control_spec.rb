@@ -9,8 +9,10 @@ RSpec.describe "AccessControl", type: :request do
 
   describe "POST /access_control/check" do
     context "quando o estudante tem saldo suficiente" do
-      it "libera o acesso e debita do saldo" do
-        post "/access_control/check", params: { registration: student_with_balance.id }
+      it "libera o acesso, debita do saldo e registra a refeição" do
+        expect {
+          post "/access_control/check", params: { registration: student_with_balance.id }
+        }.to change(Transaction.debits, :count).by(1)
 
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)["message"]).to eq("Acesso Liberado")
@@ -19,8 +21,10 @@ RSpec.describe "AccessControl", type: :request do
     end
 
     context "quando o estudante não tem saldo suficiente" do
-      it "bloqueia o acesso e não altera o saldo" do
-        post "/access_control/check", params: { registration: student_without_balance.id }
+      it "bloqueia o acesso e não altera o saldo nem registra lançamento" do
+        expect {
+          post "/access_control/check", params: { registration: student_without_balance.id }
+        }.not_to change(Transaction, :count)
 
         expect(response).to have_http_status(:forbidden)
         expect(JSON.parse(response.body)["message"]).to eq("Saldo Insuficiente")
