@@ -12,7 +12,7 @@ class AccessPointsController < ApplicationController
   end
 
   def create
-    operator = Account.find_by(id: session[:operator_id], role: "operator")
+    operator = Account.find_by(user: session[:operator_id], role: "operator")
     turnstile = Turnstile.find_by(id: params.dig(:access_point, :turnstile_id))
     if turnstile.nil?
       render_error("Escolha um ponto de acesso para iniciar a operação.")
@@ -52,7 +52,7 @@ class AccessPointsController < ApplicationController
   end
 
   def current_operator
-    @current_operator ||= Account.find_by(id: session[:operator_id], role: "operator")
+    @current_operator ||= Account.find_by(user: session[:operator_id], role: "operator")
   end
 
   def render_error(message)

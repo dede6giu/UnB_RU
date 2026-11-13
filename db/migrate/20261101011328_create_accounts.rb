@@ -1,13 +1,12 @@
 class CreateAccounts < ActiveRecord::Migration[8.1]
   def change
-    create_table :accounts do |t|
-      t.string :user
+    create_table :accounts, id: false do |t|
+      t.string :user, primary_key: true
       t.string :name
       t.string :password_digest
       t.string :role
 
       t.timestamps
     end
-    add_index :accounts, :user, unique: true
   end
 end

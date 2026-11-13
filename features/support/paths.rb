@@ -24,6 +24,9 @@ module NavigationHelpers
     when /^Portal do Estudante$/ then student_portal_path
     when /^Terminal de Validação$/ then access_point_path
 
+    when /^Recarga de Saldo$/ then new_recharge_path
+    when /^Extrato e Histórico de Refeições$/ then statement_path
+
     else
       raise "Can't find mapping from \"#{page_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"

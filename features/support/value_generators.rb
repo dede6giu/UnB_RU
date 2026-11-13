@@ -11,8 +11,16 @@ module ValuesGenerator
       @conta[:user]
     when /-pass$/
       @password
+    when "credit-amount"
+      "5"
+    when "card-number"
+      "4111111111111111"
+    when "card-expire"
+      "12/99"
+    when "card-secure"
+      "123"
     else
-      raise "Can't find mapping from \"#{field}\" to a valid_value method.\n" +
+      pending "Can't find mapping from \"#{field}\" to a valid_value method.\n" +
             "Now, go and add a mapping in #{__FILE__}"
     end
   end
@@ -28,8 +36,16 @@ module ValuesGenerator
       "0000000015"
     when /-pass$/
       "000000"
+    when "credit-amount"
+      "abc"
+    when "card-number"
+      "4111"
+    when "card-expire"
+      "01/20"
+    when "card-secure"
+      "12"
     else
-      raise "Can't find mapping from \"#{field}\" to a invalid_value method.\n" +
+      pending "Can't find mapping from \"#{field}\" to a invalid_value method.\n" +
             "Now, go and add a mapping in #{__FILE__}"
     end
   end

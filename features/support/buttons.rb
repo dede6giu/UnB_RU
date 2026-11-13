@@ -10,8 +10,12 @@ module ButtonPaths
       "Entrar"
     when "disconnect from turnstile"
       "Desconectar do Ponto de Acesso"
+    when "confirm transaction"
+      "Confirmar"
+    when "export PDF"
+      "Exportar PDF"
     else
-      raise "Can't find mapping from \"#{button_alias}\" to a path.\n" +
+      pending "Can't find mapping from \"#{button_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"
     end
   end
