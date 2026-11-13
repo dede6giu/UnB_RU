@@ -1,0 +1,10 @@
+<% content_for :title, "Portal do Estudante" %>
+<%= render "nav_estudante" %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>

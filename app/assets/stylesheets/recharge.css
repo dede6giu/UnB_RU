@@ -1,0 +1,12 @@
+.recharge-form:not(:has(#recharge_payment_method_credit_card:checked)) .card-fields,
+.recharge-form:has(#recharge_payment_method_credit_card:checked) .pix-info {
+  display: none;
+}
+
+.recharge-form:has(#credit-amount:not(:placeholder-shown)) .package {
+  opacity: 0.4;
+}
+
+.recharge-form:has(#credit-amount:not(:placeholder-shown)) .package input[type="radio"] {
+  visibility: hidden;
+}

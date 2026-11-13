@@ -1,15 +1,15 @@
 class AccessControlController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:check]
+  skip_before_action :verify_authenticity_token, only: [ :check ]
 
-  MEAL_COST = 4.50
+  MEAL_COST_CENTS = 450
 
   def check
-    student = Student.find_by(registration: params[:registration])
+    student = Student.find_by(user: params[:registration]) || Student.find_by(user: params[:user])
 
     if student.nil?
       render json: { message: "Estudante Não Cadastrado" }, status: :not_found
-    elsif student.balance >= MEAL_COST
-      student.update!(balance: student.balance - MEAL_COST)
+    elsif student.balance_cents >= MEAL_COST_CENTS
+      student.update!(balance_cents: student.balance_cents - MEAL_COST_CENTS)
       render json: { message: "Acesso Liberado" }, status: :ok
     else
       render json: { message: "Saldo Insuficiente" }, status: :forbidden

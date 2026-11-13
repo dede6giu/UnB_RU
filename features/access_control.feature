@@ -11,7 +11,7 @@ Feature: Basic Access Control
     Scenario: Debit Student with Balance
         When I check a student with enough balance
         Then I should send an allow student message
-        And the student balance should be a meal lower
+        And the student's balance should be a meal lower
 
     # Negative Scenarios
     Scenario: Block Student without Balance

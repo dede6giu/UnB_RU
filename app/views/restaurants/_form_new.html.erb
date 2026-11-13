@@ -1,0 +1,33 @@
+<div id="form">
+  <%= form_with(model: restaurant) do |form| %>
+
+    <div class="p-4">
+      <%= form.label :name, style: "display: block", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4">
+      <%= form.label :campus, style: "display: block", class: "form-label" %>
+      <%= form.text_field :campus, class: "form-control w-25" %>
+    </div>
+
+    <div class="p-4">
+      <%= form.submit "Criar Restaurante", class: "btn-subtle theme-success", id: "btn_restaurant_create" %>
+    </div>
+
+    <div class="p-4">
+      <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
+    </div>
+
+    <% if restaurant.errors.any? %>
+      <div class="fg-danger">
+        <div class="h2"><%= restaurant.errors.count %> erros impediram que esse restaurante fosse criado:</div>
+        <ul>
+          <% restaurant.errors.each do |error| %>
+            <li><%= error.message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  <% end %>
+</div>
