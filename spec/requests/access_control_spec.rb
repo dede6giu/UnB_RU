@@ -16,7 +16,8 @@ RSpec.describe "AccessControl", type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(JSON.parse(response.body)["message"]).to eq("Acesso Liberado")
-        expect(student_with_balance.reload.balance_cents).to be < 1000
+        expect(student_with_balance.reload.balance_cents).to eq(550)
+        expect(student_with_balance.transactions.last.kind).to eq("debit")
       end
     end
 
