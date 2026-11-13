@@ -18,4 +18,21 @@ class StudentSessionsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  def signup
+  end
+
+  def newacc
+    student = Account.new(user: params[:student_user],
+                          name: params[:student_name],
+                          role: "student",
+                          password: params[:student_password],)
+    if student.save
+      session[:student_id] = student.id
+      redirect_to student_portal_path, notice: "Sucesso no cadastro."
+    else
+      flash.now[:alert] = student.errors.messages
+      render :signup, status: :unprocessable_entity
+    end
+  end
 end

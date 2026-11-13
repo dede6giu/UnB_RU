@@ -1,12 +1,16 @@
 module ValuesGenerator
   def valid_value(field, avoid = [])
     case field
-    when "restaurant_name", "restaurant_campus"
-      vg_not_empty_string(avoid)
+    when "restaurant_name", "restaurant_campus", "student_name"
+      vg_rand_string(avoid)
     when "turnstile_name"
-      vg_not_empty_string(avoid)
+      vg_rand_string(avoid)
     when "turnstile_operation"
       %w[ Inativa Ativa Operando FastPass ].sample
+    when /^student_user$/
+      vg_student_user
+    when /^student_password$/
+      vg_rand_string(avoid, 8)
     when /-user$/
       @conta[:user]
     when /-pass$/
@@ -27,11 +31,12 @@ module ValuesGenerator
 
   def invalid_value(field)
     case field
-    when "restaurant_name",
-      "restaurant_campus"
+    when "restaurant_name", "restaurant_campus", "turnstile_name", "student_name"
       vg_empty_string
-    when "turnstile_name"
-      vg_empty_string
+    when /^student_user$/
+      vg_student_user_invalid
+    when /^student_password$/
+      vg_rand_string([], 1, 7)
     when /-user$/
       "0000000015"
     when /-pass$/
@@ -59,9 +64,9 @@ module ValuesGenerator
     amount.times do
       case model_name
       when /restaurants?/
-        Restaurant.create(name: vg_not_empty_string, campus: vg_not_empty_string)
+        Restaurant.create(name: vg_rand_string, campus: vg_rand_string)
       when /turnstiles?/
-        Turnstile.create(name: vg_not_empty_string(avoid=options[:avoid][:name]),
+        Turnstile.create(name: vg_rand_string(avoid=options[:avoid][:name]),
                          operation: vg_operation_mode(avoid=options[:avoid][:operation]),
                          restaurant_id: Restaurant.all.order("RANDOM()").first.id)
       else
@@ -146,9 +151,9 @@ module ValuesGenerator
     result
   end
 
-  def vg_not_empty_string(avoid = [])
+  def vg_rand_string(avoid = [], min_size = 1, max_size = 30)
     if avoid == nil then avoid = [] end
-    string_size = Random.new.rand(30.0) + 1
+    string_size = Random.new.rand(max_size) + min_size
     begin
       result = rand(36**string_size).to_s(36)
     end until avoid.exclude?(result)
@@ -166,6 +171,30 @@ module ValuesGenerator
       result = operation_modes[rand(4)]
     end until avoid.exclude?(result)
     result
+  end
+
+  def vg_student_user(avoid = [])
+    if avoid == nil then avoid = [] end
+    begin
+      year = Random.new.rand(26)
+      if year < 10
+        year = "0" + year.to_s
+      else
+        year = year.to_s
+      end
+      semester = (Random.new.rand(2) + 1).to_s + "0"
+      number = Random.new.rand(100000).to_s
+      while number.size < 5 do number = "0" + number end
+      matricula = year + semester + number
+    end until avoid.exclude?(matricula)
+    matricula
+  end
+
+  def vg_student_user_invalid(avoid = [])
+    if avoid == nil then avoid = [] end
+    begin
+      result = vg_student_user(avoid: avoid)
+    end until avoid.exclude?(result) and result =~ /\A(?:[01]\d|2[0-6])(?:10|20)\d{5}\z/
   end
 end
 

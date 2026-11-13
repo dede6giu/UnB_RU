@@ -2,7 +2,7 @@ module ButtonPaths
   def button_path(button_alias)
     case button_alias
     when "create restaurant", "save restaurant",
-      "create turnstile", "save turnstile"
+      "create turnstile", "save turnstile", "register"
       "commit"
     when "remove restaurant", "remove turnstile"
       "btn_destroy"
