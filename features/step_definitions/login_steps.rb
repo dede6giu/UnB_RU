@@ -19,7 +19,7 @@ Given('I know an admin') do
 end
 
 When('I fill {string} knowingly') do |string|
-  valor = string.end_with?('[-_]user') ? @conta[:user] : @password
+  valor = string =~ /[-_]user$/ ? @conta[:user] : @password
   fill_in string, with: valor
 end
 
@@ -28,6 +28,7 @@ Then('I should be authenticated') do
 end
 
 Then('I should be newly registered') do
+  sleep(1)
   expect(page).to have_content('Sucesso no cadastro.')
 end
 

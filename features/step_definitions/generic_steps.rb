@@ -138,6 +138,8 @@ Then(/^I should be on (?:the )?"(.+)" page$/) do |page_alias|
 end
 
 Then(/^I should see an? (.*) message$/) do |message_alias|
+  # sleep(0.5)
+  # expect(page).to have_content(message_kind(message_alias))
   assert page.has_content?(message_kind(message_alias))
 end
 

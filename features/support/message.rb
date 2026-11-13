@@ -35,11 +35,11 @@ module MessageTexts
       'Você ainda não tem lançamentos.'
 
     when /existing student/
-      'Estudante já existente'
+      'Matrícula já registrada.'
     when /student name is empty/
-      'Nome não pode ser vazio'
+      'Nome não pode ser vazio.'
     when /too short password/
-      'Senha deve ter 8 ou mais caracteres'
+      'Senha deve ter 8 ou mais caracteres.'
 
     else
       pending "Can't find mapping from \"#{message_alias}\" to a message.\n" +
