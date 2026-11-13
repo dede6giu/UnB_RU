@@ -1,7 +1,7 @@
 class AccessControlController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [ :check ]
 
-  MEAL_COST_CENTS = 450
+MEAL_COST_CENTS = Recharge::MEAL_PRICE_CENTS
 
   def check
     student = Student.find_by(user: params[:registration]) || Student.find_by(user: params[:user])
