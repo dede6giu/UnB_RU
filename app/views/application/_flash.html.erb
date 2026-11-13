@@ -2,16 +2,18 @@
   <div class="alert theme-success mb-4"><%= flash[:notice] %></div>
 <% end %>
 
-<%# if flash[:alert] %>
-<!--  <div class="alert theme-success mb-4"><%#= flash[:alert] %></div>-->
-<%# end %>
-
-<% if flash[:alert] %>
-  <% flash[:alert].each do |key, msglist| %>
-    <% msglist.each do |msg| %>
-      <div class="alert theme-danger mb-4">
-        <div><%= msg %></div>
-      </div>
+<% if flash.class == Hash %>
+  <% if flash[:alert] %>
+    <% flash[:alert].each do |key, msglist| %>
+      <% msglist.each do |msg| %>
+        <div class="alert theme-danger mb-4">
+          <div><%= msg %></div>
+        </div>
+      <% end %>
     <% end %>
+  <% end %>
+<% else %>
+  <% if flash[:alert] %>
+      <div class="alert theme-success mb-4"><%= flash[:alert] %></div>
   <% end %>
 <% end %>

@@ -173,7 +173,7 @@ module ValuesGenerator
     result
   end
 
-  def vg_student_user(avoid=[])
+  def vg_student_user(avoid = [])
     if avoid == nil then avoid = [] end
     begin
       year = Random.new.rand(26)
@@ -190,7 +190,7 @@ module ValuesGenerator
     matricula
   end
 
-  def vg_student_user_invalid(avoid=[])
+  def vg_student_user_invalid(avoid = [])
     if avoid == nil then avoid = [] end
     begin
       result = vg_student_user(avoid: avoid)

@@ -35,5 +35,4 @@ class StudentSessionsController < ApplicationController
       render :signup, status: :unprocessable_entity
     end
   end
-
 end
