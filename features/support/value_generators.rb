@@ -36,7 +36,7 @@ module ValuesGenerator
     when /^student_user$/
       vg_student_user_invalid
     when /^student_password$/
-      vg_rand_string([], 1, 8)
+      vg_rand_string([], 1, 7)
     when /-user$/
       "0000000015"
     when /-pass$/
