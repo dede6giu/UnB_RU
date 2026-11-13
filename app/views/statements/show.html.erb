@@ -6,13 +6,59 @@
   <div class="mx-auto mt-8" style="max-width: 960px;">
     <%= render "flash" %>
 
-    <h1 class="h3 fw-semibold fg-primary">Extrato e Histórico de Refeições</h1>
-    <p class="fs-sm fg-3 mb-4">Saldo atual: <strong><%= reais(@student.balance_cents) %></strong></p>
+    <h1 class="h3 fw-semibold fg-primary mb-4">Extrato e Histórico de Refeições</h1>
+
+    <div class="card shadow-sm mb-6">
+      <div class="card-body p-6">
+        <%= form_with url: statement_path, method: :get, class: "d-flex align-items-end gap-4" do |form| %>
+          <div>
+            <%= form.label :period, "Período de referência", class: "form-label fw-medium" %>
+            <%= form.select :period, StatementsHelper::PERIOD_OPTIONS, { selected: params[:period] }, class: "form-control" %>
+          </div>
+          <div>
+            <%= form.label :type, "Tipo de lançamento", class: "form-label fw-medium" %>
+            <%= form.select :type, StatementsHelper::TYPE_OPTIONS, { selected: params[:type] }, class: "form-control" %>
+          </div>
+          <%= form.submit "Filtrar", name: nil, class: "btn-solid theme-primary" %>
+          <%= link_to "Limpar filtros", statement_path, class: "fs-sm" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-6">
+      <div class="md:col-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body p-6">
+            <div class="fs-xs fg-3 text-uppercase">Total gasto</div>
+            <div class="fs-xl fw-bold"><%= reais(@spent_cents) %></div>
+          </div>
+        </div>
+      </div>
+      <div class="md:col-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body p-6">
+            <div class="fs-xs fg-3 text-uppercase">Refeições realizadas</div>
+            <div class="fs-xl fw-bold"><%= pluralize(@meals_count, "refeição", "refeições") %></div>
+          </div>
+        </div>
+      </div>
+      <div class="md:col-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body p-6">
+            <div class="fs-xs fg-3 text-uppercase">Total recarregado</div>
+            <div class="fs-xl fw-bold fg-success"><%= reais(@recharged_cents) %></div>
+            <div class="fs-xs fg-3">Saldo restante: <%= reais(@student.balance_cents) %></div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="card shadow-sm">
       <div class="card-body p-0">
-        <% if @transactions.empty? %>
+        <% if @student.transactions.empty? %>
           <p class="p-6 mb-0 fg-3">Você ainda não tem lançamentos.</p>
+        <% elsif @transactions.empty? %>
+          <p class="p-6 mb-0 fg-3">Nenhum lançamento com esses filtros.</p>
         <% else %>
           <table class="table mb-0">
             <thead>
@@ -24,7 +70,7 @@
               </tr>
             </thead>
             <tbody>
-              <% @transactions.each do |transaction| %>
+              <% @page_transactions.each do |transaction| %>
                 <tr>
                   <td><%= entry_time(transaction) %></td>
                   <td><%= entry_label(transaction) %></td>
@@ -34,6 +80,20 @@
               <% end %>
             </tbody>
           </table>
+
+          <% if @total_pages > 1 %>
+            <div class="d-flex justify-content-between align-items-center p-4 fs-sm">
+              <span>Página <%= @page %> de <%= @total_pages %></span>
+              <div class="d-flex gap-4">
+                <% if @page > 1 %>
+                  <%= link_to "Anterior", statement_path(page: @page - 1, period: params[:period], type: params[:type]) %>
+                <% end %>
+                <% if @page < @total_pages %>
+                  <%= link_to "Próxima", statement_path(page: @page + 1, period: params[:period], type: params[:type]) %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
