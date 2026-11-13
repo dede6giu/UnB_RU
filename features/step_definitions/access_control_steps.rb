@@ -1,62 +1,55 @@
-require 'rspec/expectations'
-
-MEAL_COST = 4.50
+ACCESS_CONTROL_STUDENT_BALANCE_CENTS = 1000
+MEAL_COST_CENTS = 450
 
 Given('I am the application') do
-  @app = :application
+  nil
 end
 
 Given('there are students with enough balance') do
-  @student_with_balance = {
-    name: "Alice",
-    balance: 10.0
-  }
+  conta = Account.create!(user: '232065432', password: 'senha123', name: 'Estudante', role: 'student')
+  @student_with_balance = conta.student
+  @student_with_balance.update!(balance_cents: ACCESS_CONTROL_STUDENT_BALANCE_CENTS)
 end
 
 Given('there are students without enough balance') do
-  @student_without_balance = {
-    name: "Bob",
-    balance: 2.0
-  }
+  conta = Account.create!(user: '232076543', password: 'senha123', name: 'Estudante', role: 'student')
+  @student_without_balance = conta.student
 end
 
 When('I check a student with enough balance') do
-  student = @student_with_balance
-  if student[:balance] >= MEAL_COST
-    student[:balance] -= MEAL_COST
-    @message = :allow
-  else
-    @message = :block
-  end
+  @student_checked = @student_with_balance
+  @balance_before_check = @student_checked.balance_cents
+  page.driver.browser.post('/access_control/check', registration: @student_checked.id)
 end
 
 Then('I should send an allow student message') do
-  expect(@message).to eq(:allow)
+  resposta = page.driver.browser.last_response
+  expect(resposta.status).to eq(200)
+  expect(JSON.parse(resposta.body)['message']).to eq('Acesso Liberado')
 end
 
 Then("the student's balance should be a meal lower") do
-  expected_balance = 10.0 - MEAL_COST
-  expect(@student_with_balance[:balance]).to eq(expected_balance)
+  expect(@student_checked.reload.balance_cents).to eq(@balance_before_check - MEAL_COST_CENTS)
 end
 
 When('I check a student without enough balance') do
-  student = @student_without_balance
-  if student[:balance] >= MEAL_COST
-    student[:balance] -= MEAL_COST
-    @message = :allow
-  else
-    @message = :block
-  end
+  @student_checked = @student_without_balance
+  @balance_before_check = @student_checked.balance_cents
+  page.driver.browser.post('/access_control/check', registration: @student_checked.id)
 end
 
 Then('I should send a block student message') do
-  expect(@message).to eq(:block)
+  resposta = page.driver.browser.last_response
+  expect(resposta.status).to eq(403)
+  expect(JSON.parse(resposta.body)['message']).to eq('Saldo Insuficiente')
 end
 
 When('I check an unregistered student') do
-  @message = :unregistered
+  page.driver.browser.post('/access_control/check', registration: '232054321')
 end
 
 Then('I should send an unregistered student message') do
-  expect(@message).to eq(:unregistered)
+  resposta = page.driver.browser.last_response
+  expect(resposta.status).to eq(404)
+  expect(JSON.parse(resposta.body)['message']).to eq('Estudante Não Cadastrado')
 end

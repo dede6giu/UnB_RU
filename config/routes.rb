@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  post "access_control/check", to: "access_control#check"
+  post "access_control/check", to: "access_control#check", as: :access_control_check
 
   resource :admin_session, only: [ :new, :create ]
   resource :operator_session, only: [ :new, :create ]
