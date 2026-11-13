@@ -1,5 +1,12 @@
 Given(/^I am an? admin$/) do
-  pending
+  @password = 'senha123'
+  conta = Account.create!(user: '1000000', password: @password, name: 'Admin', role: 'admin')
+
+  visit new_admin_session_path
+  fill_in 'admin-user', with: conta.user
+  fill_in 'admin-pass', with: @password
+  click_button 'Entrar'
+  expect(page).to have_content('Sucesso na autenticação.')
 end
 
 Given('there is admins') do
