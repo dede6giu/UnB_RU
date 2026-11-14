@@ -1,16 +1,5 @@
 <div id="form">
   <%= form_with(model: turnstile) do |form| %>
-    <% if turnstile.errors.any? %>
-      <div class="fg-danger">
-        <div class="h2"><%= turnstile.errors.count %> erros impediram a operação:</div>
-
-        <ul>
-          <% turnstile.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
 
     <div class="p-4">
       <%= form.label :name, "Nome", style: "display: block", class: "form-label" %>
@@ -33,10 +22,24 @@
       <%= form.submit "Atualizar Catraca", class: "btn-subtle theme-success" %>
       <%= link_to "Remover Catraca", turnstile_path(@turnstile),
                   data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" },
-                  class: "btn-subtle theme-danger" %>
+                  class: "btn-subtle theme-danger",
+                  id: "btn_destroy" %>
     </div>
+
+    <div class="p-4">
+      <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
+    </div>
+
+    <% if turnstile.errors.any? %>
+      <div class="fg-danger">
+        <div class="h2"><%= turnstile.errors.count %> erros impediram a operação:</div>
+
+        <ul>
+          <% turnstile.errors.each do |error| %>
+            <li><%= error.message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
   <% end %>
-  <div class="p-4">
-    <%= link_to "Retornar", restaurants_path, class: "btn-subtle" %>
-  </div>
 </div>

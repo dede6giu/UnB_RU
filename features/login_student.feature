@@ -38,4 +38,4 @@ Feature: Login as a Student
         And I fill "student-pass" correctly
         And I click on the login button
         Then I should be on the "Autenticação do Estudante" page
-        And I should see a incorrect credentials message
+        And I should see an incorrect credentials message

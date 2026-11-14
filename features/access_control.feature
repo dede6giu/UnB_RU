@@ -4,19 +4,22 @@ Feature: Basic Access Control
 
     Background:
         Given I am the application
-        And there is students with enough balance
-        And there is students without enough balance
+        And there are students with enough balance
+        And there are students without enough balance
 
     # Positive Scenarios
     Scenario: Debit Student with Balance
         When I check a student with enough balance
         Then I should send an allow student message
         And the student's balance should be a meal lower
+        And the student's statement should show a meal entry
 
     # Negative Scenarios
     Scenario: Block Student without Balance
         When I check a student without enough balance
-        Then I should send an block student message
+        Then I should send a block student message
+        And the student's balance should be unchanged
+        And the student's statement should show no entries
 
     Scenario: Block unregistered students
         When I check an unregistered student

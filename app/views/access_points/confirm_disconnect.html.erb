@@ -1,0 +1,14 @@
+<% content_for :title, "Confirmar Desconexão" %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<p>Tem certeza que deseja desconectar do ponto de acesso?</p>
+
+<%= button_to "Confirmar", access_point_path, method: :delete, class: "btn btn-danger" %>
+<%= link_to "Cancelar", access_point_path, class: "btn btn-secondary" %>    

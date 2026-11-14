@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: "1000001"
+  name: Admin Teste
+  password_digest: <%= BCrypt::Password.create("senha1234") %>
+  role: admin
+
+two:
+  user: "1000002"
+  name: Operador Teste
+  password_digest: <%= BCrypt::Password.create("senha1234") %>
+  role: operator

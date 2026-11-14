@@ -1,0 +1,12 @@
+<% content_for :title, "Portal do Estudante" %>
+<%= render "nav_estudante" %>
+
+<% if flash[:notice] %>
+  <p><%= flash[:notice] %></p>
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+Saldo: <%= number_to_currency(@student.balance_cents / 100.0, unit: "R$ ", separator: ",", delimiter: ".") %>

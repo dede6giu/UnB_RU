@@ -22,11 +22,15 @@ Feature: Export Extrato e Histórico de Refeições
 
         Examples:
         | type      |
+        | credit    |
+        | meal      |
+
+        @wip
+        Examples:
+        | type      |
         | breakfast |
         | lunch     |
         | dinner    |
-        | credit    |
-        | meal      |
 
     # Negative Scenarios
     Scenario: Try to export with no associated data

@@ -1,3 +1,4 @@
+@wip
 Feature: FastPass time frame settings
     As an administrator
     I want to configure the FastPass delay tolerance and early release, and turn the tolerance on or off

@@ -12,9 +12,10 @@ Feature: Add Credit to Wallet
         When I choose PIX credit option
         And I fill "credit-amount" correctly
         And I click on the confirm transaction button
-        Then I should be on the "Extrato de Refeições" page
-        And I should see the new PIX extract entry
+        Then I should be on the "Recarga de Saldo" page
+        And I should see a successful recharge message
         And I should see my balance increased by the added amount
+        And I should see the new PIX extract entry
 
     Scenario: Adding via Credit Card
         When I choose the Credit Card credit option
@@ -23,9 +24,10 @@ Feature: Add Credit to Wallet
         And I fill "card-secure" correctly
         And I fill "credit-amount" correctly
         And I click on the confirm transaction button
-        Then I should be on the "Extrato de Refeições" page
-        And I should see the new Credit Card extract entry
+        Then I should be on the "Recarga de Saldo" page
+        And I should see a successful recharge message
         And I should see my balance increased by the added amount
+        And I should see the new Credit Card extract entry
 
     # Negative scenarios
     Scenario Outline: Invalid credit amount
@@ -33,7 +35,7 @@ Feature: Add Credit to Wallet
         And I fill "credit-amount" incorrectly
         And I click on the confirm transaction button
         Then I should be on the "Recarga de Saldo" page
-        And I should see a incorrect credit amount message
+        And I should see an invalid credit amount message
         And I should see my balance had no change
 
         Examples:

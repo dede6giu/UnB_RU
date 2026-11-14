@@ -25,7 +25,7 @@ Feature: Login as an operator
 
     Scenario: Incorrect password
         Given I know an operator
-        When I fill "operator-id" knowingly
+        When I fill "operator-user" knowingly
         And I fill "operator-pass" unknowingly
         And I click on the login button
         Then I should be on the "Autenticação do Operador" page
@@ -33,7 +33,7 @@ Feature: Login as an operator
 
     Scenario: Non-existing operator ID
         Given I know all operators
-        When I fill "operator-id" unknowingly
+        When I fill "operator-user" unknowingly
         And I fill "operator-pass" correctly
         And I click on the login button
         Then I should be on the "Autenticação do Operador" page
