@@ -17,8 +17,8 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     assert_select "h1", "Cardápio"
     assert_select "#cardapio-weekday option", 7
     assert_select 'link[rel="stylesheet"][href*="application"]'
-    assert_select ".public-site-header"
-    assert_select '.public-site-nav__link[aria-current="page"]', "Cardápio"
+    assert_select "header"
+    assert_select '.nav-link.active[aria-current="page"]', "Cardápio"
   end
 
   7.times do |weekday|
@@ -27,10 +27,10 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
 
       assert_response :success
       assert_select "h2", MenuCatalog::WEEKDAYS[weekday].last
-      assert_select ".public-menu__meals .meal-card", 3
-      MenuCatalog::MEALS.each { |_key, label| assert_select ".meal-card h3", label }
+      assert_select "#selected-menus .card", 3
+      MenuCatalog::MEALS.each { |_key, label| assert_select "#selected-menus .card h3", label }
       first_json_value = MenuCatalog.new.menus_for(weekday).first[:content].values.flatten.compact.first
-      assert_select ".public-menu__meals .meal-card", /#{Regexp.escape(first_json_value)}/
+      assert_select "#selected-menus .card", /#{Regexp.escape(first_json_value)}/
     end
   end
 
@@ -42,8 +42,8 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
         end
 
         assert_response :success
-        assert_select ".public-menu__meals .meal-card--current h3", MenuCatalog::MEALS.assoc(meal_key).last
-        assert_select ".public-menu__meals .meal-card", 1
+        assert_select "#selected-menus .card[data-current=true] h3", MenuCatalog::MEALS.assoc(meal_key).last
+        assert_select "#selected-menus .card", 1
       end
     end
   end
@@ -54,8 +54,8 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
-    assert_select ".public-menu__meals .meal-card", 0
-    assert_select ".public-menu__empty", /Não há uma refeição sendo servida/
+    assert_select "#selected-menus", false
+    assert_select "#no-current-meal.alert", /Não há uma refeição sendo servida/
   end
 
   test "widget renders the current dinner and its menu content" do
@@ -64,9 +64,9 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
-    assert_select ".meal-widget__eyebrow", "Sendo servida agora"
-    assert_select ".meal-widget__heading h2", "Janta"
-    assert_select ".meal-widget .meal-card", /Suíno com cebola caramelizada/
+    assert_select "#meal-widget", /Sendo servida agora/
+    assert_select "#meal-widget h2", "Janta"
+    assert_select "#meal-widget .card", /Suíno com cebola caramelizada/
   end
 
   test "widget renders the next weekday breakfast after dinner" do
@@ -75,9 +75,9 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
-    assert_select ".meal-widget__eyebrow", "Próxima refeição"
-    assert_select ".meal-widget__heading h2", "Café da Manhã"
-    assert_select ".meal-widget__weekday", "Domingo"
+    assert_select "#meal-widget", /Próxima refeição/
+    assert_select "#meal-widget h2", "Café da Manhã"
+    assert_select "#meal-widget", /Domingo/
   end
 
   test "widget follows the feature scenario before breakfast and shows lunch" do
@@ -86,7 +86,7 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :success
-    assert_select ".meal-widget__eyebrow", "Próxima refeição"
-    assert_select ".meal-widget__heading h2", "Almoço"
+    assert_select "#meal-widget", /Próxima refeição/
+    assert_select "#meal-widget h2", "Almoço"
   end
 end

@@ -1,21 +1,23 @@
-<article class="meal-card <%= "meal-card--current" if current %>">
-  <div class="meal-card__heading">
-    <h3><%= menu[:label] %></h3>
-    <% if current %><span class="meal-card__badge">Sendo servida agora</span><% end %>
+<article class="card h-100 <%= "border-primary" if current %>" <%= "data-current=true" if current %>>
+  <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+    <h3 class="h5 mb-0 fg-primary"><%= menu[:label] %></h3>
+    <% if current %><span class="badge badge-outline theme-success">Sendo servida agora</span><% end %>
   </div>
-  <dl class="meal-card__items">
-    <% menu[:content].each do |field, value| %>
-      <% next if value.nil? %>
-      <div>
-        <dt><%= MenuCatalog::FIELD_LABELS.fetch(field, field.humanize) %></dt>
-        <dd>
-          <% if value.is_a?(Array) %>
-            <ul><% value.each do |item| %><li><%= item %></li><% end %></ul>
-          <% else %>
-            <%= value %>
-          <% end %>
-        </dd>
-      </div>
-    <% end %>
-  </dl>
+  <div class="card-body">
+    <dl class="mb-0">
+      <% menu[:content].each do |field, value| %>
+        <% next if value.nil? %>
+        <div class="row mb-2">
+          <dt class="col-12 md:col-4 fw-semibold"><%= MenuCatalog::FIELD_LABELS.fetch(field, field.humanize) %></dt>
+          <dd class="col-12 md:col-8 mb-0">
+            <% if value.is_a?(Array) %>
+              <ul class="mb-0 ps-3"><% value.each do |item| %><li><%= item %></li><% end %></ul>
+            <% else %>
+              <%= value %>
+            <% end %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  </div>
 </article>

@@ -1,9 +1,9 @@
-<header class="public-site-header">
-  <%= image_tag "placeholder.png", class: "public-site-header__logo", alt: "Restaurante Universitário" %>
-  <span class="public-site-header__divider" aria-hidden="true"></span>
-  <span class="public-site-header__title">RESTAURANTE UNIVERSITÁRIO</span>
+<header class="d-flex align-items-center gap-3 p-3 bg-white">
+  <%= image_tag "placeholder.png", width: 120, height: 60, class: "img-fluid", alt: "Restaurante Universitário" %>
+  <span class="vr" aria-hidden="true"></span>
+  <span class="d-flex align-items-center flex-grow-1 fw-medium fg-primary">RESTAURANTE UNIVERSITÁRIO</span>
 </header>
 
-<nav class="public-site-nav" aria-label="Navegação principal">
-  <%= link_to "Cardápio", public_menu_path, class: "public-site-nav__link", aria: { current: "page" } %>
+<nav class="nav p-3 bg-3 gap-3" aria-label="Navegação principal">
+  <%= link_to "Cardápio", public_menu_path, class: "nav-link active bg-primary fg-white", aria: { current: "page" } %>
 </nav>
