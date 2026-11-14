@@ -5,9 +5,9 @@ class MenusControllerTest < ActionDispatch::IntegrationTest
   include ActiveSupport::Testing::TimeHelpers
 
   SERVING_CASES = {
-    "cafe_da_manha" => [8, 0],
-    "almoco" => [12, 0],
-    "jantar" => [18, 0]
+    "cafe_da_manha" => [ 8, 0 ],
+    "almoco" => [ 12, 0 ],
+    "jantar" => [ 18, 0 ]
   }.freeze
 
   test "cardapio is publicly accessible and has the requested weekday selector" do

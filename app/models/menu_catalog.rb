@@ -2,19 +2,19 @@ require "json"
 
 class MenuCatalog
   WEEKDAYS = [
-    ["domingo", "Domingo"],
-    ["segunda-feira", "Segunda-feira"],
-    ["terca-feira", "Terça-feira"],
-    ["quarta-feira", "Quarta-feira"],
-    ["quinta-feira", "Quinta-feira"],
-    ["sexta-feira", "Sexta-feira"],
-    ["sabado", "Sábado"]
+    [ "domingo", "Domingo" ],
+    [ "segunda-feira", "Segunda-feira" ],
+    [ "terca-feira", "Terça-feira" ],
+    [ "quarta-feira", "Quarta-feira" ],
+    [ "quinta-feira", "Quinta-feira" ],
+    [ "sexta-feira", "Sexta-feira" ],
+    [ "sabado", "Sábado" ]
   ].freeze
 
   MEALS = [
-    ["cafe_da_manha", "Café da Manhã"],
-    ["almoco", "Almoço"],
-    ["jantar", "Janta"]
+    [ "cafe_da_manha", "Café da Manhã" ],
+    [ "almoco", "Almoço" ],
+    [ "jantar", "Janta" ]
   ].freeze
 
   FIELD_LABELS = {
@@ -31,9 +31,9 @@ class MenuCatalog
   }.freeze
 
   SERVING_WINDOWS = {
-    "cafe_da_manha" => [7 * 60 * 60, 9 * 60 * 60 + 30 * 60],
-    "almoco" => [11 * 60 * 60, 14 * 60 * 60 + 30 * 60],
-    "jantar" => [17 * 60 * 60, 19 * 60 * 60 + 30 * 60]
+    "cafe_da_manha" => [ 7 * 60 * 60, 9 * 60 * 60 + 30 * 60 ],
+    "almoco" => [ 11 * 60 * 60, 14 * 60 * 60 + 30 * 60 ],
+    "jantar" => [ 17 * 60 * 60, 19 * 60 * 60 + 30 * 60 ]
   }.freeze
 
   def initialize(path: Rails.root.join("cardapio.json"))

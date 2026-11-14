@@ -20,7 +20,7 @@ class MenuCatalogTest < ActiveSupport::TestCase
     assert_equal "Frango assado com manjericão", monday.second[:content].fetch("prato_principal_padrao")
   end
 
-  { "cafe_da_manha" => [8, 0], "almoco" => [12, 0], "jantar" => [18, 0] }.each do |meal_key, (hour, minute)|
+  { "cafe_da_manha" => [ 8, 0 ], "almoco" => [ 12, 0 ], "jantar" => [ 18, 0 ] }.each do |meal_key, (hour, minute)|
     test "widget selects current #{meal_key} across all weekdays" do
       7.times do |weekday|
         time = Time.zone.local(2026, 11, 1 + weekday, hour, minute)
@@ -34,10 +34,10 @@ class MenuCatalogTest < ActiveSupport::TestCase
   end
 
   {
-    "before breakfast" => [6, 0, "almoco", 0],
-    "between breakfast and lunch" => [10, 0, "almoco", 0],
-    "between lunch and dinner" => [15, 0, "jantar", 0],
-    "after dinner" => [20, 0, "cafe_da_manha", 1]
+    "before breakfast" => [ 6, 0, "almoco", 0 ],
+    "between breakfast and lunch" => [ 10, 0, "almoco", 0 ],
+    "between lunch and dinner" => [ 15, 0, "jantar", 0 ],
+    "after dinner" => [ 20, 0, "cafe_da_manha", 1 ]
   }.each do |period, (hour, minute, expected_meal, day_offset)|
     test "widget selects #{expected_meal} #{period} across all weekdays" do
       7.times do |weekday|
