@@ -50,8 +50,8 @@ Feature: Turnstile editing
         And I fill in "turnstile_name" from a known turnstile
         And from the "turnstile_restaurant_id" dropdown I choose from a known turnstile
         And I click the save turnstile button
+        Then I should see a turnstile in operation message
         Then the turnstile I know should be <curr_mode>
-        And I should see a turnstile in operation message
 
         Examples:
             | curr_mode | new_str |

@@ -1,9 +1,7 @@
 module ValuesGenerator
   def valid_value(field, avoid = [])
     case field
-    when "restaurant_name", "restaurant_campus", "student_name", "operator_name"
-      vg_rand_string(avoid)
-    when "turnstile_name"
+    when "restaurant_name", "restaurant_campus", "student_name", "operator_name", "turnstile_name"
       vg_rand_string(avoid)
     when "turnstile_operation"
       %w[ Inativa Ativa Operando FastPass ].sample
