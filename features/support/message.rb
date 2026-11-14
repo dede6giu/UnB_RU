@@ -14,7 +14,7 @@ module MessageTexts
     when /turnstiles in operation/
       'Há catracas em operação'
     when /turnstile in operation/
-      'A catraca está em operação'
+      'Um operador está atuando na catraca'
     when /turnstile name is empty/
       'Nome não pode ser vazio'
     when /existing turnstile/

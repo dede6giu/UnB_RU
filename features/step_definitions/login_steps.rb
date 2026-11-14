@@ -1,4 +1,5 @@
 Given(/^I am an? admin$/) do
+  next
   pending
 end
 

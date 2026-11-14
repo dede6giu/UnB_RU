@@ -13,7 +13,12 @@ Given(/^the turnstile I know is (.*)$/) do |mode|
 end
 
 Given(/^the turnstile I know has an operator associated to it$/) do
-  pending
+  operator = Account.new(user: valid_value('operator_id', Account.where(role: 'operator').pluck(:user)),
+                         name: valid_value('operator_name'),
+                         role: 'operator',
+                         password: valid_value('password'))
+  operator.save
+  @memory_know[:turnstile].update(operator_id: operator.id)
 end
 
 Then(/the turnstile I know should be (.*)/) do |mode|

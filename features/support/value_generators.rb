@@ -1,7 +1,7 @@
 module ValuesGenerator
   def valid_value(field, avoid = [])
     case field
-    when "restaurant_name", "restaurant_campus", "student_name"
+    when "restaurant_name", "restaurant_campus", "student_name", "operator_name"
       vg_rand_string(avoid)
     when "turnstile_name"
       vg_rand_string(avoid)
@@ -9,8 +9,10 @@ module ValuesGenerator
       %w[ Inativa Ativa Operando FastPass ].sample
     when /^student_user$/
       vg_student_user
-    when /^student_password$/
+    when /^student_password$/, "password"
       vg_rand_string(avoid, 8)
+    when /^operator_id$/
+      vg_rand_num_str(avoid, 7)
     when /-user$/
       @conta[:user]
     when /-pass$/
@@ -156,6 +158,17 @@ module ValuesGenerator
     string_size = Random.new.rand(max_size) + min_size
     begin
       result = rand(36**string_size).to_s(36)
+    end until avoid.exclude?(result)
+    result
+  end
+
+  def vg_rand_num_str(avoid = [], digits = 10)
+    if avoid == nil then avoid = [] end
+    begin
+      result = Random.new.rand(10.pow(digits)).to_s
+      while result.size < digits do
+        result = "0" + result
+      end
     end until avoid.exclude?(result)
     result
   end
