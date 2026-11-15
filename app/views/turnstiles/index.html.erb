@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Turnstiles" %>
+
+<div class="h1 fg-primary">Turnstiles</div>
+
+<div id="turnstiles">
+  <% @turnstiles.each do |turnstile| %>
+    <%= render turnstile %>
+    <p>
+      <%= link_to "Show this turnstile", turnstile %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New turnstile", new_turnstile_path %>

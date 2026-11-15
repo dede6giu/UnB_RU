@@ -1,3 +1,4 @@
+@wip
 Feature: Strict FastPass validation
     As the control application
     I want to check if a FastPass student arrived within their time window

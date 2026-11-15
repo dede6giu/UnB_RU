@@ -1,0 +1,36 @@
+<% content_for :title, "Cardápio" %>
+<main id="public-menu" class="container-fluid py-3 px-2 bg-1">
+  <section aria-labelledby="selected-day">
+    <h1 class="h1 fg-primary mb-2">Cardápio</h1>
+    <p class="mb-3">Consulte a refeição servida agora ou escolha outro dia.</p>
+    <%= render "widget", menu: @widget_menu, weekday_name: @widget_weekday_name %>
+
+    <div class="mb-3">
+      <%= form_with url: public_menu_path, method: :get, class: "d-flex flex-wrap align-items-end gap-2" do %>
+        <div class="form-field">
+          <label for="cardapio-weekday" class="form-label">Dia da semana</label>
+          <%= select_tag :weekday,
+            options_for_select(@catalog.weekdays.each_with_index.map { |name, index| [name, index] }, @selected_weekday),
+            id: "cardapio-weekday", class: "form-control", onchange: "this.form.requestSubmit()" %>
+        </div>
+        <%= submit_tag "Ver cardápios", class: "btn-solid theme-primary" %>
+      <% end %>
+    </div>
+
+    <h2 id="selected-day" class="h2 fg-primary mb-3"><%= @weekday_name %></h2>
+
+    <% if @menus.any? %>
+      <div id="selected-menus" class="row row-cols-1 md:row-cols-2 g-3">
+        <% @menus.each do |menu| %>
+          <div class="col">
+            <%= render "meal_card", menu: menu, current: menu[:key] == @current_meal_key %>
+          </div>
+        <% end %>
+      </div>
+    <% elsif params[:weekday].present? %>
+      <p id="no-day-menu" class="alert theme-info" role="status">Não há cardápio cadastrado para <%= @weekday_name %>.</p>
+    <% else %>
+      <p id="no-current-meal" class="alert theme-info" role="status">Não há uma refeição sendo servida neste momento.</p>
+    <% end %>
+  </section>
+</main>

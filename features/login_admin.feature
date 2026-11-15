@@ -9,10 +9,10 @@ Feature: Login as an admin
     # Positive Scenarios
     Scenario: Valid admin login
         Given I know an admin
-        When I fill "admin-user" correctly
-        And I fill "admin-pass" correctly
+        When I fill "admin-user" knowingly
+        And I fill "admin-pass" knowingly
         And I click on the login button
-        Then I should be authenticated in my admin account
+        Then I should be authenticated
         And I should be on the "Gestão de Restaurantes e Catracas" page
 
     # Negative Scenarios
@@ -33,7 +33,7 @@ Feature: Login as an admin
 
     Scenario: Non-existing admin ID
         Given I know all admins
-        When I fill "admin-user" incorrectly
+        When I fill "admin-user" unknowingly
         And I fill "admin-pass" correctly
         And I click on the login button
         Then I should be on the "Autenticação de Admin" page

@@ -4,8 +4,9 @@ Feature: Public menu page
     So that I can check the food before creating an account
 
     Background:
-        Given I am at the "Cardápio" page
+        Given I am on the "Cardápio" page
 
+    # Positive Scenarios
     Scenario Outline: See the breakfast menu being served
         Given today is <weekday> during breakfast time
         Then I should see the breakfast menu for <weekday>
@@ -61,3 +62,7 @@ Feature: Public menu page
             | Thursday  |
             | Friday    |
             | Saturday  |
+
+    # Negative Scenarios
+    Scenario: Open the page while no meal is being served
+        Then I should see a no current meal message

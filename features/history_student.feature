@@ -8,10 +8,10 @@ Feature: View Extrato e Histórico de Refeições
 
     # Positive Scenarios
     Scenario: Student with any amount of transactions
-        Given I have transactions
-        Then I should see entries in the extract sheet
+        Given I have transaction history
+        Then I should see newest entry first
 
     # Negative Scenarios
     Scenario: Student with no transactions yet
         # Given I have no entries
-        Then I should see a no extract entries message
+        Then I should see a no transaction history message

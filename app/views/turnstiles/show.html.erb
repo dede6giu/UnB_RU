@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @turnstile %>
+
+<div>
+  <%= link_to "Edit this turnstile", edit_turnstile_path(@turnstile) %> |
+  <%= link_to "Back to turnstiles", turnstiles_path %>
+
+  <%= button_to "Destroy this turnstile", @turnstile, method: :delete %>
+</div>

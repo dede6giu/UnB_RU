@@ -1,0 +1,139 @@
+<% content_for :title, "Configuração de Ponto" %>
+<% agora = Time.current.in_time_zone("America/Sao_Paulo") %>
+<% selected_turnstile_id = params.dig(:access_point, :turnstile_id).to_s %>
+<% selected_turnstile = @restaurants.flat_map(&:turnstiles).find { |turnstile| turnstile.id.to_s == selected_turnstile_id } %>
+<% selected_restaurant = selected_turnstile&.restaurant || @restaurants.first %>
+
+<div class="p-6 mx-auto" style="max-width: 1280px;">
+  <div class="d-flex align-items-center gap-3 p-4 mb-6 bg-white shadow-sm rounded-3">
+    <div class="flex-grow-1">
+      <div class="fs-xs fg-3 fw-medium">CONFIGURAÇÃO DE PONTO</div>
+      <h1 class="h3 fw-semibold mb-0">Configuração de Ponto de Acesso</h1>
+    </div>
+    <% if current_operator %>
+      <div class="text-end d-none d-md-block">
+        <div class="fs-xs fg-3">Operador Autenticado</div>
+        <div class="fs-sm fw-medium"><%= current_operator.name %> · <%= current_operator.user %></div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render "flash" %>
+
+  <%= form_with url: access_point_path,
+                data: { controller: "access-point", access_point_server_time_value: (agora.to_f * 1000).to_i } do %>
+    <div class="d-flex flex-wrap align-items-start gap-6">
+      <div class="d-flex flex-column gap-6" style="flex: 2 1 480px; min-width: 0;">
+        <section class="card shadow-sm">
+          <div class="card-body p-6">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge bg-primary fg-white rounded-pill">1</span>
+              <div>
+                <h2 class="h5 fw-semibold mb-0">Selecione a Unidade Operacional</h2>
+                <div class="fs-sm fg-3">O restaurante onde você vai operar.</div>
+              </div>
+            </div>
+
+            <% if @restaurants.empty? %>
+              <p class="fs-sm fg-3 mb-0">Nenhuma unidade cadastrada.</p>
+            <% end %>
+
+            <div class="d-flex flex-column gap-3">
+              <% @restaurants.each do |restaurant| %>
+                <label class="d-flex align-items-center gap-3 p-4 border rounded-3" for="restaurant-<%= restaurant.id %>">
+                  <input type="radio" class="form-check-input mt-0" name="restaurant_choice"
+                         id="restaurant-<%= restaurant.id %>" value="<%= restaurant.id %>"
+                         data-label="<%= restaurant_label(restaurant) %>"
+                         data-access-point-target="restaurantInput"
+                         data-action="change->access-point#sync"
+                         <%= "checked" if restaurant == selected_restaurant %>>
+                  <span class="flex-grow-1">
+                    <span class="d-block fw-medium"><%= restaurant.name %></span>
+                    <span class="d-block fs-sm fg-3">Campus <%= restaurant.campus %></span>
+                  </span>
+                  <span class="fs-xs fg-3"><%= pluralize(restaurant.turnstiles.size, "catraca", plural: "catracas") %></span>
+                </label>
+              <% end %>
+            </div>
+          </div>
+        </section>
+
+        <section class="card shadow-sm">
+          <div class="card-body p-6">
+            <div class="d-flex align-items-center gap-3 mb-4">
+              <span class="badge bg-primary fg-white rounded-pill">2</span>
+              <div>
+                <h2 class="h5 fw-semibold mb-0">Selecione a Catraca Física</h2>
+                <div class="fs-sm fg-3">O terminal que você vai controlar nesta unidade.</div>
+              </div>
+            </div>
+
+            <% @restaurants.each do |restaurant| %>
+              <div data-access-point-target="group" data-restaurant-id="<%= restaurant.id %>">
+                <% if restaurant.turnstiles.empty? %>
+                  <p class="fs-sm fg-3 mb-0">Nenhuma catraca cadastrada nesta unidade.</p>
+                <% end %>
+
+                <div class="d-flex flex-wrap gap-3">
+                  <% restaurant.turnstiles.each do |turnstile| %>
+                    <label class="d-flex align-items-center gap-3 p-4 border rounded-3" style="flex: 1 1 240px;"
+                           for="turnstile-<%= turnstile.id %>">
+                      <input type="radio" class="form-check-input mt-0" name="access_point[turnstile_id]"
+                             id="turnstile-<%= turnstile.id %>" value="<%= turnstile.id %>"
+                             data-label="<%= turnstile.name %>"
+                             data-access-point-target="turnstileInput"
+                             data-action="change->access-point#sync"
+                             <%= "checked" if turnstile == selected_turnstile %>>
+                      <span class="flex-grow-1 fw-medium"><%= turnstile.name %></span>
+                      <%= turnstile_status_badge(turnstile) %>
+                    </label>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </section>
+      </div>
+
+      <aside class="d-flex flex-column gap-6" style="flex: 1 1 280px; min-width: 0;">
+        <section class="card shadow-sm">
+          <div class="card-body p-6">
+            <div class="fs-xs fg-3 fw-medium">HORÁRIO DO SERVIDOR</div>
+            <div class="h2 fw-bold fg-primary mb-0" data-access-point-target="clock"><%= agora.strftime("%H:%M:%S") %></div>
+            <div class="fs-xs fg-3">Horário de Brasília</div>
+          </div>
+        </section>
+
+        <section class="card shadow-sm">
+          <div class="card-body p-6">
+            <h2 class="h5 fw-semibold mb-4">Resumo da Vinculação</h2>
+
+            <div class="p-3 mb-3 bg-1 rounded-3">
+              <div class="fs-xs fg-3">Restaurante</div>
+              <div class="fw-medium" data-access-point-target="summaryRestaurant">
+                <%= selected_restaurant ? restaurant_label(selected_restaurant) : "Nenhuma selecionada" %>
+              </div>
+            </div>
+
+            <div class="p-3 mb-4 bg-1 rounded-3">
+              <div class="fs-xs fg-3">Catraca Física</div>
+              <div class="fw-medium" data-access-point-target="summaryTurnstile">
+                <%= selected_turnstile&.name || "Nenhuma selecionada" %>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-solid theme-primary w-100">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0z"/>
+                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+              </svg>
+              Confirmar e Iniciar Operação
+            </button>
+
+            <p class="fs-xs fg-3 text-center mt-3 mb-0">A catraca começa a receber validações assim que a operação for iniciada.</p>
+          </div>
+        </section>
+      </aside>
+    </div>
+  <% end %>
+</div>
