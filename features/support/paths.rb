@@ -21,6 +21,7 @@ module NavigationHelpers
     when /^Autenticação do Operador$/ then new_operator_session_path
     when /^Autenticação do Estudante$/ then new_student_session_path
     when /^Configuração de Ponto$/ then new_access_point_path
+    when /^Cardápio$/ then public_menu_path
     when /^Portal do Estudante$/ then student_portal_path
     when /^Terminal de Validação$/ then access_point_path
 
