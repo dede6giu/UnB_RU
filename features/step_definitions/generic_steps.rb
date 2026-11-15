@@ -15,7 +15,7 @@ Given(/^I know a (restaurant|turnstile)$/) do |model_name|
   @memory_know[model_name.intern] = get_models(model_name)
 end
 
-Given(/^I am on the "(.+)" page$/) do |page_alias|
+Given(/^I am (?:on|at) the "(.+)" page$/) do |page_alias|
   visit path_to(page_alias)
 end
 
@@ -137,7 +137,7 @@ Then(/^I should be on (?:the )?"(.+)" page$/) do |page_alias|
   expect(page).to have_title(page_alias)
 end
 
-Then(/^I should see an? (.*) message$/) do |message_alias|
+Then(/^I should see an? (?!no current meal)(.*) message$/) do |message_alias|
   # sleep(0.5)
   # expect(page).to have_content(message_kind(message_alias))
   assert page.has_content?(message_kind(message_alias))

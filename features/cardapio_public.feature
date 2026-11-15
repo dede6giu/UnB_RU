@@ -4,7 +4,7 @@ Feature: Public menu page
     So that I can check the food before creating an account
 
     Background:
-        Given I am at the "Cardápio" page
+        Given I am on the "Cardápio" page
 
     # Positive Scenarios
     Scenario Outline: See the breakfast menu being served
