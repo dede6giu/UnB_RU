@@ -92,3 +92,7 @@ end
 Given('I know all students') do
   @students = Account.where(role: 'student')
 end
+
+Then('I should have no balance') do
+  expect(page).to have_content("Saldo: R$ 0,00")
+end
