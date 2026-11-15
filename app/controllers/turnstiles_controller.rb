@@ -5,11 +5,13 @@ class TurnstilesController < ApplicationController
   # GET /turnstiles or /turnstiles.json
   def index
     @turnstiles = Turnstile.all
+    redirect_to restaurants_path
   end
 
   # GET /turnstiles/1 or /turnstiles/1.json
   def show
     @restaurant = Restaurant.find(@turnstile.restaurant_id)
+    redirect_to restaurants_path
   end
 
   # GET /turnstiles/new

@@ -9,6 +9,7 @@ class RestaurantsController < ApplicationController
 
   # GET /restaurants/1 or /restaurants/1.json
   def show
+    redirect_to restaurants_path
   end
 
   # GET /restaurants/new
@@ -65,13 +66,21 @@ class RestaurantsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_restaurant
-      @restaurant = Restaurant.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def restaurant_params
-      params.expect(restaurant: [ :name, :campus ])
-    end
+  before_action :exigir_admin
+  def exigir_admin
+    return if session[:admin_id].present?
+
+    redirect_to new_admin_session_path, alert: "Faça login para continuar."
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_restaurant
+    @restaurant = Restaurant.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def restaurant_params
+    params.expect(restaurant: [ :name, :campus ])
+  end
 end
