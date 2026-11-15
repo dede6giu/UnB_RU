@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resource :recharge, only: [ :new, :create ]
   resource :statement, only: [ :show ]
 
+  get "cardapio", to: "menus#show", as: :public_menu
+
   # scope /admin/<whatever>
   scope "/admin" do
     resources :restaurants
