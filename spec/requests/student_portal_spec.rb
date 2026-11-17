@@ -21,8 +21,8 @@ RSpec.describe "StudentPortal", type: :request do
 
       it "tem links para a recarga e o extrato" do
         get student_portal_path
-        expect(response.body).to include('href="/recharge/new"')
-        expect(response.body).to include('href="/statement"')
+        expect(response.body).to include("href=\"#{new_recharge_path}\"")
+        expect(response.body).to include("href=\"#{statement_path}\"")
       end
 
       it "mostra o saldo" do

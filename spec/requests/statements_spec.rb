@@ -110,7 +110,7 @@ RSpec.describe "Statements", type: :request do
       11.times { lancar(estudante, kind: "debit", cents: 450, quando: 40.days.ago) }
       entrar
       get statement_path, params: { period: "all", type: "meal" }
-      expect(response.body).to include('href="/statement?page=2&amp;period=all&amp;type=meal"')
+      expect(response.body).to include("href=\"#{statement_path}?page=2&amp;period=all&amp;type=meal\"")
     end
 
     it "filtra por recargas ou refeições, e os totais acompanham" do
@@ -148,8 +148,8 @@ RSpec.describe "Statements", type: :request do
     it "tem links para o início e a recarga" do
       entrar
       get statement_path
-      expect(response.body).to include('href="/student_portal"')
-      expect(response.body).to include('href="/recharge/new"')
+      expect(response.body).to include("href=\"#{student_portal_path}\"")
+      expect(response.body).to include("href=\"#{new_recharge_path}\"")
     end
 
     it "manda para o login quem não entrou" do
@@ -160,7 +160,7 @@ RSpec.describe "Statements", type: :request do
     it "tem o botão Exportar PDF com os filtros escolhidos" do
       entrar
       get statement_path, params: { period: "all", type: "meal" }
-      expect(response.body).to include('href="/statement.pdf?period=all&amp;type=meal"')
+      expect(response.body).to include("href=\"#{statement_path}.pdf?period=all&amp;type=meal\"")
     end
   end
 

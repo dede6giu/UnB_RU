@@ -69,13 +69,21 @@ class TurnstilesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_turnstile
-      @turnstile = Turnstile.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def turnstile_params
-      params.expect(turnstile: [ :name, :operation, :restaurant_id ])
-    end
+  before_action :exigir_admin
+  def exigir_admin
+    return if session[:admin_id].present?
+
+    redirect_to new_admin_session_path, alert: "Faça login para continuar."
+  end
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_turnstile
+    @turnstile = Turnstile.find(params.expect(:id))
+  end
+
+  # Only allow a list of trusted parameters through.
+  def turnstile_params
+    params.expect(turnstile: [ :name, :operation, :restaurant_id ])
+  end
 end
