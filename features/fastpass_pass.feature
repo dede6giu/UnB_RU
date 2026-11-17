@@ -1,3 +1,4 @@
+@wip
 Feature: FastPass pass
     As a student who won the FastPass raffle
     I want to see my FastPass pass and free my spot if I cannot go

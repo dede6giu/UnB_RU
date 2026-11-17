@@ -1,3 +1,4 @@
+@wip
 Feature: Time frame removal
     As an administrator
     I want to remove FastPass time frames

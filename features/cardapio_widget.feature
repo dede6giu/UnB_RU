@@ -4,7 +4,7 @@ Feature: Widget of the menu of the current meal
 
     Background:
         Given I am a student
-        And I am at the "Portal do Estudante" page
+        And I am on the "Portal do Estudante" page
 
     # Positive Scenarios
     Scenario Outline: Current meal (breakfast)

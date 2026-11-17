@@ -30,7 +30,13 @@ Feature: Turnstile removal
         Then I should see the turnstile I know
 
     @javascript
-    Scenario: Turnstile in operation
-        Given the turnstile I know is operating
+    Scenario Outline: Turnstile in operation
+        Given the turnstile I know is <operation>
+        And the turnstile I know has an operator associated to it
         When I click the remove turnstile link, and confirm
         Then I should see a turnstile in operation message
+
+        Examples:
+            | operation |
+            | operating |
+            | fastpass  |

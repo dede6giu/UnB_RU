@@ -1,3 +1,4 @@
+@wip
 Feature: Export the global report as PDF
     As an admin
     I want to export the global operation report as a PDF

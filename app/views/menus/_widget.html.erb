@@ -1,0 +1,11 @@
+<section id="meal-widget" class="mb-4" aria-labelledby="meal-widget-title">
+  <div class="d-flex justify-content-between align-items-center gap-3 mb-2">
+    <div>
+      <p class="mb-0 fg-2"><%= menu[:current] ? "Sendo servida agora" : "Próxima refeição" %></p>
+      <h2 id="meal-widget-title" class="h2 fg-primary mb-1"><%= menu[:label] %></h2>
+      <p class="mb-0"><%= weekday_name %></p>
+    </div>
+    <span class="badge badge-outline theme-primary"><%= menu[:current] ? "Atual" : "Em seguida" %></span>
+  </div>
+  <%= render "menus/meal_card", menu: menu, current: menu[:current] %>
+</section>

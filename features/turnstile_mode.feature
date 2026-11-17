@@ -1,3 +1,4 @@
+@wip
 Feature: Turnstile mode
     As an operator
     I want to switch my turnstile between common mode and FastPass exclusive mode

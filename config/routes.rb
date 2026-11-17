@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     get :confirm_disconnect
   end
 
+  get "cardapio", to: "menus#show", as: :public_menu
+
   scope "/admin" do
     get "/login", to: "admin_sessions#new"
     post "/login", to: "admin_sessions#create", as: :admin_session

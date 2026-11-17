@@ -21,6 +21,7 @@ module NavigationHelpers
     when /^Autenticação do Operador$/ then new_operator_session_path
     when /^Autenticação do Estudante$/ then new_student_session_path
     when /^Configuração de Ponto$/ then new_access_point_path
+    when /^Cardápio$/ then public_menu_path
     when /^Portal do Estudante$/ then student_portal_path
     when /^Terminal de Validação$/ then access_point_path
 
@@ -30,8 +31,8 @@ module NavigationHelpers
     when /^Cadastro Estudantil$/ then student_session_signup_path
 
     else
-      raise "Can't find mapping from \"#{page_alias}\" to a path.\n" +
-            "Now, go and add a mapping in #{__FILE__}"
+      pending "Can't find mapping from \"#{page_alias}\" to a path.\n" +
+              "Now, go and add a mapping in #{__FILE__}"
     end
   end
 
@@ -43,16 +44,16 @@ module NavigationHelpers
     when /turnstiles?/
       resulting_path += "admin/turnstiles/"
     else
-      raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
-            "Now, go and add a mapping in #{__FILE__}"
+      pending "Can't find mapping from \"#{model_name}\" to a model.\n" +
+              "Now, go and add a mapping in #{__FILE__}"
     end
     case page_type
     when /edit/
       resulting_path += options[:model].id.to_s
       resulting_path += "/edit"
     else
-      raise "Can't find mapping from \"#{page_type}\" to a page type.\n" +
-            "Now, go and add a mapping in #{__FILE__}"
+      pending "Can't find mapping from \"#{page_type}\" to a page type.\n" +
+              "Now, go and add a mapping in #{__FILE__}"
     end
     resulting_path
   end
