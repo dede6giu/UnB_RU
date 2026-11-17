@@ -35,8 +35,8 @@ RSpec.describe "Recharges", type: :request do
     it "tem links para o início e o extrato" do
       entrar
       get new_recharge_path
-      expect(response.body).to include('href="/student_portal"')
-      expect(response.body).to include('href="/statement"')
+      expect(response.body).to include("href=\"#{student_portal_path}\"")
+      expect(response.body).to include("href=\"#{statement_path}\"")
     end
 
     it "manda para o login quem não entrou" do
