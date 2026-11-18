@@ -14,6 +14,16 @@ module ButtonPaths
       "Confirmar"
     when "export PDF"
       "Exportar PDF"
+    when "full menu"
+      "Ver cardápio completo"
+    when "student login"
+      "Entrar como estudante"
+    when "student signup"
+      "Cadastre-se"
+    when "operator login"
+      "Entrar como operador"
+    when "admin login"
+      "Entrar como administrador"
     else
       pending "Can't find mapping from \"#{button_alias}\" to a path.\n" +
             "Now, go and add a mapping in #{__FILE__}"
