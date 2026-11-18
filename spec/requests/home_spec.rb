@@ -35,13 +35,42 @@ RSpec.describe "Home", type: :request do
     end
 
     context "estudante logado" do
-      it "manda direto para o portal" do
+      it "também vê a página inicial, com as entradas" do
         Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student")
         post student_session_path, params: { student: { user: "232012345", password: "senha123" } }
 
         get root_path
-        expect(response).to redirect_to(student_portal_path)
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include("href=\"#{new_student_session_path}\"")
       end
+    end
+  end
+
+  describe "menu público" do
+    it "não aparece nas páginas do estudante" do
+      get new_student_session_path
+      expect(response.body).not_to include('aria-label="Navegação principal"')
+
+      Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student")
+      post student_session_path, params: { student: { user: "232012345", password: "senha123" } }
+      get student_portal_path
+      expect(response.body).not_to include('aria-label="Navegação principal"')
+    end
+  end
+
+  describe "marca do cabeçalho" do
+    it "leva para a página inicial, nos logins e no portal" do
+      get new_student_session_path
+      expect(response.body).to include("href=\"#{root_path}\"")
+
+      get new_admin_session_path
+      expect(response.body).to include("href=\"#{root_path}\"")
+
+      Account.create!(user: "232012345", password: "senha123", name: "Estudante", role: "student")
+      post student_session_path, params: { student: { user: "232012345", password: "senha123" } }
+      get student_portal_path
+      expect(response.body).to include("RU UnB Digital")
+      expect(response.body).to include("href=\"#{root_path}\"")
     end
   end
 end

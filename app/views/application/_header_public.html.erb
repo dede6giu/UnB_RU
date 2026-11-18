@@ -3,13 +3,17 @@
 <% no_inicio = current_page?(root_path) %>
 <% no_cardapio = current_page?(public_menu_path) %>
 
-<header class="d-flex align-items-center gap-3 p-3 bg-white">
-  <%= image_tag "placeholder.png", width: 120, height: 60, class: "img-fluid", alt: "Restaurante Universitário" %>
-  <span class="vr" aria-hidden="true"></span>
-  <span class="d-flex align-items-center flex-grow-1 fw-medium fg-primary">RESTAURANTE UNIVERSITÁRIO</span>
-</header>
+<div class="px-6 py-3 bg-white border-bottom">
+  <%= link_to root_path, class: "d-inline-flex align-items-center gap-3 text-decoration-none" do %>
+    <div class="bg-primary fg-white rounded-3 p-2 fw-bold">UnB</div>
+    <div>
+      <div class="fw-bold fg-primary fs-lg lh-1">RU UnB Digital</div>
+      <div class="fs-xs fg-3 text-uppercase">Restaurante Universitário</div>
+    </div>
+  <% end %>
+</div>
 
-<nav class="nav p-3 bg-3 gap-3" aria-label="Navegação principal">
+<nav class="nav px-6 py-2 gap-2 bg-white border-bottom" aria-label="Navegação principal">
   <%= link_to "Início", root_path, class: no_inicio ? nav_active : nav_inactive, aria: { current: ("page" if no_inicio) } %>
   <%= link_to "Cardápio", public_menu_path, class: no_cardapio ? nav_active : nav_inactive, aria: { current: ("page" if no_cardapio) } %>
 </nav>

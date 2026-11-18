@@ -27,7 +27,6 @@ Feature: Landing page
             | admin login    | Autenticação de Admin     |
 
     # Negative Scenarios
-    Scenario: Student already logged in goes straight to the portal
-        Given I am a student
-        When I go to the "Página Inicial" page
-        Then I should be on the "Portal do Estudante" page
+    Scenario: No meal being served shows the next one
+        Given it is Monday after dinner time
+        Then I should see the breakfast menu for Tuesday
