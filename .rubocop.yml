@@ -1,8 +1,9 @@
 # Omakase Ruby styling for Rails
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+# Cyclomatic Metrics
+Metrics/CyclomaticComplexity:
+  Enabled: true
+  Max: 9
+  Exclude:
+    - "features/support/*.rb" # complexidade alta, mas são apenas tabelas O(1)
