@@ -7,6 +7,7 @@ module NavigationHelpers
     case page_alias
     when /Index/
       '/'
+    when /^Página Inicial$/ then root_path
 
     # Restaurant paths
     when /Gestão de Restaurantes? e Catracas?/

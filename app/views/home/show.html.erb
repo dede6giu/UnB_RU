@@ -1,0 +1,45 @@
+<% content_for :title, "Página Inicial" %>
+<%= render "header_public" %>
+<main id="landing" class="container py-4">
+  <h1 class="h1 fg-primary mb-1">Restaurante Universitário</h1>
+  <p class="mb-4">Veja o que vai ser servido e entre no sistema.</p>
+
+  <%= render "menus/widget", menu: @widget_menu, weekday_name: @widget_weekday_name %>
+  <p class="mb-6"><%= link_to "Ver cardápio completo", public_menu_path, class: "fw-semibold" %></p>
+
+  <h2 class="h2 fg-primary mb-3">Entrar no sistema</h2>
+  <div class="row g-3">
+    <div class="md:col-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body p-6">
+          <h3 class="h4 fw-semibold">Estudante</h3>
+          <p class="fs-sm fg-3">Saldo, recarga e extrato das suas refeições.</p>
+          <%= link_to "Entrar como estudante", new_student_session_path, class: "btn-solid theme-primary w-100" %>
+          <p class="fs-sm text-center mt-4 mb-0">
+            Ainda não tem conta? <%= link_to "Cadastre-se", student_session_signup_path, class: "fw-semibold" %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:col-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body p-6">
+          <h3 class="h4 fw-semibold">Operador</h3>
+          <p class="fs-sm fg-3">Ponto de acesso e validação na catraca.</p>
+          <%= link_to "Entrar como operador", new_operator_session_path, class: "btn-solid theme-primary w-100" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:col-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body p-6">
+          <h3 class="h4 fw-semibold">Administração</h3>
+          <p class="fs-sm fg-3">Gestão de restaurantes e catracas.</p>
+          <%= link_to "Entrar como administrador", new_admin_session_path, class: "btn-solid theme-primary w-100" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

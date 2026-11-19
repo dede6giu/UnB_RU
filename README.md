@@ -9,6 +9,7 @@ Sistema do Restaurante Universitário da UnB. Projeto do Grupo 7 de Engenharia d
 - **Admin:** login e gestão de restaurantes e catracas.
 - **Catraca:** libera a entrada do estudante pela matrícula e desconta uma refeição do saldo.
 - **Cardápio:** página pública com o cardápio de cada dia da semana.
+- **Página inicial:** cardápio da próxima refeição e entrada para estudante, operador e admin.
 
 ## Como rodar
 
@@ -32,12 +33,13 @@ bin/rails runner 'Account.create!(user: "1000000", password: "senha123", name: "
 bin/rails runner 'Account.create!(user: "2000000", password: "senha123", name: "Operador", role: "operator")'
 ```
 
-Vale seguir esta ordem, porque o operador só escolhe catracas que o admin já criou:
+A página inicial mostra o cardápio da próxima refeição e a entrada de cada perfil. Vale seguir esta ordem,
+porque o operador só escolhe catracas que o admin já criou:
 
-1. **Admin:** entre em `/admin_session/new`. Em Gestão de Restaurantes, cadastre uma unidade e depois uma
-   catraca com operação **Ativa**.
-2. **Operador:** entre em `/operator_session/new`, escolha o restaurante e a catraca e confirme. O Terminal de
-   Validação mostra a catraca escolhida e o botão para desconectar.
+1. **Admin:** clique em "Entrar como administrador" (ou abra `/admin/login`). Em Gestão de Restaurantes,
+   cadastre uma unidade e depois uma catraca com operação **Ativa**.
+2. **Operador:** clique em "Entrar como operador" (ou abra `/operator/login`), escolha o restaurante e a
+   catraca e confirme. O Terminal de Validação mostra a catraca escolhida e o botão para desconectar.
 3. **Estudante:** abra a página inicial e clique em "Cadastre-se". A matrícula tem 9 dígitos: ano (00 a 26),
    semestre (10 ou 20) e mais 5 números, como `241012345`. Depois do cadastro dá para recarregar, ver o
    extrato e exportar o PDF. No cartão, qualquer número de 16 dígitos, validade futura e CVV de 3 dígitos
