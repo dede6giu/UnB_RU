@@ -65,6 +65,15 @@ bin/rubocop
 
 Os mesmos comandos rodam no CI em todo pull request.
 
+## Métricas
+
+```
+bundle exec rubycritic app lib --no-browser
+```
+
+O relatório fica em `tmp/rubycritic/overview.html`. A nota de complexidade de cada método (flog) deve ficar
+abaixo de 20. Para ver só no terminal: `bundle exec rubycritic app lib --no-browser --format console`.
+
 ## Documentação
 
 Features, responsáveis e regras de negócio na [wiki](https://github.com/dede6giu/UnB_RU/wiki).
