@@ -39,6 +39,12 @@ RSpec.describe "Recharges", type: :request do
       expect(response.body).to include("href=\"#{statement_path}\"")
     end
 
+    it "carrega o CSS que esconde o cartão quando o PIX está marcado" do
+      entrar
+      get new_recharge_path
+      expect(response.body).to match(%r{href="/assets/recharge-\w+\.css"})
+    end
+
     it "manda para o login quem não entrou" do
       get new_recharge_path
       expect(response).to redirect_to(new_student_session_path)
