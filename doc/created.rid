@@ -1,4 +1,4 @@
-Fri, 20 Nov 2026 11:37:09 -0300
+Fri, 20 Nov 2026 15:36:24 -0300
 app/assets/images/placeholder.png	Wed, 18 Nov 2026 21:52:19 -0300
 app/assets/stylesheets/application.css	Wed, 18 Nov 2026 21:52:19 -0300
 app/assets/stylesheets/recharge.css	Wed, 18 Nov 2026 21:52:19 -0300
@@ -11,11 +11,11 @@ app/controllers/home_controller.rb	Wed, 18 Nov 2026 21:52:43 -0300
 app/controllers/menus_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
 app/controllers/operator_sessions_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
 app/controllers/recharges_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
-app/controllers/restaurants_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
+app/controllers/restaurants_controller.rb	Fri, 20 Nov 2026 14:58:52 -0300
 app/controllers/statements_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
 app/controllers/student_portal_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
-app/controllers/student_sessions_controller.rb	Wed, 18 Nov 2026 21:52:19 -0300
-app/controllers/turnstiles_controller.rb	Wed, 18 Nov 2026 21:52:43 -0300
+app/controllers/student_sessions_controller.rb	Fri, 20 Nov 2026 15:20:55 -0300
+app/controllers/turnstiles_controller.rb	Fri, 20 Nov 2026 14:51:50 -0300
 app/helpers/access_control_helper.rb	Wed, 18 Nov 2026 21:52:19 -0300
 app/helpers/access_points_helper.rb	Wed, 18 Nov 2026 21:52:19 -0300
 app/helpers/admin_sessions_helper.rb	Wed, 18 Nov 2026 21:52:19 -0300

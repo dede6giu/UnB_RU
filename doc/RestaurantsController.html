@@ -602,7 +602,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 25</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">restaurant_params</span>)
 
@@ -623,7 +623,13 @@
         <div class="method-description">
 
 
-          <p>POST /restaurants or /restaurants.json</p>
+          <p>POST /admin/restaurants ou /admin/restaurants.json</p>
+
+<p>Chamado com POST, na página de new do restaurant. Salva um novo restaurant na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="RestaurantsController.html#method-i-new"><code>RestaurantsController#new</code></a>, e nada é alterado na database.</p>
 
 
         </div>
@@ -661,7 +667,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 54</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@restaurant</span>.<span class="ruby-identifier">destroy!</span>
 
@@ -682,7 +688,13 @@
         <div class="method-description">
 
 
-          <p>DELETE /restaurants/1 or /restaurants/1.json</p>
+          <p>DELETE /admin/restaurants/1 or /admin/restaurants/1.json</p>
+
+<p>Chamado após confirmar deleção na página de edição. Apaga o restaurant na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>. O restaurant não existe mais no registro.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="RestaurantsController.html#method-i-edit"><code>RestaurantsController#edit</code></a>, e nada é alterado na database.</p>
 
 
         </div>
@@ -720,7 +732,7 @@
 
 
           <div class="method-source-code" id="edit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 21</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -730,7 +742,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants/1/edit</p>
+          <p>GET /admin/restaurants/:id/edit</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
 
 
         </div>
@@ -768,7 +782,7 @@
 
 
           <div class="method-source-code" id="index-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 6</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 9</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@restaurants</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">all</span>
 <span class="ruby-keyword">end</span></pre>
@@ -779,7 +793,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants or /restaurants.json</p>
+          <p>GET /admin/restaurants</p>
+
+<p>Carrega todas os restaurants como variável de instância (para uso em views).</p>
 
 
         </div>
@@ -817,7 +833,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 16</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -828,7 +844,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants/new</p>
+          <p>GET /admin/restaurants/new</p>
+
+<p>Cria um restaurant vazio na variável de instância para uso durante a tela de criação de restaurant.</p>
 
 
         </div>
@@ -866,7 +884,7 @@
 
 
           <div class="method-source-code" id="show-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 11</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>
 <span class="ruby-keyword">end</span></pre>
@@ -877,7 +895,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants/1 or /restaurants/1.json</p>
+          <p>GET /admin/restaurants/1 or /restaurants/1.json</p>
+
+<p>Redireciona a chamada para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a></p>
 
 
         </div>
@@ -915,7 +935,7 @@
 
 
           <div class="method-source-code" id="update-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 40</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@restaurant</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">restaurant_params</span>)
@@ -935,7 +955,13 @@
         <div class="method-description">
 
 
-          <p>PATCH/PUT /restaurants/1 or /restaurants/1.json</p>
+          <p>PATCH/PUT /admin/restaurants/1 or /admin/restaurants/1.json</p>
+
+<p>Chamado com PATCH/PUT, na página de edit do restaurant. Atualiza o restaurant <code>:id</code> na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="RestaurantsController.html#method-i-edit"><code>RestaurantsController#edit</code></a>, e nada é alterado na database.</p>
 
 
         </div>
