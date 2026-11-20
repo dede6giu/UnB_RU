@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the TurnstilesController class"
+      content="class TurnstilesController: Controller para o model Turnstile. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido para"
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for TurnstilesController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para o model Turnstile. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido para">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for TurnstilesController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para o model Turnstile. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido para">
 
 
 
@@ -547,6 +541,8 @@
 
   <section class="description">
     
+<p>Controller para o model <a href="Turnstile.html"><code>Turnstile</code></a>. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido para qualquer usuário.</p>
+
   </section>
 
 
@@ -602,7 +598,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 28</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">turnstile_params</span>)
 
@@ -623,7 +619,13 @@
         <div class="method-description">
 
 
-          <p>POST /turnstiles or /turnstiles.json</p>
+          <p>POST /admin/turnstiles ou /admin/turnstiles.json</p>
+
+<p>Chamado com POST, na página de new da turnstile. Salva uma nova turnstile na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="TurnstilesController.html#method-i-new"><code>TurnstilesController#new</code></a>, e nada é alterado na database.</p>
 
 
         </div>
@@ -661,7 +663,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 57</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 101</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">destroy!</span>
 
@@ -682,7 +684,13 @@
         <div class="method-description">
 
 
-          <p>DELETE /turnstiles/1 or /turnstiles/1.json</p>
+          <p>DELETE /admin/turnstiles/1 or /admin/turnstiles/1.json</p>
+
+<p>Chamado após confirmar deleção na página de edição. Tenta realizar <code>destroy!</code>. Apaga a turnstile na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>. A turnstile não existe mais no registro.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em TurnstileController#edit, e nada é alterado na database.</p>
 
 
         </div>
@@ -720,7 +728,7 @@
 
 
           <div class="method-source-code" id="edit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 23</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 40</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">restaurant_id</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -731,7 +739,9 @@
         <div class="method-description">
 
 
-          <p>GET /turnstiles/1/edit</p>
+          <p>GET /admin/turnstiles/:id/edit</p>
+
+<p>Salva o valor do restaurant atribuído à turnstile para uso durante a tela de edição de turnstile.</p>
 
 
         </div>
@@ -769,7 +779,7 @@
 
 
           <div class="method-source-code" id="index-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 6</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@turnstiles</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">all</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>
@@ -781,7 +791,9 @@
         <div class="method-description">
 
 
-          <p>GET /turnstiles or /turnstiles.json</p>
+          <p>GET /admin/turnstiles</p>
+
+<p>Retorna a chamada para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>. Também carrega todas as turnstiles como variável de instância (para uso em views).</p>
 
 
         </div>
@@ -819,7 +831,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 18</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -830,7 +842,9 @@
         <div class="method-description">
 
 
-          <p>GET /turnstiles/new</p>
+          <p>GET /admin/turnstiles/new</p>
+
+<p>Cria uma nova turnstile vazia na variável de instância para uso durante a tela de criação de turnstile.</p>
 
 
         </div>
@@ -868,7 +882,7 @@
 
 
           <div class="method-source-code" id="show-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 12</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">restaurant_id</span>)
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>
@@ -880,7 +894,9 @@
         <div class="method-description">
 
 
-          <p>GET /turnstiles/1 or /turnstiles/1.json</p>
+          <p>GET /admin/turnstiles/:id</p>
+
+<p>Retorna a chamada para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>. Também carrega o restaurante específico da turnstile <code>:id</code> como variável de instância.</p>
 
 
         </div>
@@ -918,7 +934,7 @@
 
 
           <div class="method-source-code" id="update-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 43</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/turnstiles_controller.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">turnstile_params</span>)
@@ -938,7 +954,13 @@
         <div class="method-description">
 
 
-          <p>PATCH/PUT /turnstiles/1 or /turnstiles/1.json</p>
+          <p>PATCH/PUT /admin/turnstiles/1 or /admin/turnstiles/1.json</p>
+
+<p>Chamado após confirmar na página de edição. Atualiza a turnstile <code>:id</code> na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="TurnstilesController.html#method-i-edit"><code>TurnstilesController#edit</code></a>, e nada é alterado na database.</p>
 
 
         </div>
