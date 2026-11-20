@@ -10,7 +10,7 @@ module ValuesGenerator
     when /^student_password$/, "password"
       vg_rand_string(avoid, 8)
     when /^operator_id$/
-      vg_rand_num_str(avoid, 7)
+      vg_rand_num_str(avoid + [ "0000000" ], 7)
     when /-user$/
       @conta[:user]
     when /-pass$/
