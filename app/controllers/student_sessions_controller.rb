@@ -1,5 +1,6 @@
+# Controller para a autenticação de Student. É responsável tanto pelo
+# login quanto signup, transmitindo tais ações para o model correspondente.
 class StudentSessionsController < ApplicationController
-
   ##
   # GET /student/login
   #

@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the StudentSessionsController class"
+      content="class StudentSessionsController: Controller para a autenticação de Student. É responsável tanto pelo login quanto signup, transmitindo tais ações para o model correspondente."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for StudentSessionsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para a autenticação de Student. É responsável tanto pelo login quanto signup, transmitindo tais ações para o model correspondente.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for StudentSessionsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para a autenticação de Student. É responsável tanto pelo login quanto signup, transmitindo tais ações para o model correspondente.">
 
 
 
@@ -541,6 +535,8 @@
 
   <section class="description">
     
+<p>Controller para a autenticação de <a href="Student.html"><code>Student</code></a>. É responsável tanto pelo login quanto signup, transmitindo tais ações para o model correspondente.</p>
+
   </section>
 
 
@@ -596,7 +592,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 25</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-identifier">student_params</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">student</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">student_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>] <span class="ruby-operator">!~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">student</span><span class="ruby-string">&quot;</span>)
@@ -667,7 +663,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 7</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -717,7 +713,7 @@
 
 
           <div class="method-source-code" id="newacc-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 61</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">newacc</span>
   <span class="ruby-identifier">student</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">student_user</span>],
                         <span class="ruby-value">name</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">student_name</span>],
@@ -782,7 +778,7 @@
 
 
           <div class="method-source-code" id="signup-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 47</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/student_sessions_controller.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">signup</span>
 <span class="ruby-keyword">end</span></pre>
           </div>

@@ -1,3 +1,5 @@
+# Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários
+# atualmente autenticados como admins, enquanto Read é permitido para qualquer usuário.
 class RestaurantsController < ApplicationController
   layout "admin"
   before_action :set_restaurant, only: %i[ show edit update destroy ]

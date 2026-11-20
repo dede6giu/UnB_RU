@@ -1,3 +1,5 @@
+# Controller para o model Turnstile. Ações CRUD são disponíveis para apenas usuários
+# atualmente autenticados como admins, enquanto Read é permitido para qualquer usuário.
 class TurnstilesController < ApplicationController
   layout "admin"
   before_action :set_turnstile, only: %i[ show edit update destroy ]

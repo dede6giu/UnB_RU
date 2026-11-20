@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the RestaurantsController class"
+      content="class RestaurantsController: Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido par"
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for RestaurantsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido par">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for RestaurantsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido par">
 
 
 
@@ -547,6 +541,8 @@
 
   <section class="description">
     
+<p>Controller para o model <a href="Restaurant.html"><code>Restaurant</code></a>. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido para qualquer usuário.</p>
+
   </section>
 
 
@@ -602,7 +598,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 47</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">restaurant_params</span>)
 
@@ -667,7 +663,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 94</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@restaurant</span>.<span class="ruby-identifier">destroy!</span>
 
@@ -732,7 +728,7 @@
 
 
           <div class="method-source-code" id="edit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 34</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 36</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -782,7 +778,7 @@
 
 
           <div class="method-source-code" id="index-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 9</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 11</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@restaurants</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">all</span>
 <span class="ruby-keyword">end</span></pre>
@@ -833,7 +829,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 26</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -884,7 +880,7 @@
 
 
           <div class="method-source-code" id="show-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 17</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>
 <span class="ruby-keyword">end</span></pre>
@@ -935,7 +931,7 @@
 
 
           <div class="method-source-code" id="update-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 71</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-identifier">respond_to</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">format</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">if</span> <span class="ruby-ivar">@restaurant</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">restaurant_params</span>)
