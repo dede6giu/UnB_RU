@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   scope "/admin" do
     get "/login", to: "admin_sessions#new", as: :new_admin_session
     post "/login", to: "admin_sessions#create", as: :admin_session
+    delete "/login", to: "admin_sessions#destroy"
     resources :restaurants
     resources :turnstiles
   end
