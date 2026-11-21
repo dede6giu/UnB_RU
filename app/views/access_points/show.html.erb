@@ -1,13 +1,61 @@
 <% content_for :title, "Terminal de Validação" %>
 
-<% if flash[:notice] %>
-  <p><%= flash[:notice] %></p>
-<% end %>
+<main class="container py-4">
+  <% if flash[:notice] %>
+    <p class="alert theme-success mb-4"><%= flash[:notice] %></p>
+  <% end %>
 
-<% if flash[:alert] %>
-  <p><%= flash[:alert] %></p>
-<% end %>
+  <% if flash[:alert] %>
+    <p class="alert theme-danger mb-4"><%= flash[:alert] %></p>
+  <% end %>
 
-<p><%= @turnstile.name %></p>
+  <div class="card shadow-sm mb-4">
+    <div class="card-body p-6 d-flex flex-wrap justify-content-between align-items-center gap-3">
+      <p class="h4 fw-semibold mb-0"><%= @turnstile.name %></p>
+      <%= button_to "Desconectar do Ponto de Acesso", confirm_disconnect_access_point_path, method: :get %>
+    </div>
+  </div>
 
-<%= button_to "Desconectar do Ponto de Acesso", confirm_disconnect_access_point_path, method: :get %>
+  <div class="row g-4">
+    <div class="md:col-6">
+      <div class="card shadow-sm h-100">
+        <div class="card-body p-6">
+          <h1 class="h5 fw-semibold mb-4">Validar entrada</h1>
+          <%= form_with url: validate_access_point_path do %>
+            <label for="registration" class="form-label fw-medium">Matrícula do estudante</label>
+            <input type="text" id="registration" name="registration" class="form-control mb-4"
+                   placeholder="Ex: 241012345" autofocus>
+            <%= submit_tag "Validar", class: "btn-solid theme-primary w-100" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="md:col-6">
+      <% if @entry == "allowed" %>
+        <div class="alert theme-success h-100">
+          <div>
+            <p class="h4 fw-bold mb-2">Acesso liberado</p>
+            <p class="mb-1"><%= @student.account.name %> · matrícula <%= @student.user %></p>
+            <p class="mb-0">Saldo restante: <%= reais(@student.balance_cents) %></p>
+          </div>
+        </div>
+      <% elsif @entry == "no_balance" %>
+        <div class="alert theme-danger h-100">
+          <div>
+            <p class="h4 fw-bold mb-2">Acesso bloqueado</p>
+            <p class="mb-1">Saldo insuficiente.</p>
+            <p class="mb-0"><%= @student.account.name %> · matrícula <%= @student.user %></p>
+          </div>
+        </div>
+      <% elsif @entry == "not_found" %>
+        <div class="alert theme-danger h-100">
+          <div>
+            <p class="h4 fw-bold mb-2">Acesso bloqueado</p>
+            <p class="mb-0">Matrícula não cadastrada.</p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</main>
