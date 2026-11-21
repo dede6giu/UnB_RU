@@ -9,6 +9,21 @@ class AccessPointsController < ApplicationController
   def show
     @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
     redirect_to new_access_point_path if @turnstile.nil?
+    @entry = flash[:entry]
+    @student = Student.find_by(user: flash[:registration])
+  end
+
+  ##
+  # POST /operator/access/validate
+  #
+  # Valida a matrícula digitada no Terminal de Validação (`params[:registration]`). Com saldo, libera e
+  # cobra a refeição; sem saldo ou com matrícula não cadastrada, bloqueia.
+  #
+  # Não retorna valor: redireciona para o Terminal de Validação com o resultado e a matrícula no flash,
+  # assim atualizar a página não cobra de novo. Quando libera, cria um débito e diminui o saldo do estudante.
+  def validate
+    student = Student.find_by(user: params[:registration])
+    redirect_to access_point_path, flash: { entry: entry_result(student), registration: params[:registration] }
   end
 
   def create
@@ -53,6 +68,21 @@ class AccessPointsController < ApplicationController
 
   def current_operator
     @current_operator ||= Account.find_by(user: session[:operator_id], role: "operator")
+  end
+
+  ##
+  # Decide o resultado da validação para o estudante encontrado pela matrícula (`nil` se não existe).
+  #
+  # Retorna `"not_found"`, `"allowed"` ou `"no_balance"`. Quando retorna `"allowed"`, já cobrou a
+  # refeição (ver Student#pay_meal).
+  def entry_result(student)
+    if student.nil?
+      "not_found"
+    elsif student.pay_meal
+      "allowed"
+    else
+      "no_balance"
+    end
   end
 
   def render_error(message)

@@ -53,4 +53,28 @@ RSpec.describe "AdminSessions", type: :request do
       expect(session[:admin_id]).to be_nil
     end
   end
+
+  describe "cabeçalho do admin" do
+    it "mostra o nome e a matrícula de quem entrou, sem os dados de exemplo" do
+      entrar(user: "1000000", password: "senha123")
+      get restaurants_path
+      expect(response.body).to include("Admin · 1000000")
+      expect(response.body).not_to include("FULANO CICRANO")
+    end
+  end
+
+  describe "DELETE /admin/login" do
+    it "sai da conta e volta para o login" do
+      entrar(user: "1000000", password: "senha123")
+      get restaurants_path
+      expect(response.body).to include('<input type="hidden" name="_method" value="delete"')
+
+      delete admin_session_path
+      expect(response).to redirect_to(new_admin_session_path)
+      expect(session[:admin_id]).to be_nil
+
+      get restaurants_path
+      expect(response).to redirect_to(new_admin_session_path)
+    end
+  end
 end

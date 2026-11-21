@@ -76,6 +76,9 @@ bundle exec rubycritic app lib --no-browser
 O relatório fica em `tmp/rubycritic/overview.html`. A nota de complexidade de cada método (flog) deve ficar
 abaixo de 20. Para ver só no terminal: `bundle exec rubycritic app lib --no-browser --format console`.
 
+A cobertura dos testes sai junto com o `bundle exec rspec`: o relatório fica em `coverage/index.html`, e
+cada controller e model deve ficar acima de 90%.
+
 ## Documentação
 
 Features, responsáveis e regras de negócio na [wiki](https://github.com/dede6giu/UnB_RU/wiki).

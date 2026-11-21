@@ -37,4 +37,10 @@ class AdminSessionsController < ApplicationController
       render :new, status: :unprocessable_entity
     end
   end
+
+  # Sai da conta do admin e volta para o login
+  def destroy
+    session.delete(:admin_id)
+    redirect_to new_admin_session_path, notice: "Você saiu da conta."
+  end
 end

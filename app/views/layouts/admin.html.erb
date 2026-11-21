@@ -4,7 +4,7 @@
     <title><%= content_for(:title) || "UnB_RU" %></title>
     <%= render "headmeta" %>
   </head>
-  <body class="bg-1">
+  <body data-bs-theme="light" class="bg-1 min-vh-100">
     <%= render "header_admin" %>
     <%= yield %>
   </body>

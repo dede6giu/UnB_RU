@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   scope "/admin" do
     get "/login", to: "admin_sessions#new", as: :new_admin_session
     post "/login", to: "admin_sessions#create", as: :admin_session
+    delete "/login", to: "admin_sessions#destroy"
     resources :restaurants
     resources :turnstiles
   end
@@ -19,6 +20,7 @@ Rails.application.routes.draw do
     get "/access", to: "access_points#show", as: :access_point
     delete "/access", to: "access_points#destroy"
     get "/access/confirm_disconnect", to: "access_points#confirm_disconnect", as: :confirm_disconnect_access_point
+    post "/access/validate", to: "access_points#validate", as: :validate_access_point
   end
 
   scope "/student" do

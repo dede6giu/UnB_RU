@@ -41,6 +41,13 @@ module MessageTexts
     when /too short password/
       'Senha deve ter 8 ou mais caracteres.'
 
+    when /access allowed/
+      'Acesso liberado'
+    when /not enough balance/
+      'Saldo insuficiente'
+    when /unregistered registration/
+      'Matrícula não cadastrada'
+
     else
       pending "Can't find mapping from \"#{message_alias}\" to a message.\n" +
             "Now, go and add a mapping in #{__FILE__}"

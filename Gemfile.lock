@@ -544,6 +544,7 @@ DEPENDENCIES
   rubocop-rails-omakase
   rubycritic
   selenium-webdriver
+  simplecov
   solid_cable
   solid_cache
   solid_queue
