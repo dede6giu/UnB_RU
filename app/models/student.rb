@@ -28,4 +28,16 @@ class Student < ApplicationRecord
     end
     true
   end
+
+  ##
+  # Cobra uma refeição na entrada do restaurante.
+  #
+  # Não recebe argumentos. Retorna `true` quando cobra e `false` quando o saldo não dá para uma
+  # refeição. Com saldo, cria um débito na tabela de lançamentos e diminui o saldo no banco; sem saldo,
+  # não altera nada.
+  def pay_meal
+    return false if balance_cents < Recharge::MEAL_PRICE_CENTS
+
+    add_debit(Recharge::MEAL_PRICE_CENTS)
+  end
 end

@@ -56,4 +56,20 @@ RSpec.describe Student, type: :model do
       expect(estudante.transactions.count).to eq(0)
     end
   end
+
+  describe "#pay_meal" do
+    it "com saldo, cobra uma refeição e devolve true" do
+      estudante.update!(balance_cents: 1000)
+      expect(estudante.pay_meal).to be(true)
+      expect(estudante.reload.balance_cents).to eq(1000 - 450)
+      expect(estudante.transactions.last.kind).to eq("debit")
+    end
+
+    it "sem saldo para uma refeição, não cobra e devolve false" do
+      estudante.update!(balance_cents: 400)
+      expect(estudante.pay_meal).to be(false)
+      expect(estudante.reload.balance_cents).to eq(400)
+      expect(estudante.transactions.count).to eq(0)
+    end
+  end
 end

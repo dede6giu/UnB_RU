@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get "/access", to: "access_points#show", as: :access_point
     delete "/access", to: "access_points#destroy"
     get "/access/confirm_disconnect", to: "access_points#confirm_disconnect", as: :confirm_disconnect_access_point
+    post "/access/validate", to: "access_points#validate", as: :validate_access_point
   end
 
   scope "/student" do
