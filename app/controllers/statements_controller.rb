@@ -2,8 +2,7 @@ class StatementsController < ApplicationController
   include StudentAuthentication
 
   def show
-    @transactions = @student.transactions.in_period(params[:period]).of_type(params[:type])
-                            .order(created_at: :desc, id: :desc)
+    @transactions = filtered_transactions
 
     respond_to do |format|
       format.html { prepare_page }
@@ -12,6 +11,22 @@ class StatementsController < ApplicationController
   end
 
   private
+
+  ##
+  # Filtros escolhidos na tela do extrato: `params[:period]` e `params[:type]`.
+  #
+  # Retorna um hash com as chaves `:period` e `:type` (cada uma pode ser `nil`). Sem efeitos colaterais.
+  def filters
+    { period: params[:period], type: params[:type] }
+  end
+
+  ##
+  # Lançamentos do estudante que entrou, filtrados por período e tipo, do mais novo para o mais antigo.
+  #
+  # Não recebe argumentos (usa os filtros). Retorna uma consulta de Transaction; não altera o banco.
+  def filtered_transactions
+    @student.transactions.in_period(filters[:period]).of_type(filters[:type]).order(created_at: :desc, id: :desc)
+  end
 
   def prepare_page
     @spent_cents = @transactions.spent_cents
@@ -26,10 +41,17 @@ class StatementsController < ApplicationController
   # o PDF leva todos os lançamentos do filtro, não só os da página
   def export_pdf
     if @transactions.empty?
-      redirect_to statement_path(period: params[:period], type: params[:type]), alert: "Não há lançamentos para exportar."
+      redirect_to statement_path(filters), alert: "Não há lançamentos para exportar."
     else
-      pdf = StatementPdf.new(@student, @transactions, period: params[:period], type: params[:type])
-      send_data pdf.render, filename: "extrato-#{Date.current}.pdf", type: "application/pdf"
+      send_data statement_pdf.render, filename: "extrato-#{Date.current}.pdf", type: "application/pdf"
     end
+  end
+
+  ##
+  # Monta o PDF do extrato com os lançamentos do filtro (todos, não só os da página).
+  #
+  # Não recebe argumentos. Retorna um StatementPdf pronto para `render`; não altera o banco.
+  def statement_pdf
+    StatementPdf.new(@student, @transactions, period: filters[:period], type: filters[:type])
   end
 end
