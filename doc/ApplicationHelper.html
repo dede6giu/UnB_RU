@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the ApplicationHelper module"
+      content="module ApplicationHelper: Helpers usados em todas as views (e no PDF do extrato)."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for ApplicationHelper module - API reference and code examples"
-    >
+    <meta property="og:description" content="Helpers usados em todas as views (e no PDF do extrato).">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for ApplicationHelper module - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Helpers usados em todas as views (e no PDF do extrato).">
 
 
 
@@ -520,6 +514,8 @@
 
   <section class="description">
     
+<p>Helpers usados em todas as views (e no PDF do extrato).</p>
+
   </section>
 
 
@@ -575,7 +571,7 @@
 
 
           <div class="method-source-code" id="reais-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/helpers/application_helper.rb, line 2</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/helpers/application_helper.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">reais</span>(<span class="ruby-identifier">cents</span>)
   <span class="ruby-identifier">number_to_currency</span>(<span class="ruby-identifier">cents</span> <span class="ruby-operator">/</span> <span class="ruby-value">100.0</span>, <span class="ruby-value">unit</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">R$ </span><span class="ruby-string">&quot;</span>, <span class="ruby-value">separator</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">,</span><span class="ruby-string">&quot;</span>, <span class="ruby-value">delimiter</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">.</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -586,7 +582,9 @@
         <div class="method-description">
 
 
-          
+          <p>Formata um valor em centavos como dinheiro brasileiro, por exemplo 1550 → “R$ 15,50”.</p>
+
+<p>Recebe o valor em centavos (inteiro). Retorna o texto formatado; sem efeitos colaterais.</p>
 
 
         </div>

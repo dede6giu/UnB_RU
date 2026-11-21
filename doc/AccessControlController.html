@@ -545,23 +545,6 @@
 
 
 
-    <section class="constants-list">
-      <header>
-        <h3 id="untitled-constants"><a href="#untitled-constants">Constants</a></h3>
-      </header>
-      <dl>
-
-        <dt id="MEAL_COST_CENTS">MEAL_COST_CENTS</dt>
-
-        <dd>
-
-          
-        </dd>
-
-
-      </dl>
-    </section>
-
 
 
 
@@ -607,14 +590,13 @@
 
 
           <div class="method-source-code" id="check-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_control_controller.rb, line 6</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_control_controller.rb, line 4</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check</span>
   <span class="ruby-identifier">student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>]) <span class="ruby-operator">||</span> <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>])
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">student</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-identifier">render</span> <span class="ruby-value">json</span><span class="ruby-value">:</span> { <span class="ruby-value">message</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Estudante Não Cadastrado</span><span class="ruby-string">&quot;</span> }, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">not_found</span>
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">student</span>.<span class="ruby-identifier">balance_cents</span> &gt;= <span class="ruby-constant">MEAL_COST_CENTS</span>
-    <span class="ruby-identifier">student</span>.<span class="ruby-identifier">add_debit</span>(<span class="ruby-constant">MEAL_COST_CENTS</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">student</span>.<span class="ruby-identifier">pay_meal</span>
     <span class="ruby-identifier">render</span> <span class="ruby-value">json</span><span class="ruby-value">:</span> { <span class="ruby-value">message</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Acesso Liberado</span><span class="ruby-string">&quot;</span> }, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">ok</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">render</span> <span class="ruby-value">json</span><span class="ruby-value">:</span> { <span class="ruby-value">message</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Saldo Insuficiente</span><span class="ruby-string">&quot;</span> }, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">forbidden</span>

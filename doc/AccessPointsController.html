@@ -508,6 +508,8 @@
 
         <li ><a href="#method-i-show">show</a></li>
 
+        <li ><a href="#method-i-validate">validate</a></li>
+
       </ul>
     </details>
   </div>
@@ -598,7 +600,7 @@
 
 
           <div class="method-source-code" id="confirm_disconnect-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 43</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">confirm_disconnect</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -646,7 +648,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 14</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-identifier">operator</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-identifier">turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">id</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">dig</span>(<span class="ruby-value">:</span><span class="ruby-value">access_point</span>, <span class="ruby-value">:</span><span class="ruby-value">turnstile_id</span>))
@@ -710,7 +712,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 33</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>])
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">nil?</span>
@@ -817,6 +819,8 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>])
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_access_point_path</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-ivar">@entry</span> = <span class="ruby-identifier">flash</span>[<span class="ruby-value">:</span><span class="ruby-value">entry</span>]
+  <span class="ruby-ivar">@student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">flash</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>])
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -826,6 +830,60 @@
 
 
           
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-validate" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-validate" title="Link to this method">
+                  <span class="method-name">validate</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="validate-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 24</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span>
+  <span class="ruby-identifier">student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>])
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">access_point_path</span>, <span class="ruby-value">flash</span><span class="ruby-value">:</span> { <span class="ruby-value">entry</span><span class="ruby-value">:</span> <span class="ruby-identifier">entry_result</span>(<span class="ruby-identifier">student</span>), <span class="ruby-value">registration</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>] }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>POST /operator/access/validate</p>
+
+<p>Valida a matrícula digitada no Terminal de Validação (<code>params[:registration]</code>). Com saldo, libera e cobra a refeição; sem saldo ou com matrícula não cadastrada, bloqueia.</p>
+
+<p>Não retorna valor: redireciona para o Terminal de Validação com o resultado e a matrícula no flash, assim atualizar a página não cobra de novo. Quando libera, cria um débito e diminui o saldo do estudante.</p>
 
 
         </div>

@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the Student class"
+      content="class Student: a matrícula). Guarda o saldo da carteira, em centavos, e o bloqueio do FastPass; cada recarga ou refeição vira uma Transaction."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for Student class - API reference and code examples"
-    >
+    <meta property="og:description" content="a matrícula). Guarda o saldo da carteira, em centavos, e o bloqueio do FastPass; cada recarga ou refeição vira uma Transaction.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for Student class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="a matrícula). Guarda o saldo da carteira, em centavos, e o bloqueio do FastPass; cada recarga ou refeição vira uma Transaction.">
 
 
 
@@ -502,6 +496,8 @@
 
         <li ><a href="#method-i-add_debit">add_debit</a></li>
 
+        <li ><a href="#method-i-pay_meal">pay_meal</a></li>
+
       </ul>
     </details>
   </div>
@@ -537,6 +533,8 @@
 
   <section class="description">
     
+<p>Perfil de estudante de uma <a href="Account.html"><code>Account</code></a> (mesma chave: a matrícula). Guarda o saldo da carteira, em centavos, e o bloqueio do FastPass; cada recarga ou refeição vira uma <a href="Transaction.html"><code>Transaction</code></a>.</p>
+
   </section>
 
 
@@ -592,7 +590,7 @@
 
 
           <div class="method-source-code" id="add_credit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/student.rb, line 7</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/student.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_credit</span>(<span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">payment_method</span>)
   <span class="ruby-identifier">lancamento</span> = <span class="ruby-constant">Transaction</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">student</span><span class="ruby-value">:</span> <span class="ruby-keyword">self</span>, <span class="ruby-value">kind</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">credit</span><span class="ruby-string">&quot;</span>,
                                <span class="ruby-value">amount_cents</span><span class="ruby-value">:</span> <span class="ruby-identifier">amount_cents</span>, <span class="ruby-value">payment_method</span><span class="ruby-value">:</span> <span class="ruby-identifier">payment_method</span>)
@@ -612,7 +610,9 @@
         <div class="method-description">
 
 
-          
+          <p>Soma uma recarga ao saldo e registra o crédito no extrato.</p>
+
+<p>Recebe o valor em centavos e o meio de pagamento (<code>&quot;pix&quot;</code> ou <code>&quot;credit_card&quot;</code>). Retorna <code>true</code> quando recarrega e <code>false</code> quando o valor ou o meio de pagamento são inválidos (nesse caso nada muda). No sucesso, cria a <a href="Transaction.html"><code>Transaction</code></a> de crédito e aumenta o saldo no banco; a soma é feita direto no banco, assim duas recargas ao mesmo tempo não se perdem.</p>
 
 
         </div>
@@ -650,7 +650,7 @@
 
 
           <div class="method-source-code" id="add_debit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/student.rb, line 20</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/student.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">add_debit</span>(<span class="ruby-identifier">amount_cents</span>)
   <span class="ruby-identifier">lancamento</span> = <span class="ruby-constant">Transaction</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">student</span><span class="ruby-value">:</span> <span class="ruby-keyword">self</span>, <span class="ruby-value">kind</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">debit</span><span class="ruby-string">&quot;</span>,
                                <span class="ruby-value">amount_cents</span><span class="ruby-value">:</span> <span class="ruby-identifier">amount_cents</span>)
@@ -669,7 +669,62 @@
         <div class="method-description">
 
 
-          
+          <p>Desconta um valor do saldo e registra o débito no extrato.</p>
+
+<p>Recebe o valor em centavos. Retorna <code>true</code> quando desconta e <code>false</code> quando o valor é inválido (nesse caso nada muda). No sucesso, cria a <a href="Transaction.html"><code>Transaction</code></a> de débito e diminui o saldo no banco. Não confere se há saldo: para a entrada no restaurante, usar <a href="Student.html#method-i-pay_meal"><code>pay_meal</code></a>.</p>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-pay_meal" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-pay_meal" title="Link to this method">
+                  <span class="method-name">pay_meal</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="pay_meal-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/models/student.rb, line 53</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">pay_meal</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">balance_cents</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Recharge</span><span class="ruby-operator">::</span><span class="ruby-constant">MEAL_PRICE_CENTS</span>
+
+  <span class="ruby-identifier">add_debit</span>(<span class="ruby-constant">Recharge</span><span class="ruby-operator">::</span><span class="ruby-constant">MEAL_PRICE_CENTS</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>Cobra uma refeição na entrada do restaurante.</p>
+
+<p>Não recebe argumentos. Retorna <code>true</code> quando cobra e <code>false</code> quando o saldo não dá para uma refeição. Com saldo, cria um débito na tabela de lançamentos e diminui o saldo no banco; sem saldo, não altera nada.</p>
 
 
         </div>
