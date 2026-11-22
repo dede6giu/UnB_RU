@@ -24,6 +24,7 @@ module NavigationHelpers
     when /^Configuração de Ponto$/ then new_access_point_path
     when /^Cardápio$/ then public_menu_path
     when /^Portal do Estudante$/ then student_portal_path
+    when /^Turnos e Time-frames$/ then admin_shifts_path
     when /^Terminal de Validação$/ then access_point_path
 
     when /^Recarga de Saldo$/ then new_recharge_path

@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     delete "/login", to: "admin_sessions#destroy"
     resources :restaurants
     resources :turnstiles
+    get "/shifts", to: "admin_shifts#show", as: :admin_shifts
+    patch "/shifts", to: "admin_shifts#update"
   end
 
   scope "/operator" do
