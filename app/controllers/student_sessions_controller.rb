@@ -60,16 +60,20 @@ class StudentSessionsController < ApplicationController
   # Em falha, o Student não é salvo na database. Os erros são mostrados.
   # O usuário retorna para StudentSessionsController#new.
   def newacc
-    student = Account.new(user: params[:student_user],
-                          name: params[:student_name],
-                          role: "student",
-                          password: params[:student_password],)
-    if student.save
+    result, student = create_new_student(params)
+    if result
       session[:student_id] = student.id
       redirect_to student_portal_path, notice: "Sucesso no cadastro."
     else
       flash.now[:alert] = student.errors.messages
       render :signup, status: :unprocessable_entity
     end
+  end
+
+  private
+
+  def create_new_student(params)
+    student = Account.new(user: params[:student_user], name: params[:student_name], role: "student", password: params[:student_password])
+    [ student.save, student ]
   end
 end
