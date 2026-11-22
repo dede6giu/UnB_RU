@@ -1,3 +1,4 @@
+# Controller para a autenticação de Admin.
 class AdminSessionsController < ApplicationController
   ##
   # GET /admin/login
@@ -38,7 +39,13 @@ class AdminSessionsController < ApplicationController
     end
   end
 
-  # Sai da conta do admin e volta para o login
+  ##
+  # DELETE /admin/login
+  #
+  # Remove o registro de sessão e, portanto, a autenticação como
+  # administrador.
+  #
+  # Redireciona o usuário para a página de login de admins.
   def destroy
     session.delete(:admin_id)
     redirect_to new_admin_session_path, notice: "Você saiu da conta."

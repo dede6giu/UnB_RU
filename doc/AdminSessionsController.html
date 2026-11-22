@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the AdminSessionsController class"
+      content="class AdminSessionsController: Controller para a autenticação de Admin."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for AdminSessionsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para a autenticação de Admin.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for AdminSessionsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para a autenticação de Admin.">
 
 
 
@@ -539,6 +533,8 @@
 
   <section class="description">
     
+<p>Controller para a autenticação de Admin.</p>
+
   </section>
 
 
@@ -594,7 +590,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 24</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-identifier">admin_params</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">admin</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>] <span class="ruby-operator">!~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">admin</span><span class="ruby-string">&quot;</span>)
@@ -664,7 +660,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 42</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">session</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:</span><span class="ruby-value">admin_id</span>)
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_admin_session_path</span>, <span class="ruby-value">notice</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Você saiu da conta.</span><span class="ruby-string">&quot;</span>
@@ -676,7 +672,11 @@
         <div class="method-description">
 
 
-          <p>Sai da conta do admin e volta para o login</p>
+          <p>DELETE /admin/login</p>
+
+<p>Remove o registro de sessão e, portanto, a autenticação como administrador.</p>
+
+<p>Redireciona o usuário para a página de login de admins.</p>
 
 
         </div>
@@ -714,7 +714,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 6</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
