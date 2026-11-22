@@ -52,4 +52,28 @@ RSpec.describe "StudentSessions", type: :request do
       expect(session[:student_id]).to be_nil
     end
   end
+
+  describe "links entre o login e o cadastro" do
+    it "o login leva para o cadastro e o cadastro leva para o login" do
+      get new_student_session_path
+      expect(response.body).to include("href=\"#{student_session_signup_path}\"")
+
+      get student_session_signup_path
+      expect(response.body).to include("href=\"#{new_student_session_path}\"")
+    end
+  end
+
+  describe "POST /student/newacc com campos vazios" do
+    it "mostra cada erro numa linha, em vermelho, sem criar a conta" do
+      expect do
+        post student_session_newacc_path, params: { student_user: "", student_name: "", student_password: "" }
+      end.not_to change(Account, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).not_to include("{user:")
+      expect(response.body).to include('<div class="alert theme-danger mb-4">Matrícula não pode ser vazia.</div>')
+      expect(response.body).to include('<div class="alert theme-danger mb-4">Senha não pode ser vazia.</div>')
+      expect(response.body).not_to include("theme-success")
+    end
+  end
 end

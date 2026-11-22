@@ -286,4 +286,11 @@ RSpec.describe "Restaurants", type: :request do
   #     end
   #   end
   # end
+
+  describe "sem login e com id que não existe" do
+    it "manda para o login do admin antes de procurar o registro" do
+      get restaurant_path(999)
+      expect(response).to redirect_to(new_admin_session_path)
+    end
+  end
 end

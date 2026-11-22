@@ -1,5 +1,6 @@
 class RestaurantsController < ApplicationController
   layout "admin"
+  before_action :exigir_admin
   before_action :set_restaurant, only: %i[ show edit update destroy ]
 
   # GET /restaurants or /restaurants.json
@@ -67,7 +68,6 @@ class RestaurantsController < ApplicationController
 
   private
 
-  before_action :exigir_admin
   def exigir_admin
     return if session[:admin_id].present?
 

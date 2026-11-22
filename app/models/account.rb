@@ -8,7 +8,7 @@ class Account < ApplicationRecord
   has_one :student, foreign_key: :user, inverse_of: :account
   after_create :create_student, if: -> { role == "student" }
 
-  validates :user, presence: { message: "Matrícula não pode ser vazio." }
+  validates :user, presence: { message: "Matrícula não pode ser vazia." }
   validates :name, presence: { message: "Nome não pode ser vazio." }
   validates :role, presence: { message: "Cargo não pode ser vazio." }
   validates :user, uniqueness: { message: "Matrícula já registrada." }
@@ -16,7 +16,7 @@ class Account < ApplicationRecord
   validates :user, format: { with: STAFF_USER_FORMAT, message: "Matrícula inválida." }, if: -> { role.in?(%w[admin operator]) }
   validates :user, format: { with: STUDENT_USER_FORMAT, message: "Matrícula inválida." }, if: -> { role == "student" }
   validates :password, length: { minimum: 8, too_short: "Senha deve ter 8 ou mais caracteres." }
-  validates :password, presence: { message: "Senha não pode ser vazio." }
+  validates :password, presence: { message: "Senha não pode ser vazia." }
 
   def self.user_format_for(role)
     role == "student" ? STUDENT_USER_FORMAT : STAFF_USER_FORMAT
