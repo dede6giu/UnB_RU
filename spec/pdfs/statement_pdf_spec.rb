@@ -34,4 +34,17 @@ RSpec.describe StatementPdf do
     expect(texto).to include("+ R$ 45,00")
     expect(texto).to include("- R$ 4,50")
   end
+
+  it "com filtro que não existe e sem lançamentos, usa o padrão e sai com os totais zerados" do
+    pdf = StatementPdf.new(estudante, Transaction.none, period: "qualquer", type: "xyz").render
+    texto = texto_do(pdf)
+
+    expect(pdf).to start_with("%PDF")
+    expect(texto).to include("Período: Últimos 30 dias")
+    expect(texto).to include("Tipo: Todos")
+    expect(texto).to include("Total gasto: R$ 0,00")
+    expect(texto).to include("Refeições: 0")
+    expect(texto).to include("Total recarregado: R$ 0,00")
+    expect(texto).to include("Data e hora")
+  end
 end
