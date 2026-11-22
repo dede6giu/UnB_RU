@@ -57,7 +57,7 @@ class StudentSessionsController < ApplicationController
       session[:student_id] = student.id
       redirect_to student_portal_path, notice: "Sucesso no cadastro."
     else
-      flash.now[:alert] = student.errors.messages
+      flash.now[:alert] = student.errors.map { |erro| erro.message }
       render :signup, status: :unprocessable_entity
     end
   end

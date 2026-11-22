@@ -2,6 +2,7 @@
 # atualmente autenticados como admins, enquanto Read é permitido para qualquer usuário.
 class TurnstilesController < ApplicationController
   layout "admin"
+  before_action :exigir_admin
   before_action :set_turnstile, only: %i[ show edit update destroy ]
 
   ##
@@ -54,14 +55,10 @@ class TurnstilesController < ApplicationController
   def create
     @turnstile = Turnstile.new(turnstile_params)
 
-    respond_to do |format|
-      if @turnstile.save
-        format.html { redirect_to restaurants_path, notice: "Catraca criada com sucesso." }
-        format.json { render :show, status: :created, location: @turnstile }
-      else
-        format.html { render :new, status: :unprocessable_content }
-        format.json { render json: @turnstile.errors, status: :unprocessable_content }
-      end
+    if @turnstile.save
+      redirect_to restaurants_path, notice: "Catraca criada com sucesso."
+    else
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -76,15 +73,11 @@ class TurnstilesController < ApplicationController
   # No caso de falha, retorna os parâmetros necessários para exibir a falha em TurnstilesController#edit, e
   # nada é alterado na database.
   def update
-    respond_to do |format|
-      if @turnstile.update(turnstile_params)
-        format.html { redirect_to restaurants_path, notice: "Catraca atualizada com sucesso.", status: :see_other }
-        format.json { render :show, status: :ok, location: @turnstile }
-      else
-        @turnstile.reload
-        format.html { render :edit, status: :unprocessable_content }
-        format.json { render json: @turnstile.errors, status: :unprocessable_content }
-      end
+    if @turnstile.update(turnstile_params)
+      redirect_to restaurants_path, notice: "Catraca atualizada com sucesso.", status: :see_other
+    else
+      @turnstile.reload
+      render :edit, status: :unprocessable_content
     end
   end
 
@@ -100,21 +93,13 @@ class TurnstilesController < ApplicationController
   # nada é alterado na database.
   def destroy
     @turnstile.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to restaurants_path, notice: "Catraca destruída com sucesso.", status: :see_other }
-      format.json { head :no_content }
-    end
+    redirect_to restaurants_path, notice: "Catraca destruída com sucesso.", status: :see_other
   rescue ActiveRecord::RecordNotDestroyed
-    respond_to do |format|
-      format.html { render :edit, status: :unprocessable_content }
-      format.json { render json: @turnstile.errors, status: :unprocessable_content }
-    end
+    render :edit, status: :unprocessable_content
   end
 
   private
 
-  before_action :exigir_admin
   def exigir_admin
     return if session[:admin_id].present?
 

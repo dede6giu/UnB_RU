@@ -23,6 +23,13 @@ RSpec.describe "Home", type: :request do
         expect(response.body).to include("href=\"#{public_menu_path}\"")
         expect(response.body.index("meal-widget")).to be < response.body.index("Entrar no sistema")
       end
+
+      it "não mostra para o visitante os links das páginas do estudante" do
+        get root_path
+        expect(response.body).not_to include("href=\"#{student_portal_path}\"")
+        expect(response.body).not_to include("href=\"#{new_recharge_path}\"")
+        expect(response.body).not_to include("href=\"#{statement_path}\"")
+      end
     end
 
     it "marca o Início no menu do topo, e o cardápio tem o caminho de volta" do
