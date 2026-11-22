@@ -8,22 +8,10 @@ class AdminShiftsController < ApplicationController
 
   def update
     load_shifts
-    submitted_shifts = shifts_params
+    shifts_to_save = configured_shifts
 
-    @shifts.each do |shift|
-      attributes = submitted_shifts[shift.meal_type]
-      shift.assign_attributes(attributes) if attributes
-    end
-
-    configured_shifts = @shifts.select do |shift|
-      shift.persisted? || [ shift.starts_at, shift.ends_at ].any?(&:present?)
-    end
-    configured_shifts.each(&:valid?)
-
-    if configured_shifts.none? { |shift| shift.errors.any? }
-      Shift.transaction do
-        configured_shifts.each(&:save!)
-      end
+    if shifts_to_save.all?(&:valid?)
+      Shift.transaction { shifts_to_save.each(&:save!) }
       redirect_to admin_shifts_path, notice: "Configuração salva com sucesso."
     else
       flash.now[:alert] = "Horário inválido. Verifique os horários e evite sobreposição entre turnos."
@@ -42,6 +30,18 @@ class AdminShiftsController < ApplicationController
   def load_shifts
     @shifts = Shift::MEAL_TYPES.map do |meal_type|
       Shift.find_or_initialize_by(meal_type: meal_type)
+    end
+  end
+
+  def configured_shifts
+    submitted_shifts = shifts_params
+    @shifts.each do |shift|
+      attributes = submitted_shifts[shift.meal_type]
+      shift.assign_attributes(attributes) if attributes
+    end
+
+    @shifts.select do |shift|
+      shift.persisted? || [ shift.starts_at, shift.ends_at ].any?(&:present?)
     end
   end
 
