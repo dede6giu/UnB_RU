@@ -20,6 +20,10 @@ module MessageTexts
     when /existing turnstile/
       'Catraca já existente'
 
+    # Shift configuration
+    when /invalid shift/
+      "Horário inválido. Verifique os horários e evite sobreposição entre turnos."
+
     when /incorrect credentials/
       'Matrícula ou senha incorretas.'
     when /invalid (admin|operator|student) id/

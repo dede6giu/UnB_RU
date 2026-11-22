@@ -16,6 +16,8 @@ module ButtonPaths
       "Exportar PDF"
     when "full menu"
       "Ver cardápio completo"
+    when "save configuration"
+      "Salvar configuração"
     when "student login"
       "Entrar como estudante"
     when "student signup"

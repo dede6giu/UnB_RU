@@ -3,11 +3,21 @@ class Shift < ApplicationRecord
   TIME_FORMAT = /\A(?:[01]\d|2[0-3]):[0-5]\d\z/
 
   validates :meal_type, presence: true, inclusion: { in: MEAL_TYPES }, uniqueness: true
-  validates :starts_at, :ends_at, presence: true, format: { with: TIME_FORMAT, allow_blank: true }
+  validates :starts_at, :ends_at, presence: true
+  validate :time_values_must_be_valid
   validate :end_must_follow_start
   validate :must_not_overlap_another_shift
 
   private
+
+  def time_values_must_be_valid
+    %i[starts_at ends_at].each do |attribute|
+      value = public_send(attribute)
+      next if value.blank? || valid_time?(value)
+
+      errors.add(attribute, :invalid)
+    end
+  end
 
   def end_must_follow_start
     return unless valid_time?(starts_at) && valid_time?(ends_at)
@@ -26,6 +36,8 @@ class Shift < ApplicationRecord
   end
 
   def valid_time?(value)
-    value.is_a?(String) && TIME_FORMAT.match?(value)
+    return TIME_FORMAT.match?(value) if value.is_a?(String)
+
+    value.respond_to?(:hour) && value.respond_to?(:min)
   end
 end
