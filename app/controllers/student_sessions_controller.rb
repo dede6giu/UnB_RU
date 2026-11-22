@@ -24,20 +24,12 @@ class StudentSessionsController < ApplicationController
   # algo está errado, mas não *o quê* (questões de segurança).
   # O usuário retorna para StudentSessionsController#new.
   def create
-    student_params = params.require(:student).permit(:user, :password)
-    if student_params[:user] !~ Account.user_format_for("student")
-      flash.now[:alert] = "Matrícula inválida."
-      render :new, status: :unprocessable_entity
-      return
-    end
-    student = Account.find_by(user: student_params[:user], role: "student")
-    if student && student.authenticate(student_params[:password])
-      session[:student_id] = student.id
-
+    account_values = student_params
+    if authenticate_student(account_values)
+      session[:student_id] = account_values[:user]
       redirect_to student_portal_path, notice: "Sucesso na autenticação."
     else
-      flash.now[:alert] = "Matrícula ou senha incorretas."
-      render :new, status: :unprocessable_entity
+      failed_login(account_values)
     end
   end
 
@@ -75,5 +67,31 @@ class StudentSessionsController < ApplicationController
   def create_new_student(params)
     student = Account.new(user: params[:student_user], name: params[:student_name], role: "student", password: params[:student_password])
     [ student.save, student ]
+  end
+
+  def student_params
+    params.require(:student).permit(:user, :password)
+  end
+
+  def valid_userid(userid)
+    userid =~ Account.user_format_for("student")
+  end
+
+  def authenticate_student(account_values)
+    student = Account.find_by(user: account_values[:user], role: "student")
+    if student
+      student.authenticate(account_values[:password])
+    else
+      false
+    end
+  end
+
+  def failed_login(account_values)
+    if valid_userid(account_values[:user])
+      flash.now[:alert] = "Matrícula ou senha incorretas."
+    else
+      flash.now[:alert] = "Matrícula inválida."
+    end
+    render :new, status: :unprocessable_entity
   end
 end

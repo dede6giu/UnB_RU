@@ -23,19 +23,40 @@ class OperatorSessionsController < ApplicationController
   # algo está errado, mas não *o quê* (questões de segurança).
   # O usuário retorna para OperatorSessionsController#new.
   def create
-    operator_params = params.require(:operator).permit(:user, :password)
-    if operator_params[:user] !~ Account.user_format_for("operator")
-      flash.now[:alert] = "Matrícula inválida."
-      render :new, status: :unprocessable_entity
-      return
-    end
-    operator = Account.find_by(user: operator_params[:user], role: "operator")
-    if operator && operator.authenticate(operator_params[:password])
-      session[:operator_id] = operator.id
+    account_values = operator_params
+    if authenticate_operator(account_values)
+      session[:operator_id] = account_values[:user]
       redirect_to new_access_point_path, notice: "Sucesso na autenticação."
     else
-      flash.now[:alert] = "Matrícula ou senha incorretas."
-      render :new, status: :unprocessable_entity
+      failed_login(account_values)
     end
+  end
+
+  private
+
+  def operator_params
+    params.require(:operator).permit(:user, :password)
+  end
+
+  def valid_userid(userid)
+    userid =~ Account.user_format_for("operator")
+  end
+
+  def authenticate_operator(account_values)
+    operator = Account.find_by(user: account_values[:user], role: "operator")
+    if operator
+      operator.authenticate(account_values[:password])
+    else
+      false
+    end
+  end
+
+  def failed_login(account_values)
+    if valid_userid(account_values[:user])
+      flash.now[:alert] = "Matrícula ou senha incorretas."
+    else
+      flash.now[:alert] = "Matrícula inválida."
+    end
+    render :new, status: :unprocessable_entity
   end
 end

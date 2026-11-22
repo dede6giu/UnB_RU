@@ -23,19 +23,12 @@ class AdminSessionsController < ApplicationController
   # algo está errado, mas não *o quê* (questões de segurança).
   # O usuário retorna para AdminSessionsController#new.
   def create
-    admin_params = params.require(:admin).permit(:user, :password)
-    if admin_params[:user] !~ Account.user_format_for("admin")
-      flash.now[:alert] = "Matrícula inválida."
-      render :new, status: :unprocessable_entity
-      return
-    end
-    admin = Account.find_by(user: admin_params[:user], role: "admin")
-    if admin && admin.authenticate(admin_params[:password])
-      session[:admin_id] = admin.id
+    account_values = admin_params
+    if authenticate_admin(account_values)
+      session[:admin_id] = account_values[:user]
       redirect_to restaurants_path, notice: "Sucesso na autenticação."
     else
-      flash.now[:alert] = "Matrícula ou senha incorretas."
-      render :new, status: :unprocessable_entity
+      failed_login(account_values)
     end
   end
 
@@ -49,5 +42,33 @@ class AdminSessionsController < ApplicationController
   def destroy
     session.delete(:admin_id)
     redirect_to new_admin_session_path, notice: "Você saiu da conta."
+  end
+
+  private
+
+  def admin_params
+    params.require(:admin).permit(:user, :password)
+  end
+
+  def valid_userid(userid)
+    userid =~ Account.user_format_for("admin")
+  end
+
+  def authenticate_admin(account_values)
+    admin = Account.find_by(user: account_values[:user], role: "admin")
+    if admin
+      admin.authenticate(account_values[:password])
+    else
+      false
+    end
+  end
+
+  def failed_login(account_values)
+    if valid_userid(account_values[:user])
+      flash.now[:alert] = "Matrícula ou senha incorretas."
+    else
+      flash.now[:alert] = "Matrícula inválida."
+    end
+    render :new, status: :unprocessable_entity
   end
 end
