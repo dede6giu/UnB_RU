@@ -2,7 +2,6 @@
 # para operadores.
 class AccessPointsController < ApplicationController
   layout "operator"
-  helper_method :current_operator
   before_action :load_restaurants, only: %i[new create]
 
 
@@ -102,9 +101,6 @@ class AccessPointsController < ApplicationController
     @restaurants = Restaurant.includes(:turnstiles).order(:campus, :name)
   end
 
-  def current_operator
-    @current_operator ||= Account.find_by(user: session[:operator_id], role: "operator")
-  end
 
   ##
   # Decide o resultado da validação para o estudante encontrado pela matrícula (`nil` se não existe).
