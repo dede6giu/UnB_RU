@@ -5,6 +5,7 @@ class Transaction < ApplicationRecord
   PER_PAGE = 10
 
   belongs_to :student
+  belongs_to :access, optional: true
 
   validates :amount_cents, numericality: { greater_than: 0 }
   validates :kind, inclusion: { in: KINDS }

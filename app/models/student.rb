@@ -1,6 +1,7 @@
 class Student < ApplicationRecord
   belongs_to :account, foreign_key: :user, inverse_of: :student
   has_many :transactions
+  has_many :accesses, foreign_key: :student_id, inverse_of: :student
 
   validates :balance_cents, numericality: { greater_than_or_equal_to: 0 }
 

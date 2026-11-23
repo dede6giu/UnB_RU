@@ -1,4 +1,5 @@
 class Turnstile < ApplicationRecord
+  has_many :accesses, dependent: :restrict_with_error
   belongs_to :restaurant, foreign_key: :restaurant_id, optional: false
   validates :name, presence: { message: "Nome não pode ser vazio" }
   validates :operation, presence: { message: "Operação não pode ser vazio" }
