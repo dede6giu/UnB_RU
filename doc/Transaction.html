@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the Transaction class"
+      content="class Transaction: crédito (recarga da carteira) ou débito (refeição paga com o saldo). Os métodos de classe montam as consultas e os totais do Extrato e Histórico de Re"
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for Transaction class - API reference and code examples"
-    >
+    <meta property="og:description" content="crédito (recarga da carteira) ou débito (refeição paga com o saldo). Os métodos de classe montam as consultas e os totais do Extrato e Histórico de Re">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for Transaction class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="crédito (recarga da carteira) ou débito (refeição paga com o saldo). Os métodos de classe montam as consultas e os totais do Extrato e Histórico de Re">
 
 
 
@@ -551,6 +545,8 @@
 
   <section class="description">
     
+<p>Lançamento do extrato de um estudante: crédito (recarga da carteira) ou débito (refeição paga com o saldo). Os métodos de classe montam as consultas e os totais do Extrato e Histórico de Refeições.</p>
+
   </section>
 
 
@@ -571,7 +567,7 @@
 
         <dd>
 
-          <p>credit: recarga da carteira; debit: refeição paga com o saldo.</p>
+          <p>Tipos de lançamento. credit: recarga da carteira; debit: refeição paga com o saldo.</p>
         </dd>
 
 
@@ -579,7 +575,7 @@
 
         <dd>
 
-          
+          <p>Meios de pagamento aceitos numa recarga.</p>
         </dd>
 
 
@@ -587,7 +583,7 @@
 
         <dd>
 
-          
+          <p>Lançamentos por página do extrato.</p>
         </dd>
 
 
@@ -633,7 +629,7 @@
 
 
           <div class="method-source-code" id="credits-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 17</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">credits</span>
   <span class="ruby-identifier">where</span>(<span class="ruby-value">kind</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">credit</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -644,7 +640,9 @@
         <div class="method-description">
 
 
-          
+          <p>Só os créditos (recargas).</p>
+
+<p>Não recebe argumentos. Retorna uma consulta de <a href="Transaction.html"><code>Transaction</code></a>; não altera o banco.</p>
 
 
         </div>
@@ -682,7 +680,7 @@
 
 
           <div class="method-source-code" id="debits-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 13</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 21</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">debits</span>
   <span class="ruby-identifier">where</span>(<span class="ruby-value">kind</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">debit</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -693,7 +691,9 @@
         <div class="method-description">
 
 
-          
+          <p>Só os débitos (refeições).</p>
+
+<p>Não recebe argumentos. Retorna uma consulta de <a href="Transaction.html"><code>Transaction</code></a>; não altera o banco.</p>
 
 
         </div>
@@ -731,7 +731,7 @@
 
 
           <div class="method-source-code" id="in_period-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 35</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">in_period</span>(<span class="ruby-identifier">period</span>)
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">period</span>
   <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;</span><span class="ruby-string">this_month</span><span class="ruby-string">&quot;</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">where</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">created_at &gt;= ?</span><span class="ruby-string">&quot;</span>, <span class="ruby-constant">Time</span>.<span class="ruby-identifier">current</span>.<span class="ruby-identifier">beginning_of_month</span>)
@@ -746,7 +746,9 @@
         <div class="method-description">
 
 
-          <p>sem período, ou com um que não existe, vale o padrão da tela: últimos 30 dias</p>
+          <p>Filtra pelo período escolhido no extrato.</p>
+
+<p>Recebe <code>&quot;this_month&quot;</code> (este mês), <code>&quot;all&quot;</code> (todo o período) ou qualquer outro valor (inclusive <code>nil</code>), que vale o padrão da tela: últimos 30 dias. Retorna uma consulta; não altera o banco.</p>
 
 
         </div>
@@ -784,7 +786,7 @@
 
 
           <div class="method-source-code" id="meals_count-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 26</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">meals_count</span>
   <span class="ruby-identifier">debits</span>.<span class="ruby-identifier">count</span>
 <span class="ruby-keyword">end</span></pre>
@@ -795,7 +797,9 @@
         <div class="method-description">
 
 
-          <p>cada débito é uma refeição</p>
+          <p>Quantidade de refeições: cada débito é uma refeição.</p>
+
+<p>Não recebe argumentos. Retorna um inteiro; não altera o banco.</p>
 
 
         </div>
@@ -833,7 +837,7 @@
 
 
           <div class="method-source-code" id="of_type-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 43</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">of_type</span>(<span class="ruby-identifier">type</span>)
   <span class="ruby-keyword">case</span> <span class="ruby-identifier">type</span>
   <span class="ruby-keyword">when</span> <span class="ruby-string">&quot;</span><span class="ruby-string">credit</span><span class="ruby-string">&quot;</span> <span class="ruby-keyword">then</span> <span class="ruby-identifier">credits</span>
@@ -848,7 +852,9 @@
         <div class="method-description">
 
 
-          
+          <p>Filtra pelo tipo escolhido no extrato.</p>
+
+<p>Recebe <code>&quot;credit&quot;</code> (recargas), <code>&quot;meal&quot;</code> (refeições) ou qualquer outro valor, que mantém todos. Retorna uma consulta; não altera o banco.</p>
 
 
         </div>
@@ -886,7 +892,7 @@
 
 
           <div class="method-source-code" id="page-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 51</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 87</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">page</span>(<span class="ruby-identifier">number</span>)
   <span class="ruby-identifier">offset</span>((<span class="ruby-identifier">number</span> <span class="ruby-operator">-</span> <span class="ruby-value">1</span>) <span class="ruby-operator">*</span> <span class="ruby-constant">PER_PAGE</span>).<span class="ruby-identifier">limit</span>(<span class="ruby-constant">PER_PAGE</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -897,7 +903,9 @@
         <div class="method-description">
 
 
-          
+          <p>Uma página do extrato, com <a href="Transaction.html#PER_PAGE"><code>PER_PAGE</code></a> lançamentos.</p>
+
+<p>Recebe o número da página (começa em 1). Retorna uma consulta; não altera o banco.</p>
 
 
         </div>
@@ -935,7 +943,7 @@
 
 
           <div class="method-source-code" id="recharged_cents-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 30</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 53</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">recharged_cents</span>
   <span class="ruby-identifier">credits</span>.<span class="ruby-identifier">sum</span>(<span class="ruby-value">:</span><span class="ruby-value">amount_cents</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -946,7 +954,9 @@
         <div class="method-description">
 
 
-          
+          <p>Total recarregado, em centavos.</p>
+
+<p>Não recebe argumentos. Retorna um inteiro (0 sem créditos); não altera o banco.</p>
 
 
         </div>
@@ -984,7 +994,7 @@
 
 
           <div class="method-source-code" id="spent_cents-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 21</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">spent_cents</span>
   <span class="ruby-identifier">debits</span>.<span class="ruby-identifier">sum</span>(<span class="ruby-value">:</span><span class="ruby-value">amount_cents</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -995,7 +1005,9 @@
         <div class="method-description">
 
 
-          
+          <p>Total gasto com refeições, em centavos.</p>
+
+<p>Não recebe argumentos. Retorna um inteiro (0 sem débitos); não altera o banco.</p>
 
 
         </div>
@@ -1033,7 +1045,7 @@
 
 
           <div class="method-source-code" id="total_pages-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 56</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/transaction.rb, line 95</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">total_pages</span>
   [ (<span class="ruby-identifier">count</span> <span class="ruby-operator">/</span> <span class="ruby-constant">PER_PAGE</span>.<span class="ruby-identifier">to_f</span>).<span class="ruby-identifier">ceil</span>, <span class="ruby-value">1</span> ].<span class="ruby-identifier">max</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1044,7 +1056,9 @@
         <div class="method-description">
 
 
-          <p>sem lançamentos ainda existe uma página, a que mostra o aviso</p>
+          <p>Quantidade de páginas do extrato. Sem lançamentos ainda existe uma página, a que mostra o aviso.</p>
+
+<p>Não recebe argumentos. Retorna um inteiro, no mínimo 1; não altera o banco.</p>
 
 
         </div>

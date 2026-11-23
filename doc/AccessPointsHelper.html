@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the AccessPointsHelper module"
+      content="module AccessPointsHelper: Funções auxiliadores para as views do AccessPoints"
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for AccessPointsHelper module - API reference and code examples"
-    >
+    <meta property="og:description" content="Funções auxiliadores para as views do AccessPoints">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for AccessPointsHelper module - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Funções auxiliadores para as views do AccessPoints">
 
 
 
@@ -522,6 +516,8 @@
 
   <section class="description">
     
+<p>Funções auxiliadores para as views do AccessPoints</p>
+
   </section>
 
 
@@ -594,7 +590,7 @@
 
 
           <div class="method-source-code" id="restaurant_label-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/helpers/access_points_helper.rb, line 14</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/helpers/access_points_helper.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">restaurant_label</span>(<span class="ruby-identifier">restaurant</span>)
   <span class="ruby-string">&quot;</span><span class="ruby-string">#{</span><span class="ruby-identifier">restaurant</span>.<span class="ruby-identifier">name</span><span class="ruby-string">}</span><span class="ruby-string"> - </span><span class="ruby-string">#{</span><span class="ruby-identifier">restaurant</span>.<span class="ruby-identifier">campus</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -605,7 +601,7 @@
         <div class="method-description">
 
 
-          
+          <p>Recebe um restaurante e retorna uma string no formato: “NOME - CAMPUS”</p>
 
 
         </div>
@@ -643,7 +639,7 @@
 
 
           <div class="method-source-code" id="turnstile_status_badge-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/helpers/access_points_helper.rb, line 9</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/helpers/access_points_helper.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">turnstile_status_badge</span>(<span class="ruby-identifier">turnstile</span>)
   <span class="ruby-identifier">label</span>, <span class="ruby-identifier">theme</span> = <span class="ruby-constant">TURNSTILE_STATUS</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span>)
   <span class="ruby-identifier">tag</span>.<span class="ruby-identifier">span</span>(<span class="ruby-identifier">label</span>, <span class="ruby-value">class</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">badge badge-subtle </span><span class="ruby-string">#{</span><span class="ruby-identifier">theme</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>)
@@ -655,7 +651,7 @@
         <div class="method-description">
 
 
-          
+          <p>Recebe uma catraca e formata os valores de classe de css e também conteúdo interno de uma tag de acordo com o valor de operation da catraca.</p>
 
 
         </div>

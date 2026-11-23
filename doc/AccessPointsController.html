@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the AccessPointsController class"
+      content="class AccessPointsController: Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for AccessPointsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for AccessPointsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores.">
 
 
 
@@ -508,6 +502,8 @@
 
         <li ><a href="#method-i-show">show</a></li>
 
+        <li ><a href="#method-i-validate">validate</a></li>
+
       </ul>
     </details>
   </div>
@@ -543,6 +539,8 @@
 
   <section class="description">
     
+<p>Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores.</p>
+
   </section>
 
 
@@ -598,7 +596,7 @@
 
 
           <div class="method-source-code" id="confirm_disconnect-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 43</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 94</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">confirm_disconnect</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -608,7 +606,9 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/access/confirm_disconnect</p>
+
+<p>O método não realiza nada, mas é usado para chamar a confirmação de DELETE /operator/access</p>
 
 
         </div>
@@ -646,7 +646,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 14</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-identifier">operator</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-identifier">turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">id</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">dig</span>(<span class="ruby-value">:</span><span class="ruby-value">access_point</span>, <span class="ruby-value">:</span><span class="ruby-value">turnstile_id</span>))
@@ -654,7 +654,7 @@
     <span class="ruby-identifier">render_error</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">Escolha um ponto de acesso para iniciar a operação.</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Inativa</span><span class="ruby-string">&quot;</span>
     <span class="ruby-identifier">render_error</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">O ponto de acesso escolhido está inativo.</span><span class="ruby-string">&quot;</span>)
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Operando</span><span class="ruby-string">&quot;</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-string">%w[</span> <span class="ruby-string">Operando</span> <span class="ruby-string">FastPass</span> <span class="ruby-string">]</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span>)
     <span class="ruby-identifier">render_error</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">O ponto de acesso escolhido já está em operação.</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">current_turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">operator</span>.<span class="ruby-identifier">id</span>)
@@ -672,7 +672,13 @@
         <div class="method-description">
 
 
-          
+          <p>POST /operator/access</p>
+
+<p>Associa um operador (atualmente autenticado) com uma turnstile.</p>
+
+<p>Se a turnstile não existe, ou está Inativa, ou está em operação por outro operador, então a associação falha. O operador recebe a mensagem explicando qual falha ocorreu.</p>
+
+<p>Se há sucesso, o operador é associado à catraca, e este é redirecionado para <a href="AccessPointsController.html#method-i-show"><code>AccessPointsController#show</code></a>.</p>
 
 
         </div>
@@ -710,7 +716,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 33</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>])
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">nil?</span>
@@ -727,7 +733,11 @@
         <div class="method-description">
 
 
-          
+          <p>DELETE /operator/access</p>
+
+<p>Desvincula um operador de sua catraca associada, e avisa se houve sucesso ou se não havia catraca para desvincular.</p>
+
+<p>Independente do resultado, o operador é redirecionado para <a href="AccessPointsController.html#method-i-new"><code>AccessPointsController#new</code></a>.</p>
 
 
         </div>
@@ -765,7 +775,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 6</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -775,7 +785,9 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/access/new</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
 
 
         </div>
@@ -813,10 +825,12 @@
 
 
           <div class="method-source-code" id="show-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 9</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 24</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>])
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_access_point_path</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-ivar">@entry</span> = <span class="ruby-identifier">flash</span>[<span class="ruby-value">:</span><span class="ruby-value">entry</span>]
+  <span class="ruby-ivar">@student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">flash</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>])
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -825,7 +839,65 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/access</p>
+
+<p>Prepara variáveis relacionadas ao controle de catraca, para serem usadas na view.</p>
+
+<p>Notavelmente, se o operador não tiver uma catraca associada ainda, este é redirecionado para <a href="AccessPointsController.html#method-i-new"><code>AccessPointsController#new</code></a>.</p>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-validate" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-validate" title="Link to this method">
+                  <span class="method-name">validate</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="validate-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 39</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span>
+  <span class="ruby-identifier">student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>])
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">access_point_path</span>, <span class="ruby-value">flash</span><span class="ruby-value">:</span> { <span class="ruby-value">entry</span><span class="ruby-value">:</span> <span class="ruby-identifier">entry_result</span>(<span class="ruby-identifier">student</span>), <span class="ruby-value">registration</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>] }
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>POST /operator/access/validate</p>
+
+<p>Valida a matrícula digitada no Terminal de Validação (<code>params[:registration]</code>). Com saldo, libera e cobra a refeição; sem saldo ou com matrícula não cadastrada, bloqueia.</p>
+
+<p>Não retorna valor: redireciona para o Terminal de Validação com o resultado e a matrícula no flash, assim atualizar a página não cobra de novo. Quando libera, cria um débito e diminui o saldo do estudante.</p>
 
 
         </div>

@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the OperatorSessionsController class"
+      content="class OperatorSessionsController: Controller para a autenticação de Operator."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for OperatorSessionsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para a autenticação de Operator.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for OperatorSessionsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para a autenticação de Operator.">
 
 
 
@@ -537,6 +531,8 @@
 
   <section class="description">
     
+<p>Controller para a autenticação de Operator.</p>
+
   </section>
 
 
@@ -592,8 +588,8 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 5</span>
-  <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-identifier">operator_params</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">operator</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">operator_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>] <span class="ruby-operator">!~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
     <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula inválida.</span><span class="ruby-string">&quot;</span>
@@ -616,7 +612,15 @@
         <div class="method-description">
 
 
-          
+          <p>POST /operator/login</p>
+
+<p>Verifica as credenciais passadas como parâmetro do formulário, e então compara-as com a database.</p>
+
+<p>Caso exista algum Operator com as mesmas credenciais, cria-se uma nova sessão. O operador é redirecionado para <a href="AccessPointsController.html#method-i-show"><code>AccessPointsController#show</code></a>.</p>
+
+<p>Caso as credenciais não sejam válidas, avisa que os valores não foram escritos corretamente. O usuário retorna para <a href="OperatorSessionsController.html#method-i-new"><code>OperatorSessionsController#new</code></a>.</p>
+
+<p>Caso as credenciais são válidas mas não tem correspondência, avisa que algo está errado, mas não <em>o quê</em> (questões de segurança). O usuário retorna para <a href="OperatorSessionsController.html#method-i-new"><code>OperatorSessionsController#new</code></a>.</p>
 
 
         </div>
@@ -654,7 +658,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 2</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -664,7 +668,9 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/login</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
 
 
         </div>
