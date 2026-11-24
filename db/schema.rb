@@ -10,40 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_22_194013) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_232030) do
+  create_table "accesses", force: :cascade do |t|
+    t.string "student_id"
+    t.string "registration", null: false
+    t.integer "restaurant_id", null: false
+    t.integer "turnstile_id", null: false
+    t.string "status", null: false
+    t.string "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_accesses_on_restaurant_id"
+    t.index ["student_id"], name: "index_accesses_on_student_id"
+    t.index ["turnstile_id"], name: "index_accesses_on_turnstile_id"
+  end
+
   create_table "accounts", primary_key: "user", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
     t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "fast_pass_enrollments", force: :cascade do |t|
-    t.string "student_id", null: false
-    t.integer "timeframe_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["student_id", "timeframe_id"], name: "index_fast_pass_enrollments_on_student_id_and_timeframe_id", unique: true
-    t.index ["timeframe_id"], name: "index_fast_pass_enrollments_on_timeframe_id"
-  end
-
-  create_table "fast_pass_settings", force: :cascade do |t|
-    t.integer "delay_tolerance_minutes", default: 0, null: false
-    t.integer "early_release_minutes", default: 0, null: false
-    t.boolean "delay_tolerance_enabled", default: true, null: false
-    t.boolean "singleton", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["singleton"], name: "index_fast_pass_settings_on_singleton", unique: true
-  end
-
-  create_table "menus", force: :cascade do |t|
-    t.integer "weekday", null: false
-    t.string "meal", null: false
-    t.text "description", null: false
-    t.time "starts_at", null: false
-    t.time "ends_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -72,15 +57,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_22_194013) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "timeframes", force: :cascade do |t|
-    t.integer "shift_id", null: false
-    t.time "starts_at", null: false
-    t.time "ends_at", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["shift_id"], name: "index_timeframes_on_shift_id"
-  end
-
   create_table "transactions", force: :cascade do |t|
     t.string "student_id", null: false
     t.integer "access_id"
@@ -105,10 +81,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_22_194013) do
     t.index ["restaurant_id"], name: "index_turnstiles_on_restaurant_id"
   end
 
-  add_foreign_key "fast_pass_enrollments", "students", primary_key: "user"
-  add_foreign_key "fast_pass_enrollments", "timeframes", on_delete: :restrict
+  add_foreign_key "accesses", "restaurants"
+  add_foreign_key "accesses", "students", primary_key: "user"
+  add_foreign_key "accesses", "turnstiles"
   add_foreign_key "students", "accounts", column: "user", primary_key: "user"
-  add_foreign_key "timeframes", "shifts"
+  add_foreign_key "transactions", "accesses"
   add_foreign_key "transactions", "students", primary_key: "user"
   add_foreign_key "turnstiles", "accounts", column: "operator_id", primary_key: "user"
   add_foreign_key "turnstiles", "restaurants"

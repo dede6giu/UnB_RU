@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resources :turnstiles
     get "/shifts", to: "admin_shifts#show", as: :admin_shifts
     patch "/shifts", to: "admin_shifts#update"
+    get "/history", to: "global_histories#index", as: :global_history
   end
 
   scope "/operator" do

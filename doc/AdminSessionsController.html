@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the AdminSessionsController class"
+      content="class AdminSessionsController: Controller para a autenticação de Admin."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for AdminSessionsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para a autenticação de Admin.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for AdminSessionsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para a autenticação de Admin.">
 
 
 
@@ -498,9 +492,19 @@
       </summary>
       <ul class="nav-list" role="directory">
 
+        <li ><a href="#method-i-admin_params">admin_params</a></li>
+
+        <li ><a href="#method-i-authenticate_admin">authenticate_admin</a></li>
+
         <li ><a href="#method-i-create">create</a></li>
 
+        <li ><a href="#method-i-destroy">destroy</a></li>
+
+        <li ><a href="#method-i-failed_login">failed_login</a></li>
+
         <li ><a href="#method-i-new">new</a></li>
+
+        <li ><a href="#method-i-valid_userid">valid_userid</a></li>
 
       </ul>
     </details>
@@ -519,7 +523,7 @@
       </span>
     </summary>
 
-    <ul class="link-list nav-list"><li><code><a href="./AccessControlController.html">AccessControlController</a></code></li><li><code><a href="./AccessControlHelper.html">AccessControlHelper</a></code></li><li><code><a href="./AccessPointsController.html">AccessPointsController</a></code></li><li><code><a href="./AccessPointsHelper.html">AccessPointsHelper</a></code></li><li><code><a href="./Account.html">Account</a></code></li><li><code><a href="./AdminSessionsController.html">AdminSessionsController</a></code></li><li><code><a href="./AdminSessionsHelper.html">AdminSessionsHelper</a></code></li><li><code><a href="./ApplicationController.html">ApplicationController</a></code></li><li><code><a href="./ApplicationHelper.html">ApplicationHelper</a></code></li><li><code><a href="./ApplicationJob.html">ApplicationJob</a></code></li><li><code><a href="./ApplicationMailer.html">ApplicationMailer</a></code></li><li><code><a href="./ApplicationRecord.html">ApplicationRecord</a></code></li><li><code><a href="./CreditCard.html">CreditCard</a></code></li><li><code><a href="./HomeController.html">HomeController</a></code></li><li><code><a href="./MenuCatalog.html">MenuCatalog</a></code></li><li><code><a href="./MenusController.html">MenusController</a></code></li><li><code><a href="./OperatorSessionsController.html">OperatorSessionsController</a></code></li><li><code><a href="./OperatorSessionsHelper.html">OperatorSessionsHelper</a></code></li><li><code><a href="./Recharge.html">Recharge</a></code></li><li><code><a href="./RechargesController.html">RechargesController</a></code></li><li><code><a href="./Restaurant.html">Restaurant</a></code></li><li><code><a href="./RestaurantsController.html">RestaurantsController</a></code></li><li><code><a href="./RestaurantsHelper.html">RestaurantsHelper</a></code></li><li><code><a href="./StatementPdf.html">StatementPdf</a></code></li><li><code><a href="./StatementsController.html">StatementsController</a></code></li><li><code><a href="./StatementsHelper.html">StatementsHelper</a></code></li><li><code><a href="./Student.html">Student</a></code></li><li><code><a href="./StudentAuthentication.html">StudentAuthentication</a></code></li><li><code><a href="./StudentPortalController.html">StudentPortalController</a></code></li><li><code><a href="./StudentPortalHelper.html">StudentPortalHelper</a></code></li><li><code><a href="./StudentSessionsController.html">StudentSessionsController</a></code></li><li><code><a href="./StudentSessionsHelper.html">StudentSessionsHelper</a></code></li><li><code><a href="./Transaction.html">Transaction</a></code></li><li><code><a href="./Turnstile.html">Turnstile</a></code></li><li><code><a href="./TurnstilesController.html">TurnstilesController</a></code></li><li><code><a href="./TurnstilesHelper.html">TurnstilesHelper</a></code></li></ul>
+    <ul class="link-list nav-list"><li><code><a href="./Access.html">Access</a></code></li><li><code><a href="./AccessControlController.html">AccessControlController</a></code></li><li><code><a href="./AccessControlHelper.html">AccessControlHelper</a></code></li><li><code><a href="./AccessPointsController.html">AccessPointsController</a></code></li><li><code><a href="./AccessPointsHelper.html">AccessPointsHelper</a></code></li><li><code><a href="./Account.html">Account</a></code></li><li><code><a href="./AdminSessionsController.html">AdminSessionsController</a></code></li><li><code><a href="./AdminSessionsHelper.html">AdminSessionsHelper</a></code></li><li><code><a href="./ApplicationController.html">ApplicationController</a></code></li><li><code><a href="./ApplicationHelper.html">ApplicationHelper</a></code></li><li><code><a href="./ApplicationJob.html">ApplicationJob</a></code></li><li><code><a href="./ApplicationMailer.html">ApplicationMailer</a></code></li><li><code><a href="./ApplicationRecord.html">ApplicationRecord</a></code></li><li><code><a href="./CreditCard.html">CreditCard</a></code></li><li><code><a href="./GlobalHistoriesController.html">GlobalHistoriesController</a></code></li><li><code><a href="./HomeController.html">HomeController</a></code></li><li><code><a href="./MenuCatalog.html">MenuCatalog</a></code></li><li><code><a href="./MenusController.html">MenusController</a></code></li><li><code><a href="./OperatorSessionsController.html">OperatorSessionsController</a></code></li><li><code><a href="./OperatorSessionsHelper.html">OperatorSessionsHelper</a></code></li><li><code><a href="./Recharge.html">Recharge</a></code></li><li><code><a href="./RechargesController.html">RechargesController</a></code></li><li><code><a href="./Restaurant.html">Restaurant</a></code></li><li><code><a href="./RestaurantsController.html">RestaurantsController</a></code></li><li><code><a href="./RestaurantsHelper.html">RestaurantsHelper</a></code></li><li><code><a href="./StatementPdf.html">StatementPdf</a></code></li><li><code><a href="./StatementsController.html">StatementsController</a></code></li><li><code><a href="./StatementsHelper.html">StatementsHelper</a></code></li><li><code><a href="./Student.html">Student</a></code></li><li><code><a href="./StudentAuthentication.html">StudentAuthentication</a></code></li><li><code><a href="./StudentPortalController.html">StudentPortalController</a></code></li><li><code><a href="./StudentPortalHelper.html">StudentPortalHelper</a></code></li><li><code><a href="./StudentSessionsController.html">StudentSessionsController</a></code></li><li><code><a href="./StudentSessionsHelper.html">StudentSessionsHelper</a></code></li><li><code><a href="./Transaction.html">Transaction</a></code></li><li><code><a href="./Turnstile.html">Turnstile</a></code></li><li><code><a href="./TurnstilesController.html">TurnstilesController</a></code></li><li><code><a href="./TurnstilesHelper.html">TurnstilesHelper</a></code></li></ul>
   </details>
 </div>
 
@@ -537,6 +541,8 @@
 
   <section class="description">
     
+<p>Controller para a autenticação de Admin.</p>
+
   </section>
 
 
@@ -592,21 +598,14 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 5</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
-  <span class="ruby-identifier">admin_params</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">admin</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>] <span class="ruby-operator">!~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">admin</span><span class="ruby-string">&quot;</span>)
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula inválida.</span><span class="ruby-string">&quot;</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
-    <span class="ruby-keyword">return</span>
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">admin</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">admin_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">admin</span><span class="ruby-string">&quot;</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">admin_params</span>[<span class="ruby-value">:</span><span class="ruby-value">password</span>])
-    <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">admin_id</span>] = <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">id</span>
+  <span class="ruby-identifier">account_values</span> = <span class="ruby-identifier">admin_params</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">authenticate_admin</span>(<span class="ruby-identifier">account_values</span>)
+    <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">admin_id</span>] = <span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>]
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>, <span class="ruby-value">notice</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Sucesso na autenticação.</span><span class="ruby-string">&quot;</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula ou senha incorretas.</span><span class="ruby-string">&quot;</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
+    <span class="ruby-identifier">failed_login</span>(<span class="ruby-identifier">account_values</span>)
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -616,7 +615,69 @@
         <div class="method-description">
 
 
-          
+          <p>POST /admin/login</p>
+
+<p>Verifica as credenciais passadas como parâmetro do formulário, e então compara-as com a database.</p>
+
+<p>Caso exista algum Admin com as mesmas credenciais, cria-se uma nova sessão. O administrador é redirecionado para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>Caso as credenciais não sejam válidas, avisa que os valores não foram escritos corretamente. O usuário retorna para <a href="AdminSessionsController.html#method-i-new"><code>AdminSessionsController#new</code></a>.</p>
+
+<p>Caso as credenciais são válidas mas não tem correspondência, avisa que algo está errado, mas não <em>o quê</em> (questões de segurança). O usuário retorna para <a href="AdminSessionsController.html#method-i-new"><code>AdminSessionsController#new</code></a>.</p>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-destroy" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-destroy" title="Link to this method">
+                  <span class="method-name">destroy</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="destroy-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 42</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
+  <span class="ruby-identifier">session</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:</span><span class="ruby-value">admin_id</span>)
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_admin_session_path</span>, <span class="ruby-value">notice</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Você saiu da conta.</span><span class="ruby-string">&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>DELETE /admin/login</p>
+
+<p>Remove o registro de sessão e, portanto, a autenticação como administrador.</p>
+
+<p>Redireciona o usuário para a página de login de admins.</p>
 
 
         </div>
@@ -654,8 +715,226 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 2</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>GET /admin/login</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
+
+
+     <section id="private-instance-untitled-method-details" class="method-section anchor-link">
+       <header>
+         <h3 id="private-instance-untitled-methods"><a href="#private-instance-untitled-methods">Private Instance Methods</a></h3>
+       </header>
+
+
+      <div id="method-i-admin_params" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-admin_params" title="Link to this method">
+                  <span class="method-name">admin_params</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="admin_params-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 49</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">admin_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">admin</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-authenticate_admin" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-authenticate_admin" title="Link to this method">
+                  <span class="method-name">authenticate_admin</span>
+                  <span class="method-args">(account_values)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="authenticate_admin-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_admin</span>(<span class="ruby-identifier">account_values</span>)
+  <span class="ruby-identifier">admin</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">admin</span><span class="ruby-string">&quot;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">admin</span>
+    <span class="ruby-identifier">admin</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">password</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-failed_login" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-failed_login" title="Link to this method">
+                  <span class="method-name">failed_login</span>
+                  <span class="method-args">(account_values)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="failed_login-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 66</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">failed_login</span>(<span class="ruby-identifier">account_values</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">valid_userid</span>(<span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>])
+    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula ou senha incorretas.</span><span class="ruby-string">&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula inválida.</span><span class="ruby-string">&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-valid_userid" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-valid_userid" title="Link to this method">
+                  <span class="method-name">valid_userid</span>
+                  <span class="method-args">(userid)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="valid_userid-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/admin_sessions_controller.rb, line 53</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_userid</span>(<span class="ruby-identifier">userid</span>)
+  <span class="ruby-identifier">userid</span> <span class="ruby-operator">=~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">admin</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -677,8 +956,6 @@
 
 
     </section>
-
-
 
 
   </section>

@@ -17,6 +17,9 @@ module NavigationHelpers
     when /Cadastrar Catracas?/
       turnstile_base + '/new'
 
+    # Global history
+    when /^Histórico Global$/ then global_history_path
+
     # Autentication paths
     when /^Autenticação de Admin$/ then new_admin_session_path
     when /^Autenticação do Operador$/ then new_operator_session_path

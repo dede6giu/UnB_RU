@@ -1,13 +1,28 @@
+# Controla as rotas relacionadas ao registro, atuação e desconexão de ponto
+# para operadores.
 class AccessPointsController < ApplicationController
   layout "operator"
   helper_method :current_operator
   before_action :load_restaurants, only: %i[new create]
+  before_action :set_operator_turnstile, only: %i[show validate]
 
+
+  ##
+  # GET /operator/access/new
+  #
+  # Chamado durante o processo, mas não realiza nada.
   def new
   end
 
+  ##
+  # GET /operator/access
+  #
+  # Prepara variáveis relacionadas ao controle de catraca, para serem
+  # usadas na view.
+  #
+  # Notavelmente, se o operador não tiver uma catraca associada ainda,
+  # este é redirecionado para AccessPointsController#new.
   def show
-    @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
     redirect_to new_access_point_path if @turnstile.nil?
     @entry = flash[:entry]
     @student = Student.find_by(user: flash[:registration])
@@ -23,9 +38,22 @@ class AccessPointsController < ApplicationController
   # assim atualizar a página não cobra de novo. Quando libera, cria um débito e diminui o saldo do estudante.
   def validate
     student = Student.find_by(user: params[:registration])
-    redirect_to access_point_path, flash: { entry: entry_result(student), registration: params[:registration] }
+    result = entry_result(student)
+    register_access(student, result)
+
+    redirect_to access_point_path, flash: { entry: result, registration: params[:registration] }
   end
 
+  ##
+  # POST /operator/access
+  #
+  # Associa um operador (atualmente autenticado) com uma turnstile.
+  #
+  # Se a turnstile não existe, ou está Inativa, ou está em operação por outro operador,
+  # então a associação falha. O operador recebe a mensagem explicando qual falha ocorreu.
+  #
+  # Se há sucesso, o operador é associado à catraca, e este é redirecionado
+  # para AccessPointsController#show.
   def create
     operator = Account.find_by(user: session[:operator_id], role: "operator")
     turnstile = Turnstile.find_by(id: params.dig(:access_point, :turnstile_id))
@@ -33,7 +61,7 @@ class AccessPointsController < ApplicationController
       render_error("Escolha um ponto de acesso para iniciar a operação.")
     elsif turnstile.operation == "Inativa"
       render_error("O ponto de acesso escolhido está inativo.")
-    elsif turnstile.operation == "Operando"
+    elsif %w[ Operando FastPass ].include?(turnstile.operation)
       render_error("O ponto de acesso escolhido já está em operação.")
     else
       current_turnstile = Turnstile.find_by(operator_id: operator.id)
@@ -45,6 +73,13 @@ class AccessPointsController < ApplicationController
     end
   end
 
+  ##
+  # DELETE /operator/access
+  #
+  # Desvincula um operador de sua catraca associada, e avisa se houve sucesso ou
+  # se não havia catraca para desvincular.
+  #
+  # Independente do resultado, o operador é redirecionado para AccessPointsController#new.
   def destroy
     turnstile = Turnstile.find_by(operator_id: session[:operator_id])
     if turnstile.nil?
@@ -55,6 +90,10 @@ class AccessPointsController < ApplicationController
     end
   end
 
+  ##
+  # GET /operator/access/confirm_disconnect
+  #
+  # O método não realiza nada, mas é usado para chamar a confirmação de DELETE /operator/access
   def confirm_disconnect
   end
 
@@ -64,6 +103,15 @@ class AccessPointsController < ApplicationController
 
   def load_restaurants
     @restaurants = Restaurant.includes(:turnstiles).order(:campus, :name)
+  end
+
+  ##
+  # Carrega a catraca em operação do operador logado.
+  #
+  # Não recebe argumentos. Define `@turnstile` (ou `nil` quando não há catraca em operação).
+  # Não altera o banco de dados.
+  def set_operator_turnstile
+    @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
   end
 
   def current_operator
@@ -83,6 +131,47 @@ class AccessPointsController < ApplicationController
     else
       "no_balance"
     end
+  end
+
+  ##
+  # Registra o acesso do terminal de validação no histórico global.
+  #
+  # Recebe o estudante encontrado (ou `nil`) e o resultado de `entry_result`.
+  # Retorna o `Access` criado, ou `nil` quando não há catraca em operação.
+  # Escreve no banco: cria um `Access`; quando liberado, vincula o débito gerado.
+  def register_access(student, result)
+    return if @turnstile.nil?
+
+    Access.transaction do
+      access = Access.create!(
+        student: student,
+        registration: params[:registration],
+        restaurant: @turnstile.restaurant,
+        turnstile: @turnstile,
+        status: result == "allowed" ? "allowed" : "blocked",
+        reason: access_reason(result)
+      )
+      link_debit(access) if result == "allowed"
+    end
+  end
+
+  ##
+  # Traduz o resultado de `entry_result` para o motivo gravado no acesso.
+  #
+  # Retorna `"no_balance"`, `"not_found"` ou `nil` (acesso liberado).
+  def access_reason(result)
+    return "no_balance" if result == "no_balance"
+    return "not_found" if result == "not_found"
+
+    nil
+  end
+
+  ##
+  # Vincula o débito recém-criado ao acesso liberado.
+  #
+  # Não retorna valor. Atualiza `transactions.access_id` do último débito do estudante.
+  def link_debit(access)
+    Transaction.debits.where(student_id: access.student_id).order(:id).last&.update!(access: access)
   end
 
   def render_error(message)

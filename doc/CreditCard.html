@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the CreditCard class"
+      content="class CreditCard: Cartão de crédito usado na recarga (não tem tabela própria). AA, não vencida); nada do cartão é salvo."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for CreditCard class - API reference and code examples"
-    >
+    <meta property="og:description" content="Cartão de crédito usado na recarga (não tem tabela própria). AA, não vencida); nada do cartão é salvo.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for CreditCard class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Cartão de crédito usado na recarga (não tem tabela própria). AA, não vencida); nada do cartão é salvo.">
 
 
 
@@ -522,6 +516,8 @@
       </summary>
       <ul class="nav-list" role="directory">
 
+        <li ><a href="#method-i-expiry_not_in_the_past">expiry_not_in_the_past</a></li>
+
         <li ><a href="#method-i-number-3D">number=</a></li>
 
       </ul>
@@ -541,7 +537,7 @@
       </span>
     </summary>
 
-    <ul class="link-list nav-list"><li><code><a href="./AccessControlController.html">AccessControlController</a></code></li><li><code><a href="./AccessControlHelper.html">AccessControlHelper</a></code></li><li><code><a href="./AccessPointsController.html">AccessPointsController</a></code></li><li><code><a href="./AccessPointsHelper.html">AccessPointsHelper</a></code></li><li><code><a href="./Account.html">Account</a></code></li><li><code><a href="./AdminSessionsController.html">AdminSessionsController</a></code></li><li><code><a href="./AdminSessionsHelper.html">AdminSessionsHelper</a></code></li><li><code><a href="./ApplicationController.html">ApplicationController</a></code></li><li><code><a href="./ApplicationHelper.html">ApplicationHelper</a></code></li><li><code><a href="./ApplicationJob.html">ApplicationJob</a></code></li><li><code><a href="./ApplicationMailer.html">ApplicationMailer</a></code></li><li><code><a href="./ApplicationRecord.html">ApplicationRecord</a></code></li><li><code><a href="./CreditCard.html">CreditCard</a></code></li><li><code><a href="./HomeController.html">HomeController</a></code></li><li><code><a href="./MenuCatalog.html">MenuCatalog</a></code></li><li><code><a href="./MenusController.html">MenusController</a></code></li><li><code><a href="./OperatorSessionsController.html">OperatorSessionsController</a></code></li><li><code><a href="./OperatorSessionsHelper.html">OperatorSessionsHelper</a></code></li><li><code><a href="./Recharge.html">Recharge</a></code></li><li><code><a href="./RechargesController.html">RechargesController</a></code></li><li><code><a href="./Restaurant.html">Restaurant</a></code></li><li><code><a href="./RestaurantsController.html">RestaurantsController</a></code></li><li><code><a href="./RestaurantsHelper.html">RestaurantsHelper</a></code></li><li><code><a href="./StatementPdf.html">StatementPdf</a></code></li><li><code><a href="./StatementsController.html">StatementsController</a></code></li><li><code><a href="./StatementsHelper.html">StatementsHelper</a></code></li><li><code><a href="./Student.html">Student</a></code></li><li><code><a href="./StudentAuthentication.html">StudentAuthentication</a></code></li><li><code><a href="./StudentPortalController.html">StudentPortalController</a></code></li><li><code><a href="./StudentPortalHelper.html">StudentPortalHelper</a></code></li><li><code><a href="./StudentSessionsController.html">StudentSessionsController</a></code></li><li><code><a href="./StudentSessionsHelper.html">StudentSessionsHelper</a></code></li><li><code><a href="./Transaction.html">Transaction</a></code></li><li><code><a href="./Turnstile.html">Turnstile</a></code></li><li><code><a href="./TurnstilesController.html">TurnstilesController</a></code></li><li><code><a href="./TurnstilesHelper.html">TurnstilesHelper</a></code></li></ul>
+    <ul class="link-list nav-list"><li><code><a href="./Access.html">Access</a></code></li><li><code><a href="./AccessControlController.html">AccessControlController</a></code></li><li><code><a href="./AccessControlHelper.html">AccessControlHelper</a></code></li><li><code><a href="./AccessPointsController.html">AccessPointsController</a></code></li><li><code><a href="./AccessPointsHelper.html">AccessPointsHelper</a></code></li><li><code><a href="./Account.html">Account</a></code></li><li><code><a href="./AdminSessionsController.html">AdminSessionsController</a></code></li><li><code><a href="./AdminSessionsHelper.html">AdminSessionsHelper</a></code></li><li><code><a href="./ApplicationController.html">ApplicationController</a></code></li><li><code><a href="./ApplicationHelper.html">ApplicationHelper</a></code></li><li><code><a href="./ApplicationJob.html">ApplicationJob</a></code></li><li><code><a href="./ApplicationMailer.html">ApplicationMailer</a></code></li><li><code><a href="./ApplicationRecord.html">ApplicationRecord</a></code></li><li><code><a href="./CreditCard.html">CreditCard</a></code></li><li><code><a href="./GlobalHistoriesController.html">GlobalHistoriesController</a></code></li><li><code><a href="./HomeController.html">HomeController</a></code></li><li><code><a href="./MenuCatalog.html">MenuCatalog</a></code></li><li><code><a href="./MenusController.html">MenusController</a></code></li><li><code><a href="./OperatorSessionsController.html">OperatorSessionsController</a></code></li><li><code><a href="./OperatorSessionsHelper.html">OperatorSessionsHelper</a></code></li><li><code><a href="./Recharge.html">Recharge</a></code></li><li><code><a href="./RechargesController.html">RechargesController</a></code></li><li><code><a href="./Restaurant.html">Restaurant</a></code></li><li><code><a href="./RestaurantsController.html">RestaurantsController</a></code></li><li><code><a href="./RestaurantsHelper.html">RestaurantsHelper</a></code></li><li><code><a href="./StatementPdf.html">StatementPdf</a></code></li><li><code><a href="./StatementsController.html">StatementsController</a></code></li><li><code><a href="./StatementsHelper.html">StatementsHelper</a></code></li><li><code><a href="./Student.html">Student</a></code></li><li><code><a href="./StudentAuthentication.html">StudentAuthentication</a></code></li><li><code><a href="./StudentPortalController.html">StudentPortalController</a></code></li><li><code><a href="./StudentPortalHelper.html">StudentPortalHelper</a></code></li><li><code><a href="./StudentSessionsController.html">StudentSessionsController</a></code></li><li><code><a href="./StudentSessionsHelper.html">StudentSessionsHelper</a></code></li><li><code><a href="./Transaction.html">Transaction</a></code></li><li><code><a href="./Turnstile.html">Turnstile</a></code></li><li><code><a href="./TurnstilesController.html">TurnstilesController</a></code></li><li><code><a href="./TurnstilesHelper.html">TurnstilesHelper</a></code></li></ul>
   </details>
 </div>
 
@@ -559,6 +555,8 @@
 
   <section class="description">
     
+<p>Cartão de crédito usado na recarga (não tem tabela própria). Só confere o número (16 dígitos), o CVV (3 dígitos) e a validade (MM/AA, não vencida); nada do cartão é salvo.</p>
+
   </section>
 
 
@@ -589,7 +587,7 @@
         <div class="method-description">
 
 
-        
+        <p>Validade no formato MM/AA e o código de segurança (CVV).</p>
 
         </div>
       </div>
@@ -606,7 +604,7 @@
         <div class="method-description">
 
 
-        
+        <p>Validade no formato MM/AA e o código de segurança (CVV).</p>
 
         </div>
       </div>
@@ -623,7 +621,7 @@
         <div class="method-description">
 
 
-        
+        <p>Número do cartão, já sem espaços.</p>
 
         </div>
       </div>
@@ -673,7 +671,7 @@
 
 
           <div class="method-source-code" id="number-3D-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 8</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">number=</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@number</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&quot;</span><span class="ruby-string"> </span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -684,7 +682,9 @@
         <div class="method-description">
 
 
-          <p>quem digita o número costuma copiar os espaços do cartão</p>
+          <p>Guarda o número do cartão tirando os espaços, porque quem digita costuma copiar o número com os espaços do cartão.</p>
+
+<p>Recebe o número como veio do formulário (<code>value</code>). Não retorna valor útil; o efeito é guardar o número limpo no objeto.</p>
 
 
         </div>
@@ -699,6 +699,69 @@
     </section>
 
 
+
+     <section id="private-instance-untitled-method-details" class="method-section anchor-link">
+       <header>
+         <h3 id="private-instance-untitled-methods"><a href="#private-instance-untitled-methods">Private Instance Methods</a></h3>
+       </header>
+
+
+      <div id="method-i-expiry_not_in_the_past" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-expiry_not_in_the_past" title="Link to this method">
+                  <span class="method-name">expiry_not_in_the_past</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="expiry_not_in_the_past-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 33</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">expiry_not_in_the_past</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:</span><span class="ruby-value">expiry</span>)
+
+  <span class="ruby-identifier">month</span>, <span class="ruby-identifier">year</span> = <span class="ruby-identifier">expiry</span>.<span class="ruby-identifier">split</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">/</span><span class="ruby-string">&quot;</span>).<span class="ruby-identifier">map</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:</span><span class="ruby-value">to_i</span>)
+  <span class="ruby-identifier">last_valid_day</span> = <span class="ruby-constant">Date</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">2000</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">year</span>, <span class="ruby-identifier">month</span>, <span class="ruby-value">1</span>).<span class="ruby-identifier">end_of_month</span>
+  <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:</span><span class="ruby-value">expiry</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">está vencida</span><span class="ruby-string">&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_valid_day</span> <span class="ruby-operator">&lt;</span> <span class="ruby-constant">Date</span>.<span class="ruby-identifier">current</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>Validação da validade: o cartão vale até o último dia do mês de MM/AA. Só roda com o formato já válido.</p>
+
+<p>Não recebe argumentos nem retorna valor útil. Se a validade já passou, adiciona o erro “está vencida”.</p>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
 
 
   </section>
