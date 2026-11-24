@@ -1,4 +1,3 @@
-@wip
 Feature: Shift editing
     As an administrator
     I want to define the start and end time of each meal shift

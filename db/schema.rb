@@ -41,6 +41,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_232030) do
     t.index ["name", "campus"], name: "index_restaurants_on_name_and_campus", unique: true
   end
 
+  create_table "shifts", force: :cascade do |t|
+    t.string "meal_type", null: false
+    t.time "starts_at", null: false
+    t.time "ends_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_type"], name: "index_shifts_on_meal_type", unique: true
+  end
+
   create_table "students", primary_key: "user", id: :string, force: :cascade do |t|
     t.integer "balance_cents", default: 0, null: false
     t.datetime "blocked_until"

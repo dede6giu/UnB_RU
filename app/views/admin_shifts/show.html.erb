@@ -1,0 +1,55 @@
+<% content_for :title, "Turnos e Time-frames" %>
+
+<main class="container py-4">
+  <header class="mb-4">
+    <h1 class="h2 fg-primary">Turnos e Time-frames</h1>
+    <p class="fg-3 mb-0">Configure os horários das refeições para orientar o acesso FastPass.</p>
+  </header>
+
+  <% if notice.present? %>
+    <div class="alert alert-success" role="status"><%= notice %></div>
+  <% end %>
+  <% if alert.present? %>
+    <div class="alert alert-danger" role="alert"><%= alert %></div>
+  <% end %>
+
+  <%= form_with url: admin_shifts_path, method: :patch do %>
+    <div class="row g-3">
+      <% meal_labels = { "breakfast" => "Café da manhã", "lunch" => "Almoço", "dinner" => "Janta" } %>
+      <% @shifts.each do |shift| %>
+        <div class="col-12 col-lg-6">
+          <section class="card shadow-sm h-100" aria-labelledby="shift-<%= shift.meal_type %>-heading">
+            <div class="card-header">
+              <h2 id="shift-<%= shift.meal_type %>-heading" class="h5 mb-0"><%= meal_labels.fetch(shift.meal_type) %></h2>
+            </div>
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-sm-6">
+                  <%= label_tag "shift-#{shift.meal_type}-start", "Início", class: "form-label" %>
+                  <%= time_field_tag "shifts[#{shift.meal_type}][starts_at]", shift.starts_at,
+                                     id: "shift-#{shift.meal_type}-start", class: "form-control" %>
+                </div>
+                <div class="col-sm-6">
+                  <%= label_tag "shift-#{shift.meal_type}-end", "Fim", class: "form-label" %>
+                  <%= time_field_tag "shifts[#{shift.meal_type}][ends_at]", shift.ends_at,
+                                     id: "shift-#{shift.meal_type}-end", class: "form-control" %>
+                </div>
+              </div>
+              <p class="small fg-3 mt-3 mb-0" data-meal-shift="<%= shift.meal_type %>">
+                <% if shift.starts_at.present? && shift.ends_at.present? %>
+                  <%= meal_labels.fetch(shift.meal_type) %>: <%= shift.starts_at.strftime("%H:%M") %>–<%= shift.ends_at.strftime("%H:%M") %>
+                <% else %>
+                  Turno ainda não configurado.
+                <% end %>
+              </p>
+            </div>
+          </section>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="d-flex justify-content-end mt-4">
+      <%= submit_tag "Salvar configuração", id: "commit", class: "btn-solid theme-primary" %>
+    </div>
+  <% end %>
+</main>
