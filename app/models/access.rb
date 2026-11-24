@@ -17,6 +17,11 @@ class Access < ApplicationRecord
 
   private
 
+  ##
+  # Valida a coerência entre `status` e `reason`.
+  #
+  # Não recebe argumentos. Não retorna valor útil.
+  # Adiciona erro em `reason` quando o acesso é bloqueado sem motivo ou liberado com motivo.
   def reason_matches_status
     errors.add(:reason, "obrigatório para bloqueio") if status == "blocked" && reason.blank?
     errors.add(:reason, "deve ser vazio para liberação") if status == "allowed" && reason.present?

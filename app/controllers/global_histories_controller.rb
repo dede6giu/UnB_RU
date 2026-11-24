@@ -28,6 +28,11 @@ class GlobalHistoriesController < ApplicationController
           .newest_first
   end
 
+  ##
+  # Garante que só um admin autenticado acesse o histórico global.
+  #
+  # Não recebe argumentos (lê `session[:admin_id]`). Não retorna valor útil.
+  # Efeito colateral: redireciona para o login de admin com alerta quando não há sessão.
   def exigir_admin
     return if session[:admin_id].present?
 
