@@ -2,12 +2,12 @@ class AccessPointsController < ApplicationController
   layout "operator"
   helper_method :current_operator
   before_action :load_restaurants, only: %i[new create]
+  before_action :set_operator_turnstile, only: %i[show validate]
 
   def new
   end
 
   def show
-    @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
     redirect_to new_access_point_path if @turnstile.nil?
     @entry = flash[:entry]
     @student = Student.find_by(user: flash[:registration])
@@ -23,7 +23,10 @@ class AccessPointsController < ApplicationController
   # assim atualizar a página não cobra de novo. Quando libera, cria um débito e diminui o saldo do estudante.
   def validate
     student = Student.find_by(user: params[:registration])
-    redirect_to access_point_path, flash: { entry: entry_result(student), registration: params[:registration] }
+    result = entry_result(student)
+    register_access(student, result)
+
+    redirect_to access_point_path, flash: { entry: result, registration: params[:registration] }
   end
 
   def create
@@ -66,6 +69,15 @@ class AccessPointsController < ApplicationController
     @restaurants = Restaurant.includes(:turnstiles).order(:campus, :name)
   end
 
+  ##
+  # Carrega a catraca em operação do operador logado.
+  #
+  # Não recebe argumentos. Define `@turnstile` (ou `nil` quando não há catraca em operação).
+  # Não altera o banco de dados.
+  def set_operator_turnstile
+    @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
+  end
+
   def current_operator
     @current_operator ||= Account.find_by(user: session[:operator_id], role: "operator")
   end
@@ -83,6 +95,47 @@ class AccessPointsController < ApplicationController
     else
       "no_balance"
     end
+  end
+
+  ##
+  # Registra o acesso do terminal de validação no histórico global.
+  #
+  # Recebe o estudante encontrado (ou `nil`) e o resultado de `entry_result`.
+  # Retorna o `Access` criado, ou `nil` quando não há catraca em operação.
+  # Escreve no banco: cria um `Access`; quando liberado, vincula o débito gerado.
+  def register_access(student, result)
+    return if @turnstile.nil?
+
+    Access.transaction do
+      access = Access.create!(
+        student: student,
+        registration: params[:registration],
+        restaurant: @turnstile.restaurant,
+        turnstile: @turnstile,
+        status: result == "allowed" ? "allowed" : "blocked",
+        reason: access_reason(result)
+      )
+      link_debit(access) if result == "allowed"
+    end
+  end
+
+  ##
+  # Traduz o resultado de `entry_result` para o motivo gravado no acesso.
+  #
+  # Retorna `"no_balance"`, `"not_found"` ou `nil` (acesso liberado).
+  def access_reason(result)
+    return "no_balance" if result == "no_balance"
+    return "not_found" if result == "not_found"
+
+    nil
+  end
+
+  ##
+  # Vincula o débito recém-criado ao acesso liberado.
+  #
+  # Não retorna valor. Atualiza `transactions.access_id` do último débito do estudante.
+  def link_debit(access)
+    Transaction.debits.where(student_id: access.student_id).order(:id).last&.update!(access: access)
   end
 
   def render_error(message)
