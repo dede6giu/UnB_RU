@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the CreditCard class"
+      content="class CreditCard: Cartão de crédito usado na recarga (não tem tabela própria). AA, não vencida); nada do cartão é salvo."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for CreditCard class - API reference and code examples"
-    >
+    <meta property="og:description" content="Cartão de crédito usado na recarga (não tem tabela própria). AA, não vencida); nada do cartão é salvo.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for CreditCard class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Cartão de crédito usado na recarga (não tem tabela própria). AA, não vencida); nada do cartão é salvo.">
 
 
 
@@ -561,6 +555,8 @@
 
   <section class="description">
     
+<p>Cartão de crédito usado na recarga (não tem tabela própria). Só confere o número (16 dígitos), o CVV (3 dígitos) e a validade (MM/AA, não vencida); nada do cartão é salvo.</p>
+
   </section>
 
 
@@ -591,7 +587,7 @@
         <div class="method-description">
 
 
-        
+        <p>Validade no formato MM/AA e o código de segurança (CVV).</p>
 
         </div>
       </div>
@@ -608,7 +604,7 @@
         <div class="method-description">
 
 
-        
+        <p>Validade no formato MM/AA e o código de segurança (CVV).</p>
 
         </div>
       </div>
@@ -625,7 +621,7 @@
         <div class="method-description">
 
 
-        
+        <p>Número do cartão, já sem espaços.</p>
 
         </div>
       </div>
@@ -675,7 +671,7 @@
 
 
           <div class="method-source-code" id="number-3D-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 8</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">number=</span>(<span class="ruby-identifier">value</span>)
   <span class="ruby-ivar">@number</span> = <span class="ruby-identifier">value</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&quot;</span><span class="ruby-string"> </span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -686,7 +682,9 @@
         <div class="method-description">
 
 
-          <p>quem digita o número costuma copiar os espaços do cartão</p>
+          <p>Guarda o número do cartão tirando os espaços, porque quem digita costuma copiar o número com os espaços do cartão.</p>
+
+<p>Recebe o número como veio do formulário (<code>value</code>). Não retorna valor útil; o efeito é guardar o número limpo no objeto.</p>
 
 
         </div>
@@ -734,7 +732,7 @@
 
 
           <div class="method-source-code" id="expiry_not_in_the_past-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 20</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/credit_card.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">expiry_not_in_the_past</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:</span><span class="ruby-value">expiry</span>)
 
@@ -749,7 +747,9 @@
         <div class="method-description">
 
 
-          <p>só roda com o formato já válido</p>
+          <p>Validação da validade: o cartão vale até o último dia do mês de MM/AA. Só roda com o formato já válido.</p>
+
+<p>Não recebe argumentos nem retorna valor útil. Se a validade já passou, adiciona o erro “está vencida”.</p>
 
 
         </div>

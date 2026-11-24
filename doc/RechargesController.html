@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the RechargesController class"
+      content="class RechargesController: Controller da Recarga de Saldo do estudante. Só funciona com o estudante logado (StudentAuthentication); quem não entrou vai para o login."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for RechargesController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller da Recarga de Saldo do estudante. Só funciona com o estudante logado (StudentAuthentication); quem não entrou vai para o login.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for RechargesController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller da Recarga de Saldo do estudante. Só funciona com o estudante logado (StudentAuthentication); quem não entrou vai para o login.">
 
 
 
@@ -563,6 +557,8 @@
 
   <section class="description">
     
+<p>Controller da Recarga de Saldo do estudante. Só funciona com o estudante logado (<a href="StudentAuthentication.html"><code>StudentAuthentication</code></a>); quem não entrou vai para o login.</p>
+
   </section>
 
 
@@ -618,7 +614,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/recharges_controller.rb, line 8</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/recharges_controller.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@recharge</span> = <span class="ruby-constant">Recharge</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">recharge_params</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">student</span><span class="ruby-value">:</span> <span class="ruby-ivar">@student</span>))
 
@@ -636,7 +632,11 @@
         <div class="method-description">
 
 
-          
+          <p>POST /student/recharge</p>
+
+<p>Faz a recarga com o que veio do formulário (pacote ou outra quantidade, meio de pagamento e, no cartão, os dados dele).</p>
+
+<p>No caso de sucesso, soma o valor ao saldo, registra um crédito no extrato e volta para a tela de recarga com a mensagem de sucesso. No caso de falha, mostra a tela de novo com o primeiro erro (status 422) e nada é alterado no banco.</p>
 
 
         </div>
@@ -674,7 +674,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/recharges_controller.rb, line 4</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/recharges_controller.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@recharge</span> = <span class="ruby-constant">Recharge</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">package</span><span class="ruby-value">:</span> <span class="ruby-value">5</span>, <span class="ruby-value">payment_method</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">pix</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -685,7 +685,11 @@
         <div class="method-description">
 
 
-          
+          <p>GET /student/recharge</p>
+
+<p>Mostra a tela de recarga com o pacote de 5 refeições e o PIX já escolhidos.</p>
+
+<p>Não recebe argumentos e não altera o banco.</p>
 
 
         </div>
@@ -733,7 +737,7 @@
 
 
           <div class="method-source-code" id="recharge_params-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/recharges_controller.rb, line 21</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/recharges_controller.rb, line 42</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">recharge_params</span>
   <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">recharge</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">package</span>, <span class="ruby-value">:</span><span class="ruby-value">quantity</span>, <span class="ruby-value">:</span><span class="ruby-value">payment_method</span>,
                                    <span class="ruby-value">:</span><span class="ruby-value">card_number</span>, <span class="ruby-value">:</span><span class="ruby-value">card_expiry_month</span>, <span class="ruby-value">:</span><span class="ruby-value">card_expiry_year</span>, <span class="ruby-value">:</span><span class="ruby-value">card_cvv</span>)
@@ -745,7 +749,9 @@
         <div class="method-description">
 
 
-          
+          <p>Campos do formulário de recarga que o controller aceita.</p>
+
+<p>Não recebe argumentos. Retorna os parâmetros permitidos de <code>params[:recharge]</code>; sem efeitos colaterais.</p>
 
 
         </div>

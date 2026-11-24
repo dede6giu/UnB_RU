@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the Recharge class"
+      content="class Recharge: Recarga de saldo pedida pelo estudante (não tem tabela própria). Confere a quantidade de refeições, o meio de pagamento e, no cartão, os dados dele; s"
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for Recharge class - API reference and code examples"
-    >
+    <meta property="og:description" content="Recarga de saldo pedida pelo estudante (não tem tabela própria). Confere a quantidade de refeições, o meio de pagamento e, no cartão, os dados dele; s">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for Recharge class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Recarga de saldo pedida pelo estudante (não tem tabela própria). Confere a quantidade de refeições, o meio de pagamento e, no cartão, os dados dele; s">
 
 
 
@@ -565,6 +559,8 @@
 
   <section class="description">
     
+<p>Recarga de saldo pedida pelo estudante (não tem tabela própria). Confere a quantidade de refeições, o meio de pagamento e, no cartão, os dados dele; se estiver tudo certo, vira um crédito no saldo.</p>
+
   </section>
 
 
@@ -585,7 +581,7 @@
 
         <dd>
 
-          
+          <p>Maior quantidade de refeições numa recarga (R$ 450,00).</p>
         </dd>
 
 
@@ -593,7 +589,7 @@
 
         <dd>
 
-          
+          <p>Preço de uma refeição, em centavos (R$ 4,50).</p>
         </dd>
 
 
@@ -601,7 +597,7 @@
 
         <dd>
 
-          
+          <p>Pacotes de refeições oferecidos na tela.</p>
         </dd>
 
 
@@ -628,7 +624,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -645,7 +641,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -662,7 +658,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -679,7 +675,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -696,7 +692,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -713,7 +709,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -730,7 +726,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -747,7 +743,7 @@
         <div class="method-description">
 
 
-        
+        <p>Campos do formulário: o estudante que recarrega, o pacote ou a outra quantidade, o meio de pagamento e os dados do cartão (que só são conferidos, nunca salvos).</p>
 
         </div>
       </div>
@@ -797,7 +793,7 @@
 
 
           <div class="method-source-code" id="amount_cents-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 22</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">amount_cents</span>
   <span class="ruby-identifier">meals</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">*</span> <span class="ruby-constant">MEAL_PRICE_CENTS</span>
 <span class="ruby-keyword">end</span></pre>
@@ -808,7 +804,9 @@
         <div class="method-description">
 
 
-          
+          <p>Valor da recarga em centavos: refeições × preço de uma refeição.</p>
+
+<p>Não recebe argumentos. Retorna um inteiro; sem efeitos colaterais.</p>
 
 
         </div>
@@ -846,7 +844,7 @@
 
 
           <div class="method-source-code" id="meals-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 18</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">meals</span>
   <span class="ruby-identifier">quantity</span>.<span class="ruby-identifier">presence</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">package</span>
 <span class="ruby-keyword">end</span></pre>
@@ -857,7 +855,9 @@
         <div class="method-description">
 
 
-          <p>“Outra quantidade” vale mais que o pacote.</p>
+          <p>Quantidade de refeições da recarga: a “outra quantidade”, se foi preenchida, senão o pacote.</p>
+
+<p>Não recebe argumentos. Retorna o valor como veio do formulário (texto ou número, ou <code>nil</code>); sem efeitos colaterais.</p>
 
 
         </div>
@@ -895,7 +895,7 @@
 
 
           <div class="method-source-code" id="save-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 26</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">save</span>
   <span class="ruby-identifier">valid?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">student</span>.<span class="ruby-identifier">add_credit</span>(<span class="ruby-identifier">amount_cents</span>, <span class="ruby-identifier">payment_method</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -906,7 +906,9 @@
         <div class="method-description">
 
 
-          
+          <p>Confere a recarga e, se estiver tudo certo, soma o valor ao saldo do estudante.</p>
+
+<p>Não recebe argumentos. Retorna <code>true</code> quando recarrega e <code>false</code> quando algum dado é inválido (os erros ficam em <code>errors</code>). No sucesso, cria um crédito no extrato e aumenta o saldo no banco.</p>
 
 
         </div>
@@ -954,7 +956,7 @@
 
 
           <div class="method-source-code" id="card_must_be_valid-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 33</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/models/recharge.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">card_must_be_valid</span>
   <span class="ruby-identifier">card</span> = <span class="ruby-constant">CreditCard</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">number</span><span class="ruby-value">:</span> <span class="ruby-identifier">card_number</span>, <span class="ruby-value">expiry</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">#{</span><span class="ruby-identifier">card_expiry_month</span><span class="ruby-string">}</span><span class="ruby-string">/</span><span class="ruby-string">#{</span><span class="ruby-identifier">card_expiry_year</span><span class="ruby-string">}</span><span class="ruby-string">&quot;</span>, <span class="ruby-value">cvv</span><span class="ruby-value">:</span> <span class="ruby-identifier">card_cvv</span>)
   <span class="ruby-identifier">errors</span>.<span class="ruby-identifier">add</span>(<span class="ruby-value">:</span><span class="ruby-value">base</span>, <span class="ruby-string">&quot;</span><span class="ruby-string">Dados do cartão inválidos.</span><span class="ruby-string">&quot;</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">card</span>.<span class="ruby-identifier">valid?</span>
@@ -966,7 +968,9 @@
         <div class="method-description">
 
 
-          <p>O cartão só é conferido; nada dele é salvo.</p>
+          <p>Validação do cartão (só roda com o meio de pagamento “credit_card”).</p>
+
+<p>Não recebe argumentos nem retorna valor útil. Se o cartão for inválido, adiciona o erro “Dados do cartão inválidos.” Nada do cartão é salvo.</p>
 
 
         </div>

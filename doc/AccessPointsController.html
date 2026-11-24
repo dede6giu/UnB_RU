@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the AccessPointsController class"
+      content="class AccessPointsController: Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for AccessPointsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for AccessPointsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores.">
 
 
 
@@ -563,6 +557,8 @@
 
   <section class="description">
     
+<p>Controla as rotas relacionadas ao registro, atuação e desconexão de ponto para operadores.</p>
+
   </section>
 
 
@@ -618,7 +614,7 @@
 
 
           <div class="method-source-code" id="confirm_disconnect-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 61</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 97</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">confirm_disconnect</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -628,7 +624,9 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/access/confirm_disconnect</p>
+
+<p>O método não realiza nada, mas é usado para chamar a confirmação de DELETE /operator/access</p>
 
 
         </div>
@@ -666,7 +664,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 32</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 57</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-identifier">operator</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-identifier">turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">id</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">dig</span>(<span class="ruby-value">:</span><span class="ruby-value">access_point</span>, <span class="ruby-value">:</span><span class="ruby-value">turnstile_id</span>))
@@ -674,7 +672,7 @@
     <span class="ruby-identifier">render_error</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">Escolha um ponto de acesso para iniciar a operação.</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Inativa</span><span class="ruby-string">&quot;</span>
     <span class="ruby-identifier">render_error</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">O ponto de acesso escolhido está inativo.</span><span class="ruby-string">&quot;</span>)
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Operando</span><span class="ruby-string">&quot;</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-string">%w[</span> <span class="ruby-string">Operando</span> <span class="ruby-string">FastPass</span> <span class="ruby-string">]</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">operation</span>)
     <span class="ruby-identifier">render_error</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">O ponto de acesso escolhido já está em operação.</span><span class="ruby-string">&quot;</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">current_turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">operator</span>.<span class="ruby-identifier">id</span>)
@@ -692,7 +690,13 @@
         <div class="method-description">
 
 
-          
+          <p>POST /operator/access</p>
+
+<p>Associa um operador (atualmente autenticado) com uma turnstile.</p>
+
+<p>Se a turnstile não existe, ou está Inativa, ou está em operação por outro operador, então a associação falha. O operador recebe a mensagem explicando qual falha ocorreu.</p>
+
+<p>Se há sucesso, o operador é associado à catraca, e este é redirecionado para <a href="AccessPointsController.html#method-i-show"><code>AccessPointsController#show</code></a>.</p>
 
 
         </div>
@@ -730,7 +734,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 51</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>])
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">turnstile</span>.<span class="ruby-identifier">nil?</span>
@@ -747,7 +751,11 @@
         <div class="method-description">
 
 
-          
+          <p>DELETE /operator/access</p>
+
+<p>Desvincula um operador de sua catraca associada, e avisa se houve sucesso ou se não havia catraca para desvincular.</p>
+
+<p>Independente do resultado, o operador é redirecionado para <a href="AccessPointsController.html#method-i-new"><code>AccessPointsController#new</code></a>.</p>
 
 
         </div>
@@ -785,7 +793,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 7</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -795,7 +803,9 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/access/new</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
 
 
         </div>
@@ -833,7 +843,7 @@
 
 
           <div class="method-source-code" id="show-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 10</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 25</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_access_point_path</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-ivar">@entry</span> = <span class="ruby-identifier">flash</span>[<span class="ruby-value">:</span><span class="ruby-value">entry</span>]
@@ -846,7 +856,11 @@
         <div class="method-description">
 
 
-          
+          <p>GET /operator/access</p>
+
+<p>Prepara variáveis relacionadas ao controle de catraca, para serem usadas na view.</p>
+
+<p>Notavelmente, se o operador não tiver uma catraca associada ainda, este é redirecionado para <a href="AccessPointsController.html#method-i-new"><code>AccessPointsController#new</code></a>.</p>
 
 
         </div>
@@ -884,7 +898,7 @@
 
 
           <div class="method-source-code" id="validate-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 24</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">validate</span>
   <span class="ruby-identifier">student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>])
   <span class="ruby-identifier">result</span> = <span class="ruby-identifier">entry_result</span>(<span class="ruby-identifier">student</span>)
@@ -951,7 +965,7 @@
 
 
           <div class="method-source-code" id="access_reason-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 126</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 162</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">access_reason</span>(<span class="ruby-identifier">result</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-string">&quot;</span><span class="ruby-string">no_balance</span><span class="ruby-string">&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;</span><span class="ruby-string">no_balance</span><span class="ruby-string">&quot;</span>
   <span class="ruby-keyword">return</span> <span class="ruby-string">&quot;</span><span class="ruby-string">not_found</span><span class="ruby-string">&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">result</span> <span class="ruby-operator">==</span> <span class="ruby-string">&quot;</span><span class="ruby-string">not_found</span><span class="ruby-string">&quot;</span>
@@ -1005,7 +1019,7 @@
 
 
           <div class="method-source-code" id="current_operator-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 81</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 117</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">current_operator</span>
   <span class="ruby-ivar">@current_operator</span> ||= <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1054,7 +1068,7 @@
 
 
           <div class="method-source-code" id="entry_result-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 90</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 126</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">entry_result</span>(<span class="ruby-identifier">student</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">student</span>.<span class="ruby-identifier">nil?</span>
     <span class="ruby-string">&quot;</span><span class="ruby-string">not_found</span><span class="ruby-string">&quot;</span>
@@ -1111,7 +1125,7 @@
 
 
           <div class="method-source-code" id="exigir_operador-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 146</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 182</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exigir_operador</span>
 <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>].<span class="ruby-identifier">present?</span>
 
@@ -1162,7 +1176,7 @@
 
 
           <div class="method-source-code" id="link_debit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 137</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 173</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">link_debit</span>(<span class="ruby-identifier">access</span>)
   <span class="ruby-constant">Transaction</span>.<span class="ruby-identifier">debits</span>.<span class="ruby-identifier">where</span>(<span class="ruby-value">student_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">access</span>.<span class="ruby-identifier">student_id</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">:</span><span class="ruby-value">id</span>).<span class="ruby-identifier">last</span>&amp;.<span class="ruby-identifier">update!</span>(<span class="ruby-value">access</span><span class="ruby-value">:</span> <span class="ruby-identifier">access</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1213,7 +1227,7 @@
 
 
           <div class="method-source-code" id="load_restaurants-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 68</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 104</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">load_restaurants</span>
   <span class="ruby-ivar">@restaurants</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">includes</span>(<span class="ruby-value">:</span><span class="ruby-value">turnstiles</span>).<span class="ruby-identifier">order</span>(<span class="ruby-value">:</span><span class="ruby-value">campus</span>, <span class="ruby-value">:</span><span class="ruby-value">name</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -1262,7 +1276,7 @@
 
 
           <div class="method-source-code" id="register_access-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 106</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 142</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">register_access</span>(<span class="ruby-identifier">student</span>, <span class="ruby-identifier">result</span>)
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@turnstile</span>.<span class="ruby-identifier">nil?</span>
 
@@ -1325,7 +1339,7 @@
 
 
           <div class="method-source-code" id="render_error-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 141</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 177</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">render_error</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-identifier">message</span>
   <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
@@ -1375,7 +1389,7 @@
 
 
           <div class="method-source-code" id="set_operator_turnstile-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 77</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_points_controller.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_operator_turnstile</span>
   <span class="ruby-ivar">@turnstile</span> = <span class="ruby-constant">Turnstile</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">operator_id</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>])
 <span class="ruby-keyword">end</span></pre>

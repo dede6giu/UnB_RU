@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the OperatorSessionsController class"
+      content="class OperatorSessionsController: Controller para a autenticação de Operator."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for OperatorSessionsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para a autenticação de Operator.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for OperatorSessionsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para a autenticação de Operator.">
 
 
 
@@ -498,9 +492,17 @@
       </summary>
       <ul class="nav-list" role="directory">
 
+        <li ><a href="#method-i-authenticate_operator">authenticate_operator</a></li>
+
         <li ><a href="#method-i-create">create</a></li>
 
+        <li ><a href="#method-i-failed_login">failed_login</a></li>
+
         <li ><a href="#method-i-new">new</a></li>
+
+        <li ><a href="#method-i-operator_params">operator_params</a></li>
+
+        <li ><a href="#method-i-valid_userid">valid_userid</a></li>
 
       </ul>
     </details>
@@ -537,6 +539,8 @@
 
   <section class="description">
     
+<p>Controller para a autenticação de Operator.</p>
+
   </section>
 
 
@@ -592,21 +596,14 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 5</span>
-  <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
-  <span class="ruby-identifier">operator_params</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">operator</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">operator_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>] <span class="ruby-operator">!~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula inválida.</span><span class="ruby-string">&quot;</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
-    <span class="ruby-keyword">return</span>
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">operator</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">operator_params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">operator</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">operator</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">operator_params</span>[<span class="ruby-value">:</span><span class="ruby-value">password</span>])
-    <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>] = <span class="ruby-identifier">operator</span>.<span class="ruby-identifier">id</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 25</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+  <span class="ruby-identifier">account_values</span> = <span class="ruby-identifier">operator_params</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">authenticate_operator</span>(<span class="ruby-identifier">account_values</span>)
+    <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">operator_id</span>] = <span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>]
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_access_point_path</span>, <span class="ruby-value">notice</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Sucesso na autenticação.</span><span class="ruby-string">&quot;</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula ou senha incorretas.</span><span class="ruby-string">&quot;</span>
-    <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
+    <span class="ruby-identifier">failed_login</span>(<span class="ruby-identifier">account_values</span>)
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -616,7 +613,15 @@
         <div class="method-description">
 
 
-          
+          <p>POST /operator/login</p>
+
+<p>Verifica as credenciais passadas como parâmetro do formulário, e então compara-as com a database.</p>
+
+<p>Caso exista algum Operator com as mesmas credenciais, cria-se uma nova sessão. O operador é redirecionado para <a href="AccessPointsController.html#method-i-show"><code>AccessPointsController#show</code></a>.</p>
+
+<p>Caso as credenciais não sejam válidas, avisa que os valores não foram escritos corretamente. O usuário retorna para <a href="OperatorSessionsController.html#method-i-new"><code>OperatorSessionsController#new</code></a>.</p>
+
+<p>Caso as credenciais são válidas mas não tem correspondência, avisa que algo está errado, mas não <em>o quê</em> (questões de segurança). O usuário retorna para <a href="OperatorSessionsController.html#method-i-new"><code>OperatorSessionsController#new</code></a>.</p>
 
 
         </div>
@@ -654,8 +659,226 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 2</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          <p>GET /operator/login</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+    </section>
+
+
+
+     <section id="private-instance-untitled-method-details" class="method-section anchor-link">
+       <header>
+         <h3 id="private-instance-untitled-methods"><a href="#private-instance-untitled-methods">Private Instance Methods</a></h3>
+       </header>
+
+
+      <div id="method-i-authenticate_operator" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-authenticate_operator" title="Link to this method">
+                  <span class="method-name">authenticate_operator</span>
+                  <span class="method-args">(account_values)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="authenticate_operator-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 45</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">authenticate_operator</span>(<span class="ruby-identifier">account_values</span>)
+  <span class="ruby-identifier">operator</span> = <span class="ruby-constant">Account</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>], <span class="ruby-value">role</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">operator</span>
+    <span class="ruby-identifier">operator</span>.<span class="ruby-identifier">authenticate</span>(<span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">password</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">false</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-failed_login" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-failed_login" title="Link to this method">
+                  <span class="method-name">failed_login</span>
+                  <span class="method-args">(account_values)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="failed_login-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">failed_login</span>(<span class="ruby-identifier">account_values</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">valid_userid</span>(<span class="ruby-identifier">account_values</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>])
+    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula ou senha incorretas.</span><span class="ruby-string">&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">flash</span>.<span class="ruby-identifier">now</span>[<span class="ruby-value">:</span><span class="ruby-value">alert</span>] = <span class="ruby-string">&quot;</span><span class="ruby-string">Matrícula inválida.</span><span class="ruby-string">&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-value">:</span><span class="ruby-value">new</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">unprocessable_entity</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-operator_params" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-operator_params" title="Link to this method">
+                  <span class="method-name">operator_params</span>
+                  <span class="method-args">()</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="operator_params-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 37</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">operator_params</span>
+  <span class="ruby-identifier">params</span>.<span class="ruby-identifier">require</span>(<span class="ruby-value">:</span><span class="ruby-value">operator</span>).<span class="ruby-identifier">permit</span>(<span class="ruby-value">:</span><span class="ruby-value">user</span>, <span class="ruby-value">:</span><span class="ruby-value">password</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+
+
+
+        <div class="method-description">
+
+
+          
+
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div id="method-i-valid_userid" class="method-detail anchor-link ">
+        <div class="method-header">
+          <div class="method-heading-group">
+
+              <div class="method-heading">
+                <a href="#method-i-valid_userid" title="Link to this method">
+                  <span class="method-name">valid_userid</span>
+                  <span class="method-args">(userid)</span>
+                </a>
+              </div>
+
+
+
+          </div>
+
+
+            <div class="method-controls">
+              <details class="method-source-toggle">
+                <summary><span class="method-source-icon" aria-hidden="true">{}</span> Source</summary>
+              </details>
+            </div>
+
+        </div>
+
+
+          <div class="method-source-code" id="valid_userid-source">
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/operator_sessions_controller.rb, line 41</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">valid_userid</span>(<span class="ruby-identifier">userid</span>)
+  <span class="ruby-identifier">userid</span> <span class="ruby-operator">=~</span> <span class="ruby-constant">Account</span>.<span class="ruby-identifier">user_format_for</span>(<span class="ruby-string">&quot;</span><span class="ruby-string">operator</span><span class="ruby-string">&quot;</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
 
@@ -677,8 +900,6 @@
 
 
     </section>
-
-
 
 
   </section>

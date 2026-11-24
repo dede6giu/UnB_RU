@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the StudentAuthentication module"
+      content="module StudentAuthentication: Exige o estudante logado nos controllers que incluem este módulo (portal, recarga, extrato)."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for StudentAuthentication module - API reference and code examples"
-    >
+    <meta property="og:description" content="Exige o estudante logado nos controllers que incluem este módulo (portal, recarga, extrato).">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for StudentAuthentication module - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Exige o estudante logado nos controllers que incluem este módulo (portal, recarga, extrato).">
 
 
 
@@ -544,6 +538,8 @@
 
   <section class="description">
     
+<p>Exige o estudante logado nos controllers que incluem este módulo (portal, recarga, extrato).</p>
+
   </section>
 
 
@@ -601,7 +597,7 @@
 
 
           <div class="method-source-code" id="require_student-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/concerns/student_authentication.rb, line 11</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/concerns/student_authentication.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">require_student</span>
   <span class="ruby-ivar">@student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">student_id</span>])
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">new_student_session_path</span>, <span class="ruby-value">alert</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Faça login para continuar.</span><span class="ruby-string">&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@student</span>
@@ -613,7 +609,9 @@
         <div class="method-description">
 
 
-          <p>a sessão guarda a matrícula, que é a chave da conta e do estudante</p>
+          <p>Carrega o estudante logado em <code>@student</code>; a sessão guarda a matrícula, que é a chave da conta e do estudante.</p>
+
+<p>Não recebe argumentos nem retorna valor útil. Sem estudante na sessão, redireciona para o login do estudante com “Faça login para continuar.” e a ação do controller não roda.</p>
 
 
         </div>

@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the RestaurantsController class"
+      content="class RestaurantsController: Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido par"
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for RestaurantsController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido par">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for RestaurantsController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controller para o model Restaurant. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido par">
 
 
 
@@ -553,6 +547,8 @@
 
   <section class="description">
     
+<p>Controller para o model <a href="Restaurant.html"><code>Restaurant</code></a>. Ações CRUD são disponíveis para apenas usuários atualmente autenticados como admins, enquanto Read é permitido para qualquer usuário.</p>
+
   </section>
 
 
@@ -608,7 +604,7 @@
 
 
           <div class="method-source-code" id="create-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 26</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 50</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">restaurant_params</span>)
 
@@ -625,7 +621,13 @@
         <div class="method-description">
 
 
-          <p>POST /restaurants or /restaurants.json</p>
+          <p>POST /admin/restaurants ou /admin/restaurants.json</p>
+
+<p>Chamado com POST, na página de new do restaurant. Salva um novo restaurant na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="RestaurantsController.html#method-i-new"><code>RestaurantsController#new</code></a>, e nada é alterado na database.</p>
 
 
         </div>
@@ -663,7 +665,7 @@
 
 
           <div class="method-source-code" id="destroy-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 47</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 89</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@restaurant</span>.<span class="ruby-identifier">destroy!</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>, <span class="ruby-value">notice</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Restaurante destruído com sucesso.</span><span class="ruby-string">&quot;</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">see_other</span>
@@ -677,7 +679,13 @@
         <div class="method-description">
 
 
-          <p>DELETE /restaurants/1 or /restaurants/1.json</p>
+          <p>DELETE /admin/restaurants/1 or /admin/restaurants/1.json</p>
+
+<p>Chamado após confirmar deleção na página de edição. Apaga o restaurant na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>. O restaurant não existe mais no registro.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="RestaurantsController.html#method-i-edit"><code>RestaurantsController#edit</code></a>, e nada é alterado na database.</p>
 
 
         </div>
@@ -715,7 +723,7 @@
 
 
           <div class="method-source-code" id="edit-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 22</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 37</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -725,7 +733,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants/1/edit</p>
+          <p>GET /admin/restaurants/:id/edit</p>
+
+<p>Chamado durante o processo, mas não realiza nada.</p>
 
 
         </div>
@@ -763,7 +773,7 @@
 
 
           <div class="method-source-code" id="index-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 7</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-ivar">@restaurants</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">all</span>
 <span class="ruby-keyword">end</span></pre>
@@ -774,7 +784,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants or /restaurants.json</p>
+          <p>GET /admin/restaurants</p>
+
+<p>Carrega todas os restaurants como variável de instância (para uso em views).</p>
 
 
         </div>
@@ -812,7 +824,7 @@
 
 
           <div class="method-source-code" id="new-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 17</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 29</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -823,7 +835,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants/new</p>
+          <p>GET /admin/restaurants/new</p>
+
+<p>Cria um restaurant vazio na variável de instância para uso durante a tela de criação de restaurant.</p>
 
 
         </div>
@@ -861,7 +875,7 @@
 
 
           <div class="method-source-code" id="show-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 12</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>
 <span class="ruby-keyword">end</span></pre>
@@ -872,7 +886,9 @@
         <div class="method-description">
 
 
-          <p>GET /restaurants/1 or /restaurants/1.json</p>
+          <p>GET /admin/restaurants/1 or /restaurants/1.json</p>
+
+<p>Redireciona a chamada para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a></p>
 
 
         </div>
@@ -910,7 +926,7 @@
 
 
           <div class="method-source-code" id="update-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 37</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 70</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@restaurant</span>.<span class="ruby-identifier">update</span>(<span class="ruby-identifier">restaurant_params</span>)
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">restaurants_path</span>, <span class="ruby-value">notice</span><span class="ruby-value">:</span> <span class="ruby-string">&quot;</span><span class="ruby-string">Restaurante atualizado com sucesso.</span><span class="ruby-string">&quot;</span>, <span class="ruby-value">status</span><span class="ruby-value">:</span> <span class="ruby-value">:</span><span class="ruby-value">see_other</span>
@@ -926,7 +942,13 @@
         <div class="method-description">
 
 
-          <p>PATCH/PUT /restaurants/1 or /restaurants/1.json</p>
+          <p>PATCH/PUT /admin/restaurants/1 or /admin/restaurants/1.json</p>
+
+<p>Chamado com PATCH/PUT, na página de edit do restaurant. Atualiza o restaurant <code>:id</code> na database se nenhum erro for encontrado nas verificações.</p>
+
+<p>No caso de sucesso, redireciona para <a href="RestaurantsController.html#method-i-index"><code>RestaurantsController#index</code></a>.</p>
+
+<p>No caso de falha, retorna os parâmetros necessários para exibir a falha em <a href="RestaurantsController.html#method-i-edit"><code>RestaurantsController#edit</code></a>, e nada é alterado na database.</p>
 
 
         </div>
@@ -974,7 +996,7 @@
 
 
           <div class="method-source-code" id="exigir_admin-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 56</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 98</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">exigir_admin</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">session</span>[<span class="ruby-value">:</span><span class="ruby-value">admin_id</span>].<span class="ruby-identifier">present?</span>
 
@@ -1025,7 +1047,7 @@
 
 
           <div class="method-source-code" id="restaurant_params-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 68</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 110</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">restaurant_params</span>
   <span class="ruby-identifier">params</span>.<span class="ruby-identifier">expect</span>(<span class="ruby-value">restaurant</span><span class="ruby-value">:</span> [ <span class="ruby-value">:</span><span class="ruby-value">name</span>, <span class="ruby-value">:</span><span class="ruby-value">campus</span> ])
 <span class="ruby-keyword">end</span></pre>
@@ -1074,7 +1096,7 @@
 
 
           <div class="method-source-code" id="set_restaurant-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 63</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/restaurants_controller.rb, line 105</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">set_restaurant</span>
   <span class="ruby-ivar">@restaurant</span> = <span class="ruby-constant">Restaurant</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>.<span class="ruby-identifier">expect</span>(<span class="ruby-value">:</span><span class="ruby-value">id</span>))
 <span class="ruby-keyword">end</span></pre>

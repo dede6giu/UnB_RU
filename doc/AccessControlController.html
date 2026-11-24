@@ -15,7 +15,7 @@
 
     <meta
       name="description"
-      content="Documentation for the AccessControlController class"
+      content="class AccessControlController: Controla especificamente a verificação de saldo para passagem de um estudante na catraca."
     >
 
 
@@ -28,10 +28,7 @@
 
 
 
-    <meta
-      property="og:description"
-      content="Documentation for AccessControlController class - API reference and code examples"
-    >
+    <meta property="og:description" content="Controla especificamente a verificação de saldo para passagem de um estudante na catraca.">
 
 
 
@@ -43,10 +40,7 @@
 
 
 
-    <meta
-      name="twitter:description"
-      content="Documentation for AccessControlController class - API reference and code examples"
-    >
+    <meta name="twitter:description" content="Controla especificamente a verificação de saldo para passagem de um estudante na catraca.">
 
 
 
@@ -535,6 +529,8 @@
 
   <section class="description">
     
+<p>Controla especificamente a verificação de saldo para passagem de um estudante na catraca.</p>
+
   </section>
 
 
@@ -590,7 +586,7 @@
 
 
           <div class="method-source-code" id="check-source">
-            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_control_controller.rb, line 4</span>
+            <pre class="ruby"><span class="ruby-comment"># File app/controllers/access_control_controller.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">check</span>
   <span class="ruby-identifier">student</span> = <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">registration</span>]) <span class="ruby-operator">||</span> <span class="ruby-constant">Student</span>.<span class="ruby-identifier">find_by</span>(<span class="ruby-value">user</span><span class="ruby-value">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:</span><span class="ruby-value">user</span>])
 
@@ -609,7 +605,13 @@
         <div class="method-description">
 
 
-          
+          <p>POST /access_control/check</p>
+
+<p>Recebe a matrícula de um estudante e tenta cobrar uma refeição.</p>
+
+<p>Caso a matrícula não esteja registrada, ou não há saldo suficiente, o erro é reportado e nada acontece.</p>
+
+<p>Caso haja saldo suficiente na matrícula correspondente, retorna HTTP OK e uma refeição é deduzida do saldo do estudante.</p>
 
 
         </div>
