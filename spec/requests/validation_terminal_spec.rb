@@ -44,5 +44,47 @@ RSpec.describe "Terminal de Validação", type: :request do
       post validate_access_point_path, params: { registration: "232012345" }
       expect(response).to redirect_to(new_operator_session_path)
     end
+
+    describe "registro no histórico global" do
+      it "registra acesso liberado com restaurante e catraca" do
+        estudante.update!(balance_cents: 1000)
+        entrar_e_conectar
+
+        expect { validar("232012345") }.to change(Access, :count).by(1)
+
+        acesso = Access.last
+        expect(acesso).to have_attributes(status: "allowed", reason: nil, student_id: "232012345")
+        expect(acesso.restaurant.name).to eq("RU")
+        expect(acesso.turnstile.name).to eq("T1")
+      end
+
+      it "registra bloqueio por saldo insuficiente" do
+        entrar_e_conectar
+
+        expect { validar("232012345") }.to change(Access, :count).by(1)
+
+        expect(Access.last).to have_attributes(status: "blocked", reason: "no_balance")
+      end
+
+      it "registra bloqueio de matrícula não cadastrada sem estudante" do
+        entrar_e_conectar
+
+        expect { validar("239999999") }.to change(Access, :count).by(1)
+
+        acesso = Access.last
+        expect(acesso).to have_attributes(status: "blocked", reason: "not_found", student_id: nil, registration: "239999999")
+      end
+
+      it "vincula o débito da refeição ao acesso liberado" do
+        estudante.update!(balance_cents: 1000)
+        entrar_e_conectar
+
+        expect { validar("232012345") }
+          .to change(Transaction.debits, :count).by(1)
+          .and change(Access, :count).by(1)
+
+        expect(Transaction.debits.last.access).to eq(Access.last)
+      end
+    end
   end
 end
