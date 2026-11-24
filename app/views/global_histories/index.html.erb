@@ -1,0 +1,67 @@
+<% content_for :title, "Histórico Global" %>
+
+<div class="p-6">
+  <% if flash[:notice] %>
+    <p class="alert theme-success mb-4"><%= flash[:notice] %></p>
+  <% end %>
+  <% if flash[:alert] %>
+    <p class="alert theme-danger mb-4"><%= flash[:alert] %></p>
+  <% end %>
+
+  <h1 class="h3 fw-semibold mb-4">Histórico Global</h1>
+
+  <%= form_with url: global_history_path, method: :get, class: "d-flex gap-4 mb-4" do |form| %>
+    <div>
+      <%= form.label :restaurant_id, "Restaurante", class: "form-label" %>
+      <%= form.select :restaurant_id,
+                      @restaurants.map { |r| [ "#{r.campus} - #{r.name}", r.id ] },
+                      { include_blank: "Todos", selected: params[:restaurant_id] },
+                      class: "form-control" %>
+    </div>
+
+    <div>
+      <%= form.label :turnstile_id, "Catraca", class: "form-label" %>
+      <%= form.select :turnstile_id,
+                      @turnstiles.map { |t| [ "#{t.restaurant.name} - #{t.name}", t.id ] },
+                      { include_blank: "Todas", selected: params[:turnstile_id] },
+                      class: "form-control" %>
+    </div>
+
+    <%= form.submit "Filtrar", class: "btn-solid theme-primary" %>
+  <% end %>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <% if @accesses.empty? %>
+        <p class="p-6 mb-0 fg-3">Ainda não há histórico de acessos.</p>
+      <% else %>
+        <table class="table mb-0">
+          <thead>
+            <tr>
+              <th>Data e hora</th>
+              <th>Matrícula</th>
+              <th>Estudante</th>
+              <th>Restaurante</th>
+              <th>Catraca</th>
+              <th>Status</th>
+              <th>Motivo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @accesses.each do |access| %>
+              <tr id="access_<%= access.id %>">
+                <td><%= access.created_at.strftime("%d/%m/%Y %H:%M:%S") %></td>
+                <td><%= access.registration %></td>
+                <td><%= access.student&.account&.name || "Não cadastrado" %></td>
+                <td><%= access.restaurant.name %></td>
+                <td><%= access.turnstile.name %></td>
+                <td><%= access.status == "allowed" ? "Liberado" : "Bloqueado" %></td>
+                <td><%= access.reason.presence || "—" %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% end %>
+    </div>
+  </div>
+</div>

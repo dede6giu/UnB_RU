@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     delete "/login", to: "admin_sessions#destroy"
     resources :restaurants
     resources :turnstiles
+    get "/history", to: "global_histories#index", as: :global_history
   end
 
   scope "/operator" do

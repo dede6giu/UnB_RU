@@ -3,8 +3,10 @@
 <% current_uri = request.env['PATH_INFO'] %>
 <% path_home = /\/admin\/?/ %>
 <% path_gestao = /\/admin\/(restaurant|turnstile)/ %>
+<% path_historico = /\/admin\/history/ %>
 <% path_about = '/home/about' %>
-<% nav_class_index = (current_uri =~ path_gestao or current_uri =~ path_home) ? nav_active : nav_inactive %>
+<% nav_class_index = (current_uri =~ path_gestao or (current_uri =~ path_home and current_uri !~ path_historico)) ? nav_active : nav_inactive %>
+<% nav_class_history = (current_uri =~ path_historico) ? nav_active : nav_inactive %>
 <% nav_class_about = (current_uri == path_about) ? nav_active : nav_inactive %>
 
 <div id="header">
@@ -24,6 +26,9 @@
   <ul class="nav p-3 bg-3 gap-5">
     <li class="nav-item">
       <%= link_to 'Gestão de Restaurantes', restaurants_path, class: nav_class_index %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Histórico Global", global_history_path, class: nav_class_history %>
     </li>
     <li class="nav-item">
       <%= link_to 'About', '/', class: nav_class_about %>
