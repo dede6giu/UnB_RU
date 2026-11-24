@@ -5,15 +5,31 @@ module StatementsHelper
   PAYMENT_LABELS = { "pix" => "PIX", "credit_card" => "Cartão de Crédito" }
   # Opções do filtro de período: [texto na tela, valor do parâmetro]. A primeira é o padrão.
   PERIOD_OPTIONS = [ [ "Últimos 30 dias", "last_30_days" ], [ "Este mês", "this_month" ], [ "Todo o período", "all" ] ]
+  # Nome de cada refeição, pelo turno do acesso.
+  MEAL_LABELS = { "breakfast" => "Café da manhã", "lunch" => "Almoço", "dinner" => "Jantar" }
   # Opções do filtro de tipo: [texto na tela, valor do parâmetro]. A primeira é o padrão.
-  TYPE_OPTIONS = [ [ "Todos", "all" ], [ "Recargas", "credit" ], [ "Refeições", "meal" ] ]
+  TYPE_OPTIONS = [ [ "Todos", "all" ], [ "Recargas", "credit" ], [ "Refeições", "meal" ],
+                   [ "Café da manhã", "breakfast" ], [ "Almoço", "lunch" ], [ "Jantar", "dinner" ] ]
 
   ##
-  # Nome do lançamento: "Recarga de Saldo" para crédito e "Refeição" para débito.
+  # Nome do lançamento: "Recarga de Saldo" para crédito; para débito, o nome da refeição pelo turno do
+  # acesso ("Almoço"), ou "Refeição" quando não há turno.
   #
   # Recebe a Transaction. Retorna o texto; sem efeitos colaterais.
   def entry_label(transaction)
-    transaction.kind == "credit" ? "Recarga de Saldo" : "Refeição"
+    return "Recarga de Saldo" if transaction.kind == "credit"
+
+    MEAL_LABELS.fetch(transaction.access&.shift&.meal_type, "Refeição")
+  end
+
+  ##
+  # Onde foi a refeição: "restaurante · catraca", pelo acesso; "—" quando não há acesso (como na recarga).
+  #
+  # Recebe a Transaction. Retorna o texto; sem efeitos colaterais.
+  def place_label(transaction)
+    return "—" if transaction.access.nil?
+
+    "#{transaction.access.restaurant.name} · #{transaction.access.turnstile.name}"
   end
 
   ##
@@ -56,6 +72,15 @@ module StatementsHelper
   # Recebe o valor do parâmetro `type` (pode ser `nil`). Retorna o texto; sem efeitos colaterais.
   def type_label(type)
     option_label(TYPE_OPTIONS, type)
+  end
+
+  ##
+  # Nome do restaurante escolhido no filtro; "Todos" quando não há filtro ou o id não existe.
+  #
+  # Recebe o valor do parâmetro `restaurant` (pode ser `nil`). Retorna o texto; não altera o banco.
+  def restaurant_label(restaurant_id)
+    restaurant = Restaurant.find_by(id: restaurant_id)
+    restaurant ? restaurant.name : "Todos"
   end
 
   ##

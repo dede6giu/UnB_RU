@@ -5,11 +5,12 @@ class StatementPdf
 
   FONTS = Rails.root.join("vendor/fonts")
 
-  def initialize(student, transactions, period:, type:)
+  def initialize(student, transactions, period:, type:, restaurant: nil)
     @student = student
     @transactions = transactions
     @period = period
     @type = type
+    @restaurant = restaurant
   end
 
   def render
@@ -41,7 +42,7 @@ class StatementPdf
   def write_header(pdf)
     pdf.text "Extrato e Histórico de Refeições", size: 18, style: :bold
     pdf.text "#{@student.account.name} · matrícula #{@student.user}"
-    pdf.text "Período: #{period_label(@period)} · Tipo: #{type_label(@type)}"
+    pdf.text "Período: #{period_label(@period)} · Tipo: #{type_label(@type)} · Restaurante: #{restaurant_label(@restaurant)}"
     pdf.text "Exportado em #{Time.current.strftime('%d/%m/%Y %H:%M')}", size: 9
     pdf.move_down 12
   end

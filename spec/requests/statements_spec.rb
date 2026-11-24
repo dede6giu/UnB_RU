@@ -129,6 +129,39 @@ RSpec.describe "Statements", type: :request do
       expect(response.body).to include("R$ 9,00")
     end
 
+    describe "filtros por refeição e restaurante" do
+      let(:catraca_darcy) { Restaurant.create!(name: "RU Darcy", campus: "Darcy Ribeiro").turnstiles.create!(name: "Catraca 1", operation: "Ativa") }
+      let(:catraca_gama) { Restaurant.create!(name: "RU Gama", campus: "Gama").turnstiles.create!(name: "Catraca 2", operation: "Ativa") }
+      let(:almoco) { Shift.create!(meal_type: "lunch", starts_at: "11:00", ends_at: "14:00") }
+      let(:jantar) { Shift.create!(meal_type: "dinner", starts_at: "17:00", ends_at: "19:30") }
+
+      def refeicao(catraca, turno, quando)
+        acesso = Access.create!(student: estudante, registration: estudante.user, restaurant: catraca.restaurant,
+                                turnstile: catraca, shift: turno, status: "allowed")
+        Transaction.create!(student: estudante, kind: "debit", amount_cents: 450, access: acesso, created_at: quando)
+      end
+
+      it "filtra pelo turno e mostra o nome da refeição" do
+        refeicao(catraca_darcy, almoco, 2.days.ago)
+        refeicao(catraca_darcy, jantar, 1.day.ago)
+        entrar
+        get statement_path, params: { type: "lunch" }
+        expect(response.body).to include("<td>Almoço</td>")
+        expect(response.body).not_to include("<td>Jantar</td>")
+        expect(response.body).to include("1 refeição")
+      end
+
+      it "filtra pelo restaurante, mostra onde foi cada refeição e leva o filtro para o PDF" do
+        refeicao(catraca_darcy, almoco, 2.days.ago)
+        refeicao(catraca_gama, almoco, 1.day.ago)
+        entrar
+        get statement_path, params: { restaurant: catraca_darcy.restaurant_id }
+        expect(response.body).to include("RU Darcy · Catraca 1")
+        expect(response.body).not_to include("RU Gama · Catraca 2")
+        expect(response.body).to include("href=\"#{statement_path}.pdf?restaurant=#{catraca_darcy.restaurant_id}\"")
+      end
+    end
+
     it "mostra a data e a hora no horário de Brasília" do
       lancar(estudante, kind: "debit", cents: 450, quando: Time.utc(2026, 11, 3, 15, 30))
       entrar

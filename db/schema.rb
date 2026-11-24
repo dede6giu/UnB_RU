@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_23_232030) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_24_134023) do
   create_table "accesses", force: :cascade do |t|
     t.string "student_id"
     t.string "registration", null: false
@@ -20,7 +20,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_232030) do
     t.string "reason"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "shift_id"
     t.index ["restaurant_id"], name: "index_accesses_on_restaurant_id"
+    t.index ["shift_id"], name: "index_accesses_on_shift_id"
     t.index ["student_id"], name: "index_accesses_on_student_id"
     t.index ["turnstile_id"], name: "index_accesses_on_turnstile_id"
   end
@@ -82,6 +84,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_232030) do
   end
 
   add_foreign_key "accesses", "restaurants"
+  add_foreign_key "accesses", "shifts"
   add_foreign_key "accesses", "students", primary_key: "user"
   add_foreign_key "accesses", "turnstiles"
   add_foreign_key "students", "accounts", column: "user", primary_key: "user"

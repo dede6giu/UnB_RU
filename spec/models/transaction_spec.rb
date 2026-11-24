@@ -83,6 +83,33 @@ RSpec.describe Transaction, type: :model do
     expect(Transaction.of_type(nil)).to contain_exactly(recarga, refeicao)
   end
 
+  describe "filtros que vêm do acesso" do
+    let(:catraca_ru) { Restaurant.create!(name: "RU", campus: "Darcy Ribeiro").turnstiles.create!(name: "T1", operation: "Ativa") }
+    let(:catraca_fga) { Restaurant.create!(name: "RU FGA", campus: "Gama").turnstiles.create!(name: "T1", operation: "Ativa") }
+    let(:almoco) { Shift.create!(meal_type: "lunch", starts_at: "11:00", ends_at: "14:00") }
+    let(:jantar) { Shift.create!(meal_type: "dinner", starts_at: "17:00", ends_at: "19:30") }
+
+    def refeicao_em(catraca, turno)
+      acesso = Access.create!(student: estudante, registration: estudante.user, restaurant: catraca.restaurant,
+                              turnstile: catraca, shift: turno, status: "allowed")
+      Transaction.create!(student: estudante, kind: "debit", amount_cents: 450, access: acesso)
+    end
+
+    it "filtra as refeições pelo turno" do
+      almoco_no_ru = refeicao_em(catraca_ru, almoco)
+      jantar_no_ru = refeicao_em(catraca_ru, jantar)
+      expect(Transaction.of_type("lunch")).to eq([ almoco_no_ru ])
+      expect(Transaction.of_type("dinner")).to eq([ jantar_no_ru ])
+    end
+
+    it "filtra pelo restaurante" do
+      no_ru = refeicao_em(catraca_ru, almoco)
+      refeicao_em(catraca_fga, almoco)
+      expect(Transaction.for_restaurant(catraca_ru.restaurant_id)).to eq([ no_ru ])
+      expect(Transaction.for_restaurant(nil).count).to eq(2)
+    end
+  end
+
   it "divide em páginas de 10, com pelo menos uma página" do
     expect(Transaction.total_pages).to eq(1)
 

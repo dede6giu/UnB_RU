@@ -22,6 +22,11 @@ Then('the PDF should only contain entries for the transaction type {word}') do |
   when 'meal'
     expect(@pdf_text).to include('- R$')
     expect(@pdf_text).not_to include('+ R$')
+  when 'breakfast', 'lunch', 'dinner'
+    meal_names = { 'breakfast' => 'Café da manhã', 'lunch' => 'Almoço', 'dinner' => 'Jantar' }
+    expect(@pdf_text).to include(meal_names[type])
+    meal_names.except(type).each_value { |other| expect(@pdf_text).not_to include(other) }
+    expect(@pdf_text).not_to include('+ R$')
   else
     raise "Tipo sem passo ainda: #{type}"
   end

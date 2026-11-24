@@ -8,6 +8,18 @@ class Shift < ApplicationRecord
   validate :end_must_follow_start
   validate :must_not_overlap_another_shift
 
+  ##
+  # Acha o turno em que um horário cai (o início conta, o fim não).
+  #
+  # Recebe um horário (`Time`). Retorna o Shift daquele horário, ou `nil` fora dos turnos.
+  # Não altera o banco. Os horários do turno vêm com a data 2000-01-01, então compara só a hora do dia.
+  def self.at(time)
+    seconds = time.seconds_since_midnight
+    all.find do |shift|
+      shift.starts_at.seconds_since_midnight <= seconds && seconds < shift.ends_at.seconds_since_midnight
+    end
+  end
+
   private
 
   def time_values_must_be_valid
