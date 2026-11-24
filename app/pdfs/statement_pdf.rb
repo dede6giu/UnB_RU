@@ -1,10 +1,18 @@
+# PDF do Extrato e Histórico de Refeições, feito com a gem Prawn. Usa os mesmos helpers da página, então
+# os valores saem escritos igual à tela.
 class StatementPdf
   include ActionView::Helpers::NumberHelper
   include ApplicationHelper
   include StatementsHelper
 
+  # Pasta da fonte DejaVu, que tem as letras de qualquer nome (as fontes padrão do PDF não têm "Ł").
   FONTS = Rails.root.join("vendor/fonts")
 
+  ##
+  # Guarda o estudante, os lançamentos já filtrados e os filtros escolhidos, para o cabeçalho.
+  #
+  # Recebe o Student, a consulta de Transaction e os valores de `period:`, `type:` e `restaurant:`
+  # (este é opcional). Não altera o banco.
   def initialize(student, transactions, period:, type:, restaurant: nil)
     @student = student
     @transactions = transactions
@@ -13,6 +21,11 @@ class StatementPdf
     @restaurant = restaurant
   end
 
+  ##
+  # Monta o PDF: cabeçalho, totais e a tabela com todos os lançamentos.
+  #
+  # Não recebe argumentos. Retorna o conteúdo do PDF (texto binário que começa com "%PDF"); não altera o
+  # banco.
   def render
     pdf = new_document
     write_header(pdf)
@@ -71,6 +84,10 @@ class StatementPdf
     end
   end
 
+  ##
+  # Linhas da tabela do PDF: o cabeçalho e uma linha por lançamento (data, lançamento, meio e valor).
+  #
+  # Não recebe argumentos. Retorna uma lista de listas de textos; não altera o banco.
   def rows
     linhas = [ [ "Data e hora", "Lançamento", "Meio", "Valor" ] ]
     @transactions.each do |transaction|

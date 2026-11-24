@@ -1,7 +1,14 @@
+# Extrato e Histórico de Refeições do estudante que entrou: a página, com filtros, totais e paginação, e
+# a exportação em PDF. Só entra quem fez login como estudante (StudentAuthentication).
 class StatementsController < ApplicationController
   include StudentAuthentication
   helper_method :filters
 
+  ##
+  # GET /student/statement e GET /student/statement.pdf
+  #
+  # Lê os filtros de período, tipo e restaurante da URL. No formato HTML monta a página; no formato PDF
+  # baixa o arquivo com todos os lançamentos do filtro. Não altera o banco.
   def show
     @transactions = filtered_transactions
 
@@ -29,10 +36,17 @@ class StatementsController < ApplicationController
   #
   # Não recebe argumentos (usa os filtros). Retorna uma consulta de Transaction; não altera o banco.
   def filtered_transactions
-    @student.transactions.in_period(filters[:period]).of_type(filters[:type])
-            .for_restaurant(filters[:restaurant]).order(created_at: :desc, id: :desc)
+    chosen = filters
+    @student.transactions.in_period(chosen[:period]).of_type(chosen[:type])
+            .for_restaurant(chosen[:restaurant]).order(created_at: :desc, id: :desc)
   end
 
+  ##
+  # Prepara a página do extrato: os totais dos cards, a página atual da tabela (10 lançamentos) e os
+  # restaurantes do filtro.
+  #
+  # Não recebe argumentos (usa `@transactions` e `params[:page]`). Define as variáveis da view; não altera
+  # o banco. Um número de página inválido vira a página mais próxima (entre 1 e a última).
   def prepare_page
     @spent_cents = @transactions.spent_cents
     @meals_count = @transactions.meals_count
