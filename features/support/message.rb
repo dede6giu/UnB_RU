@@ -48,6 +48,9 @@ module MessageTexts
     when /unregistered registration/
       'Matrícula não cadastrada'
 
+    when /no global history/
+      'Ainda não há histórico de acessos.'
+
     else
       pending "Can't find mapping from \"#{message_alias}\" to a message.\n" +
             "Now, go and add a mapping in #{__FILE__}"
