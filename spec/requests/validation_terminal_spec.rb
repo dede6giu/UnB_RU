@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Terminal de Validação", type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
   let!(:estudante) do
     Account.create!(user: "232012345", password: "senha123", name: "Estudante Teste", role: "student").student
   end
@@ -84,6 +86,18 @@ RSpec.describe "Terminal de Validação", type: :request do
           .and change(Access, :count).by(1)
 
         expect(Transaction.debits.last.access).to eq(Access.last)
+      end
+
+      it "grava no acesso o turno da refeição" do
+        Shift.create!(meal_type: "lunch", starts_at: "11:00", ends_at: "14:00")
+        estudante.update!(balance_cents: 1000)
+        entrar_e_conectar
+
+        travel_to Time.zone.local(2026, 11, 24, 12, 0) do
+          validar("232012345")
+        end
+
+        expect(Access.last.shift.meal_type).to eq("lunch")
       end
     end
   end

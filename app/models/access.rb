@@ -5,6 +5,7 @@ class Access < ApplicationRecord
   belongs_to :student, optional: true
   belongs_to :restaurant
   belongs_to :turnstile
+  belongs_to :shift, optional: true
 
   validates :registration, presence: true
   validates :status, inclusion: { in: STATUSES }

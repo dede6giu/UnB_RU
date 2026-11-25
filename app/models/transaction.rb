@@ -62,23 +62,36 @@ class Transaction < ApplicationRecord
   # que vale o padrão da tela: últimos 30 dias. Retorna uma consulta; não altera o banco.
   def self.in_period(period)
     case period
-    when "this_month" then where("created_at >= ?", Time.current.beginning_of_month)
+    when "this_month" then where("transactions.created_at >= ?", Time.current.beginning_of_month)
     when "all" then all
-    else where("created_at >= ?", 30.days.ago)
+    else where("transactions.created_at >= ?", 30.days.ago)
     end
   end
 
   ##
   # Filtra pelo tipo escolhido no extrato.
   #
-  # Recebe `"credit"` (recargas), `"meal"` (refeições) ou qualquer outro valor, que mantém todos.
+  # Recebe `"credit"` (recargas), `"meal"` (refeições), `"breakfast"`, `"lunch"` ou `"dinner"` (refeições
+  # daquele turno, pelo acesso que gerou o débito) ou qualquer outro valor, que mantém todos.
   # Retorna uma consulta; não altera o banco.
   def self.of_type(type)
     case type
     when "credit" then credits
     when "meal" then debits
+    when "breakfast", "lunch", "dinner" then debits.joins(access: :shift).where(shifts: { meal_type: type })
     else all
     end
+  end
+
+  ##
+  # Filtra pelo restaurante escolhido no extrato, pelo acesso que gerou o débito.
+  #
+  # Recebe o id do restaurante; vazio ou `nil` mantém todos. Retorna uma consulta (as recargas, que não
+  # têm acesso, saem quando há restaurante); não altera o banco.
+  def self.for_restaurant(restaurant_id)
+    return all if restaurant_id.blank?
+
+    joins(:access).where(accesses: { restaurant_id: restaurant_id })
   end
 
   ##

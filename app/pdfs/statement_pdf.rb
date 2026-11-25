@@ -1,17 +1,31 @@
+# PDF do Extrato e Histórico de Refeições, feito com a gem Prawn. Usa os mesmos helpers da página, então
+# os valores saem escritos igual à tela.
 class StatementPdf
   include ActionView::Helpers::NumberHelper
   include ApplicationHelper
   include StatementsHelper
 
+  # Pasta da fonte DejaVu, que tem as letras de qualquer nome (as fontes padrão do PDF não têm "Ł").
   FONTS = Rails.root.join("vendor/fonts")
 
-  def initialize(student, transactions, period:, type:)
+  ##
+  # Guarda o estudante, os lançamentos já filtrados e os filtros escolhidos, para o cabeçalho.
+  #
+  # Recebe o Student, a consulta de Transaction e os valores de `period:`, `type:` e `restaurant:`
+  # (este é opcional). Não altera o banco.
+  def initialize(student, transactions, period:, type:, restaurant: nil)
     @student = student
     @transactions = transactions
     @period = period
     @type = type
+    @restaurant = restaurant
   end
 
+  ##
+  # Monta o PDF: cabeçalho, totais e a tabela com todos os lançamentos.
+  #
+  # Não recebe argumentos. Retorna o conteúdo do PDF (texto binário que começa com "%PDF"); não altera o
+  # banco.
   def render
     pdf = new_document
     write_header(pdf)
@@ -41,7 +55,7 @@ class StatementPdf
   def write_header(pdf)
     pdf.text "Extrato e Histórico de Refeições", size: 18, style: :bold
     pdf.text "#{@student.account.name} · matrícula #{@student.user}"
-    pdf.text "Período: #{period_label(@period)} · Tipo: #{type_label(@type)}"
+    pdf.text "Período: #{period_label(@period)} · Tipo: #{type_label(@type)} · Restaurante: #{restaurant_label(@restaurant)}"
     pdf.text "Exportado em #{Time.current.strftime('%d/%m/%Y %H:%M')}", size: 9
     pdf.move_down 12
   end
@@ -70,6 +84,10 @@ class StatementPdf
     end
   end
 
+  ##
+  # Linhas da tabela do PDF: o cabeçalho e uma linha por lançamento (data, lançamento, meio e valor).
+  #
+  # Não recebe argumentos. Retorna uma lista de listas de textos; não altera o banco.
   def rows
     linhas = [ [ "Data e hora", "Lançamento", "Meio", "Valor" ] ]
     @transactions.each do |transaction|

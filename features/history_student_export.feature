@@ -25,7 +25,6 @@ Feature: Export Extrato e Histórico de Refeições
         | credit    |
         | meal      |
 
-        @wip
         Examples:
         | type      |
         | breakfast |

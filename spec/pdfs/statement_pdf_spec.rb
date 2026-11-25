@@ -35,6 +35,12 @@ RSpec.describe StatementPdf do
     expect(texto).to include("- R$ 4,50")
   end
 
+  it "diz qual restaurante foi filtrado" do
+    restaurante = Restaurant.create!(name: "RU Darcy", campus: "Darcy Ribeiro")
+    pdf = StatementPdf.new(estudante, Transaction.none, period: nil, type: nil, restaurant: restaurante.id.to_s).render
+    expect(texto_do(pdf)).to include("Restaurante: RU Darcy")
+  end
+
   it "com filtro que não existe e sem lançamentos, usa o padrão e sai com os totais zerados" do
     pdf = StatementPdf.new(estudante, Transaction.none, period: "qualquer", type: "xyz").render
     texto = texto_do(pdf)

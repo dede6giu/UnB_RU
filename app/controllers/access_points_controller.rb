@@ -138,7 +138,8 @@ class AccessPointsController < ApplicationController
   #
   # Recebe o estudante encontrado (ou `nil`) e o resultado de `entry_result`.
   # Retorna o `Access` criado, ou `nil` quando não há catraca em operação.
-  # Escreve no banco: cria um `Access`; quando liberado, vincula o débito gerado.
+  # Escreve no banco: cria um `Access` com o turno da hora atual (vazio fora dos turnos); quando liberado,
+  # vincula o débito gerado.
   def register_access(student, result)
     return if @turnstile.nil?
 
@@ -148,6 +149,7 @@ class AccessPointsController < ApplicationController
         registration: params[:registration],
         restaurant: @turnstile.restaurant,
         turnstile: @turnstile,
+        shift: Shift.at(Time.current),
         status: result == "allowed" ? "allowed" : "blocked",
         reason: access_reason(result)
       )
