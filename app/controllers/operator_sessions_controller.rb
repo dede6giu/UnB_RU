@@ -1,5 +1,8 @@
 # Controller para a autenticação de Operator.
 class OperatorSessionsController < ApplicationController
+  include Authentication
+  before_action :require_no_operator, only: %i[new create]
+
   ##
   # GET /operator/login
   #
@@ -30,6 +33,21 @@ class OperatorSessionsController < ApplicationController
     else
       failed_login(account_values)
     end
+  end
+
+  ##
+  # DELETE /operator/login
+  #
+  # Encerra a sessão do operador. Não recebe argumentos.
+  #
+  # Se o operador ainda estiver conectado a uma catraca, ela é liberada
+  # (fica sem operador e volta para "Ativa") antes de sair, para não ficar presa
+  # a uma sessão que não existe mais. Remove o registro da sessão e redireciona
+  # para OperatorSessionsController#new com "Você saiu da conta.".
+  def destroy
+    Turnstile.find_by(operator_id: session[:operator_id])&.update!(operator_id: nil, operation: "Ativa")
+    session.delete(:operator_id)
+    redirect_to new_operator_session_path, notice: "Você saiu da conta."
   end
 
   private
