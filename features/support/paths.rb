@@ -17,6 +17,9 @@ module NavigationHelpers
     when /Cadastrar Catracas?/
       turnstile_base + '/new'
 
+    # Global history
+    when /^Histórico Global$/ then global_history_path
+
     # Autentication paths
     when /^Autenticação de Admin$/ then new_admin_session_path
     when /^Autenticação do Operador$/ then new_operator_session_path
@@ -24,6 +27,7 @@ module NavigationHelpers
     when /^Configuração de Ponto$/ then new_access_point_path
     when /^Cardápio$/ then public_menu_path
     when /^Portal do Estudante$/ then student_portal_path
+    when /^Turnos e Time-frames$/ then admin_shifts_path
     when /^Terminal de Validação$/ then access_point_path
 
     when /^Recarga de Saldo$/ then new_recharge_path

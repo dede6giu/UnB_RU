@@ -9,7 +9,7 @@ RSpec.describe "StudentSessions", type: :request do
     post student_session_path, params: { student: { user: user, password: password } }
   end
 
-  describe "GET /student_session/new" do
+  describe "GET /student/login" do
     it "mostra a página de login" do
       get new_student_session_path
       expect(response).to have_http_status(:success)
@@ -17,7 +17,7 @@ RSpec.describe "StudentSessions", type: :request do
     end
   end
 
-  describe "POST /student_session" do
+  describe "POST /student/login" do
     it "autentica e vai para o Portal do Estudante" do
       entrar(user: "232012345", password: "senha123")
       expect(response).to redirect_to(student_portal_path)
@@ -54,16 +54,25 @@ RSpec.describe "StudentSessions", type: :request do
   end
 
   describe "links entre o login e o cadastro" do
-    it "o login leva para o cadastro e o cadastro leva para o login" do
+    it "o login leva para o cadastro" do
       get new_student_session_path
       expect(response.body).to include("href=\"#{student_session_signup_path}\"")
+    end
 
+    it "o cadastro leva para o login" do
       get student_session_signup_path
       expect(response.body).to include("href=\"#{new_student_session_path}\"")
     end
   end
 
-  describe "POST /student/newacc com campos vazios" do
+  describe "POST /student/newacc" do
+    it "cria uma conta nova" do
+      post student_session_newacc_path, params: { student_user: "102012345", student_name: "Fulano", student_password: "senha123" }
+      expect(response).to redirect_to(student_portal_path)
+      expect(flash[:notice]).to eq("Sucesso no cadastro.")
+      expect(session[:student_id]).to eq("102012345")
+    end
+
     it "mostra cada erro numa linha, em vermelho, sem criar a conta" do
       expect do
         post student_session_newacc_path, params: { student_user: "", student_name: "", student_password: "" }
@@ -92,7 +101,7 @@ RSpec.describe "StudentSessions", type: :request do
     end
   end
 
-  describe "já logado"do
+  describe "já logado" do
     before { entrar(user: "232012345", password: "senha123") }
     it "não permite entrar de novo e redireciona para o portal" do
       get new_student_session_path

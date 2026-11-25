@@ -20,6 +20,10 @@ module MessageTexts
     when /existing turnstile/
       'Catraca já existente'
 
+    # Shift configuration
+    when /invalid shift/
+      "Horário inválido. Verifique os horários e evite sobreposição entre turnos."
+
     when /incorrect credentials/
       'Matrícula ou senha incorretas.'
     when /invalid (admin|operator|student) id/
@@ -47,6 +51,9 @@ module MessageTexts
       'Saldo insuficiente'
     when /unregistered registration/
       'Matrícula não cadastrada'
+
+    when /no global history/
+      'Ainda não há histórico de acessos.'
 
     else
       pending "Can't find mapping from \"#{message_alias}\" to a message.\n" +

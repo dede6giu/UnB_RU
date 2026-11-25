@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_04_021653) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_232030) do
+  create_table "accesses", force: :cascade do |t|
+    t.string "student_id"
+    t.string "registration", null: false
+    t.integer "restaurant_id", null: false
+    t.integer "turnstile_id", null: false
+    t.string "status", null: false
+    t.string "reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["restaurant_id"], name: "index_accesses_on_restaurant_id"
+    t.index ["student_id"], name: "index_accesses_on_student_id"
+    t.index ["turnstile_id"], name: "index_accesses_on_turnstile_id"
+  end
+
   create_table "accounts", primary_key: "user", id: :string, force: :cascade do |t|
     t.string "name"
     t.string "password_digest"
@@ -25,6 +39,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_021653) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "campus"], name: "index_restaurants_on_name_and_campus", unique: true
+  end
+
+  create_table "shifts", force: :cascade do |t|
+    t.string "meal_type", null: false
+    t.time "starts_at", null: false
+    t.time "ends_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_type"], name: "index_shifts_on_meal_type", unique: true
   end
 
   create_table "students", primary_key: "user", id: :string, force: :cascade do |t|
@@ -58,7 +81,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_021653) do
     t.index ["restaurant_id"], name: "index_turnstiles_on_restaurant_id"
   end
 
+  add_foreign_key "accesses", "restaurants"
+  add_foreign_key "accesses", "students", primary_key: "user"
+  add_foreign_key "accesses", "turnstiles"
   add_foreign_key "students", "accounts", column: "user", primary_key: "user"
+  add_foreign_key "transactions", "accesses"
   add_foreign_key "transactions", "students", primary_key: "user"
   add_foreign_key "turnstiles", "accounts", column: "operator_id", primary_key: "user"
   add_foreign_key "turnstiles", "restaurants"
