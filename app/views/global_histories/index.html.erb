@@ -27,8 +27,22 @@
                       class: "form-control" %>
     </div>
 
+    <div>
+      <%= form.label :date, "Data", class: "form-label" %>
+      <%= form.date_field :date, value: params[:date], class: "form-control" %>
+    </div>
+
     <%= form.submit "Filtrar", class: "btn-solid theme-primary" %>
   <% end %>
+
+  <div class="mb-4">
+    <%= link_to "Exportar PDF",
+                global_history_path(format: :pdf,
+                                    restaurant_id: params[:restaurant_id].presence,
+                                    turnstile_id: params[:turnstile_id].presence,
+                                    date: params[:date].presence),
+                class: "btn-solid theme-primary" %>
+  </div>
 
   <div class="card shadow-sm">
     <div class="card-body p-0">
