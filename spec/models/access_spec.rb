@@ -99,5 +99,28 @@ RSpec.describe Access, type: :model do
       expect(Access.for_turnstile(outra.id)).to eq([ de_outra ])
       expect(Access.for_turnstile(nil)).to match_array([ daqui, de_outra ])
     end
+
+    describe "por data" do
+      it "filtra um dia inteiro" do
+        hoje = criar(created_at: Time.zone.today.noon)
+        criar(created_at: Time.zone.today.noon - 1.day)
+
+        expect(Access.for_date(Date.current.iso8601)).to contain_exactly(hoje)
+      end
+
+      it "não filtra sem data" do
+        registro = criar(created_at: Time.zone.today.noon)
+
+        expect(Access.for_date(nil)).to contain_exactly(registro)
+        expect(Access.for_date("")).to contain_exactly(registro)
+      end
+
+      it "ignora data inválida em vez de quebrar" do
+        registro = criar(created_at: Time.zone.today.noon)
+
+        expect(Access.for_date("2026-02-30")).to contain_exactly(registro)
+        expect(Access.for_date("ontem")).to contain_exactly(registro)
+      end
+    end
   end
 end

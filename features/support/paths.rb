@@ -18,7 +18,7 @@ module NavigationHelpers
       turnstile_base + '/new'
 
     # Global history
-    when /^Histórico Global$/ then global_history_path
+    when /^Histórico Global$/, /^Relatório Global de Operação$/ then global_history_path
 
     # Autentication paths
     when /^Autenticação de Admin$/ then new_admin_session_path

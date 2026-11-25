@@ -15,6 +15,19 @@ class Access < ApplicationRecord
   scope :for_restaurant, ->(id) { id.present? ? where(restaurant_id: id) : all }
   scope :for_turnstile, ->(id) { id.present? ? where(turnstile_id: id) : all }
 
+  ##
+  # Filtra os acessos de um dia inteiro, no fuso da aplicação.
+  #
+  # Recebe uma data em ISO 8601 (`"2026-11-25"`), um `Date` ou `nil`.
+  # Retorna uma `ActiveRecord::Relation`; data ausente ou inválida não filtra.
+  # Não altera o banco de dados.
+  def self.for_date(value)
+    day = Date.iso8601(value.to_s)
+    where(created_at: day.all_day)
+  rescue Date::Error
+    all
+  end
+
   private
 
   ##
