@@ -1,6 +1,11 @@
 class GlobalHistoryPdf
   FONTS = Rails.root.join("vendor/fonts")
 
+  ##
+  # Guarda os acessos já filtrados e os rótulos dos filtros para a geração do PDF.
+  #
+  # Recebe a coleção de `Access` e as strings `restaurant:`, `turnstile:` e `date:` já formatadas.
+  # Não retorna valor útil; inicializa as variáveis de instância. Não altera o banco.
   def initialize(accesses, restaurant:, turnstile:, date:)
     @accesses = accesses
     @restaurant = restaurant
@@ -8,6 +13,11 @@ class GlobalHistoryPdf
     @date = date
   end
 
+  ##
+  # Gera o documento com cabeçalho e tabela dos acessos.
+  #
+  # Não recebe argumentos. Retorna uma String com os bytes do PDF.
+  # Não altera o banco de dados.
   def render
     pdf = new_document
     write_header(pdf)
@@ -53,6 +63,11 @@ class GlobalHistoryPdf
     end
   end
 
+  ##
+  # Monta as linhas da tabela: cabeçalho + uma linha por acesso.
+  #
+  # Não recebe argumentos (usa `@accesses`). Retorna um array de arrays de strings.
+  # Não altera o banco de dados.
   def rows
     linhas = [ [ "Data e hora", "Matrícula", "Estudante", "Restaurante",
                  "Catraca", "Status", "Motivo" ] ]

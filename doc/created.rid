@@ -1,13 +1,14 @@
-Mon, 23 Nov 2026 23:26:22 -0300
+Wed, 25 Nov 2026 17:50:14 -0300
 app/assets/images/placeholder.png	Sun, 22 Nov 2026 21:54:17 -0300
 app/assets/stylesheets/application.css	Sun, 22 Nov 2026 21:54:17 -0300
 app/assets/stylesheets/recharge.css	Sun, 22 Nov 2026 21:54:17 -0300
 app/controllers/access_control_controller.rb	Mon, 23 Nov 2026 23:26:10 -0300
-app/controllers/access_points_controller.rb	Mon, 23 Nov 2026 23:26:10 -0300
+app/controllers/access_points_controller.rb	Wed, 25 Nov 2026 14:10:47 -0300
 app/controllers/admin_sessions_controller.rb	Mon, 23 Nov 2026 23:26:10 -0300
+app/controllers/admin_shifts_controller.rb	Wed, 25 Nov 2026 14:10:47 -0300
 app/controllers/application_controller.rb	Sun, 22 Nov 2026 21:55:43 -0300
 app/controllers/concerns/student_authentication.rb	Mon, 23 Nov 2026 23:26:10 -0300
-app/controllers/global_histories_controller.rb	Mon, 23 Nov 2026 23:12:10 -0300
+app/controllers/global_histories_controller.rb	Wed, 25 Nov 2026 17:12:57 -0300
 app/controllers/home_controller.rb	Mon, 23 Nov 2026 23:26:10 -0300
 app/controllers/menus_controller.rb	Sun, 22 Nov 2026 21:54:17 -0300
 app/controllers/operator_sessions_controller.rb	Mon, 23 Nov 2026 23:26:10 -0300
@@ -34,15 +35,17 @@ app/javascript/controllers/hello_controller.js	Thu, 12 Nov 2026 21:39:31 -0300
 app/javascript/controllers/index.js	Thu, 12 Nov 2026 21:39:31 -0300
 app/jobs/application_job.rb	Thu, 12 Nov 2026 21:39:31 -0300
 app/mailers/application_mailer.rb	Thu, 12 Nov 2026 21:39:31 -0300
-app/models/access.rb	Mon, 23 Nov 2026 23:12:13 -0300
+app/models/access.rb	Wed, 25 Nov 2026 16:27:08 -0300
 app/models/account.rb	Sun, 22 Nov 2026 21:55:43 -0300
 app/models/application_record.rb	Thu, 12 Nov 2026 21:39:31 -0300
 app/models/credit_card.rb	Mon, 23 Nov 2026 23:26:10 -0300
 app/models/menu_catalog.rb	Sun, 22 Nov 2026 21:54:17 -0300
 app/models/recharge.rb	Mon, 23 Nov 2026 23:26:10 -0300
-app/models/restaurant.rb	Mon, 23 Nov 2026 20:32:10 -0300
-app/models/student.rb	Mon, 23 Nov 2026 23:26:10 -0300
-app/models/transaction.rb	Mon, 23 Nov 2026 23:26:10 -0300
-app/models/turnstile.rb	Mon, 23 Nov 2026 21:46:09 -0300
+app/models/restaurant.rb	Wed, 25 Nov 2026 14:10:47 -0300
+app/models/shift.rb	Wed, 25 Nov 2026 14:10:47 -0300
+app/models/student.rb	Wed, 25 Nov 2026 14:10:47 -0300
+app/models/transaction.rb	Wed, 25 Nov 2026 14:10:47 -0300
+app/models/turnstile.rb	Wed, 25 Nov 2026 14:10:47 -0300
+app/pdfs/global_history_pdf.rb	Wed, 25 Nov 2026 17:50:07 -0300
 app/pdfs/statement_pdf.rb	Sun, 22 Nov 2026 21:55:43 -0300
 app/views/pwa/service-worker.js	Thu, 12 Nov 2026 21:39:31 -0300
