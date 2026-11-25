@@ -76,4 +76,31 @@ RSpec.describe "StudentSessions", type: :request do
       expect(response.body).not_to include("theme-success")
     end
   end
+
+    describe "DELETE /student/login" do
+    it "sai da conta e volta para o login" do
+      entrar(user: "232012345", password: "senha123")
+      get student_portal_path
+      expect(response.body).to include('<input type="hidden" name="_method" value="delete"')
+
+      delete student_session_path
+      expect(response).to redirect_to(new_student_session_path)
+      expect(session[:student_id]).to be_nil
+
+      get student_portal_path
+      expect(response).to redirect_to(new_student_session_path)
+    end
+  end
+
+  describe "já logado"do
+    before { entrar(user: "232012345", password: "senha123") }
+    it "não permite entrar de novo e redireciona para o portal" do
+      get new_student_session_path
+      expect(response).to redirect_to(student_portal_path)
+    end
+    it "não mostra o cadastro e redireciona para o portal" do
+      get student_session_signup_path
+      expect(response).to redirect_to(student_portal_path)
+    end
+  end
 end
