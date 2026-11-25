@@ -12,7 +12,7 @@ module ButtonPaths
       "Desconectar do Ponto de Acesso"
     when "confirm transaction"
       "Confirmar"
-    when "export PDF"
+    when "export PDF", "export extract"
       "Exportar PDF"
     when "full menu"
       "Ver cardápio completo"
