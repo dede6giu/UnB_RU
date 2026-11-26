@@ -9,7 +9,7 @@ Funcionalidade: Apagar restaurantes
         E que existe um restaurante
         E que eu conheço um restaurante
         E que existem catracas que são não-operacionais
-        E que eu estou na págine de edição do restaurante que conheço
+        E que eu estou na página de edição do restaurante que conheço
 
     # Cenários Positivos
     @javascript

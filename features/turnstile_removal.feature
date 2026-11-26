@@ -1,42 +1,43 @@
-Feature: Turnstile removal
-    As an admin
-    I want to remove a turnstile
-    So that operators only see turnstiles that really exist
+# language: pt
+Funcionalidade: Apagar catracas
+    Como administrador
+    Eu quero apagar catracas
+    Para que o sistema mantenha-se atualizado
 
-    Background:
-        Given I am an admin
-        And there are restaurants
-        And there are turnstiles
-        And I know a turnstile
-        And I am on a knowing turnstile edit page
+    Contexto:
+        Dado que sou um admin
+        E que existem restaurantes
+        E que existem catracas
+        E que eu conheço uma catraca
+        E que eu estou na página de editar da catraca que conheço
 
-    # Positive scenarios
+    # Cenários Positivos
     @javascript
-    Scenario Outline: Remove a non-operational turnstile
-        When the turnstile I know is <operation>
-        And I click the remove turnstile link, and confirm
-        Then I should not see the turnstile I know
+    Delineação do Cenário: Remover uma catraca não-operacional
+        Dado que a catraca que conheço está <operation>
+        Quando eu clicar no link de remover catraca, e confirmar
+        Então eu não devo ver a catraca que conheço
 
-        Examples:
+        Exemplos:
             | operation |
-            | inactive  |
-            | active    |
+            | inativa   |
+            | ativa     |
 
-    # Negative scenarios
+    # Cenários Negativos
     @javascript
-    Scenario: Give up mid-removal
-        When I click the remove turnstile link, and cancel
-        And I go to the "Gestão de Restaurantes e Catracas" page
-        Then I should see the turnstile I know
+    Cenário: Desistir antes de confirmar
+        Quando eu clicar no link de remover catraca, e cancelar
+        E eu vou para a página de "Gestão de Restaurantes e Catracas"
+        Então eu devo ver a catraca que conheço
 
     @javascript
-    Scenario Outline: Turnstile in operation
-        Given the turnstile I know is <operation>
-        And the turnstile I know has an operator associated to it
-        When I click the remove turnstile link, and confirm
-        Then I should see a turnstile in operation message
+    Delineação do Cenário: Catraca em operação
+        Dado que a catraca que conheço está <operation>
+        E que a catraca que conheço tem um operador associado a ela
+        Quando eu clicar no link de remover catraca, e confirmar
+        Então eu devo ver uma mensagem de catraca em operação
 
-        Examples:
+        Exemplos:
             | operation |
-            | operating |
+            | operando  |
             | fastpass  |

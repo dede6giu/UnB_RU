@@ -53,7 +53,7 @@ module NavigationHelpers
               "Now, go and add a mapping in #{__FILE__}"
     end
     case page_type
-    when /edição/
+    when /edição/, /editar/
       resulting_path += options[:model].id.to_s
       resulting_path += "/edit"
     else

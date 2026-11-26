@@ -8,7 +8,7 @@ Funcionalidade: Editar restaurantes
         Dado que sou um admin
         E que existem restaurantes
         E que eu conheço um restaurante
-        E que eu estou na págine de edição do restaurante que conheço
+        E que eu estou na página de edição do restaurante que conheço
 
     # Cenários Positivos
     Delineação do Cenário: Renomear o nome ou campus de um restaurante

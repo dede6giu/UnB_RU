@@ -28,7 +28,7 @@ Dado(/^(?:que )?(?:eu )?estou na página "(.+)"$/) do |page_alias|
   visit path_to(page_alias)
 end
 
-Dado(/^(?:que )?(?:eu )?estou na págine de (.+) do (.+) que conheço$/) do |page_type, model_name|
+Dado(/^(?:que )?(?:eu )?estou na página d[eoa] (.+) d[eoa] (.+) que conheço$/) do |page_type, model_name|
   visit model_path_to(model_name, page_type, model: @memory_know[internal_name(model_name)])
 end
 
@@ -37,7 +37,7 @@ Dado(/^(?:que )?(?:eu )?aprendo outr[ao] (.+)$/) do |model_name|
   @memory_another[internal_name(model_name)] = get_another(model_name, @memory_know[internal_name(model_name)].id)
 end
 
-When(/^from the "(.*)" dropdown I choose anything$/) do |form_label|
+Quando(/^do dropdown "(.*)" (?:eu )?escolho qualquer coisa$/) do |form_label|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   if form_label == "turnstile_restaurant_id"
     restaurant = Restaurant.order("RANDOM()").first
@@ -49,7 +49,7 @@ When(/^from the "(.*)" dropdown I choose anything$/) do |form_label|
   select fill_value, from: form_label
 end
 
-When(/^from the "(.*)" dropdown I choose "(.*)"$/) do |form_label, fill_value|
+Quando(/^do dropdown "(.*)" (?:eu )?escolho "(.*)"$/) do |form_label, fill_value|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   @form_fill[form_label.intern] = fill_value
   select fill_value, from: form_label
@@ -76,7 +76,7 @@ Quando(/^(?:eu )?preencho "(.+)" com o valor d[eoa] (.+) que conheço$/) do |for
   fill_in form_label, with: known_value
 end
 
-When(/^from the "(.*)" dropdown I choose from a known (.*)$/) do |form_label, model_name|
+Quando(/^do dropdown "(.*)" (?:eu )?escolho o valor d[oa] (.*) que conheço$/) do |form_label, model_name|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   if form_label == "turnstile_restaurant_id"
     restaurant = Restaurant.where(id: @memory_know[internal_name(model_name)].restaurant_id).first
@@ -103,13 +103,13 @@ Quando(/^(?:eu )?preencho "(.+)" evitando tod[oa]s (?:[oa]s )?(.+)$/) do |form_l
   fill_in form_label, with: fill_value
 end
 
-Quando(/^(?:eu )?preencho "(.+)" com o valor de outro (.+)$/) do |form_label, model_name|
+Quando(/^(?:eu )?preencho "(.+)" com o valor d[aeo] outr[oa] (.+)$/) do |form_label, model_name|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   @form_fill[form_label.intern] = @memory_another[internal_name(model_name)][form_label.intern]
   fill_in form_label, with: @memory_another[internal_name(model_name)].send(parametrize_form_label(form_label))
 end
 
-When(/^from the "(.*)" dropdown I choose from another (.*)$/) do |form_label, model_name|
+Quando(/^do dropdown "(.*)" (?:eu )?escolho o valor d[eoa] outr[oa] (.*)$/) do |form_label, model_name|
   @form_fill = if @form_fill == nil then {} else @form_fill end
   if form_label == "turnstile_restaurant_id"
     restaurant = Restaurant.where(id: @memory_another[internal_name(model_name)].restaurant_id).first

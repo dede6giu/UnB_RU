@@ -1,9 +1,9 @@
 module ModelParameters
   def list_parameter_names(model_name)
     case model_name
-    when /restaurants?/
+    when /restaurantes?/
       [ :name, :campus ]
-    when /turnstiles?/
+    when /catracas?/
       [ :name, :operation, :restaurant_id ]
     else
       raise "Can't find mapping from \"#{model_name}\" to a model.\n" +

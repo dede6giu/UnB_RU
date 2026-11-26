@@ -1,10 +1,10 @@
-Given(/^the turnstile I know is (.*)$/) do |mode|
+Dado(/^que a catraca que conheço está (.*)$/) do |mode|
   case mode
-  when 'inactive'
+  when 'inativa'
     new_value = 'Inativa'
-  when 'active'
+  when 'ativa'
     new_value = 'Ativa'
-  when 'operating'
+  when 'operando'
     new_value = 'Operando'
   when 'fastpass'
     new_value = 'FastPass'
@@ -12,7 +12,7 @@ Given(/^the turnstile I know is (.*)$/) do |mode|
   @memory_know[:turnstile].update(operation: new_value)
 end
 
-Given(/^the turnstile I know has an operator associated to it$/) do
+Dado(/^que a catraca que conheço tem um operador associado a ela$/) do
   operator = Account.new(user: valid_value('operator_id', Account.where(role: 'operator').pluck(:user)),
                          name: valid_value('operator_name'),
                          role: 'operator',
@@ -21,14 +21,14 @@ Given(/^the turnstile I know has an operator associated to it$/) do
   @memory_know[:turnstile].update(operator_id: operator.id)
 end
 
-Then(/the turnstile I know should be (.*)/) do |mode|
+Então(/a catraca que conheço deve estar (.*)/) do |mode|
   @memory_know[:turnstile].reload
   case mode
-  when 'inactive'
+  when 'inativa'
     new_value = 'Inativa'
-  when 'active'
+  when 'ativa'
     new_value = 'Ativa'
-  when 'operating'
+  when 'operando'
     new_value = 'Operando'
   when 'fastpass'
     new_value = 'FastPass'

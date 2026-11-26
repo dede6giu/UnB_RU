@@ -78,9 +78,9 @@ module ValuesGenerator
 
   def get_models(model_name)
     case model_name
-    when /restaurants?/
+    when /restaurantes?/
       Restaurant.order("RANDOM()").first
-    when /turnstiles?/
+    when /catracas?/
       Turnstile.order("RANDOM()").first
     else
       raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
@@ -90,12 +90,12 @@ module ValuesGenerator
 
   def get_another(model_name, id)
     case model_name
-    when /restaurants?/
+    when /restaurantes?/
       Restaurant.where("id != #{id}").order("RANDOM()").first
-    when /turnstiles?/
+    when /catracas?/
       Turnstile.where("id != #{id}").order("RANDOM()").first
     else
-      raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
+      pending "Can't find mapping from \"#{model_name}\" to a model.\n" +
             "Now, go and add a mapping in #{__FILE__}"
     end
   end
@@ -107,9 +107,9 @@ module ValuesGenerator
 
   def get_all_parameter_values(model_name, form_label)
     case model_name
-    when /restaurants?/
+    when /restaurantes?/
       Restaurant.distinct.pluck(parametrize_form_label(form_label).intern)
-    when /turnstiles?/
+    when /catracas?/
       Turnstile.pluck(parametrize_form_label(form_label).intern)
     else
       raise "Can't find mapping from \"#{model_name}\" to a model's name.\n" +

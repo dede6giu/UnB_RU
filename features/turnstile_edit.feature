@@ -1,61 +1,66 @@
-Feature: Turnstile editing
-    As an admin
-    I want to edit a turnstile
-    So that its information stays updated
+# language: pt
+Funcionalidade: Editar catracas
+    Como um administrador
+    Eu quero editar catracas
+    Para manter informações atualizadas
 
-    Background:
-        Given I am an admin
-        And there are restaurants
-        And there are turnstiles
-        And I know a turnstile
-        And I am on a knowing turnstile edit page
+    Contexto:
+        Dado que sou um admin
+        E que existem restaurantes
+        E que existem catracas
+        E que eu conheço uma catraca
+        E que eu estou na página de editar da catraca que conheço
 
-    # Positive scenarios
-    Scenario Outline: Altering between active and inactive
-        Given the turnstile I know is <now>
-        When from the "turnstile_operation" dropdown I choose "<new_str>"
-        And I fill in "turnstile_name" from a known turnstile
-        And from the "turnstile_restaurant_id" dropdown I choose from a known turnstile
-        And I click the save turnstile button
-        Then the turnstile I know should be <new_mode>
+    # Cenários Positivos
+    Delineação do Cenário: Alterar entre inativa e ativa
+        Dado que a catraca que conheço está <now>
+        E do dropdown "turnstile_operation" eu escolho "<new_str>"
+        E eu preencho "turnstile_name" com o valor da catraca que conheço
+        E do dropdown "turnstile_restaurant_id" eu escolho o valor da catraca que conheço
+        E eu clico no botão salvar catraca
+        Então a catraca que conheço deve estar <new_mode>
 
-        Examples:
-            | now      | new_mode | new_str |
-            | active   | inactive | Inativa |
-            | inactive | active   | Ativa   |
+        Exemplos:
+            | now     | new_mode | new_str |
+            | ativa   | inativa  | Inativa |
+            | inativa | ativa    | Ativa   |
 
-    Scenario: Rename turnstile
-        When I fill "turnstile_name" avoiding all turnstiles
-        And I click the save turnstile button
-        Then I should see the new "turnstile_name"
+    Cenário: Renomear catraca
+        Quando eu preencho "turnstile_name" evitando todas as catracas
+        E eu preencho "turnstile_name" com o valor da catraca que conheço
+        E do dropdown "turnstile_restaurant_id" eu escolho o valor da catraca que conheço
+        E eu clico no botão salvar catraca
+        Então eu devo ver o novo "turnstile_name"
 
-    # Negative scenarios
-    Scenario: Rename turnstile to an already existing turnstile
-        Given I learn another turnstile
-        When I fill "turnstile_name" from another turnstile
-        And from the "turnstile_restaurant_id" dropdown I choose from another turnstile
-        And from the "turnstile_operation" dropdown I choose anything
-        And I click the save turnstile button
-        Then I should see an existing turnstile message
+    # Cenários Negativos
+    Cenário: Renomear catraca para uma catraca existente
+        Dado que eu aprendo outra catraca
+        Quando eu preencho "turnstile_name" com o valor da outra catraca
+        E do dropdown "turnstile_restaurant_id" eu escolho o valor da outra catraca
+        E do dropdown "turnstile_operation" eu escolho qualquer coisa
+        E eu clico no botão salvar catraca
+        Então eu devo ver uma mensagem de catraca existente
 
-    Scenario: Rename turnstile with an invalid name
-        When I fill "turnstile_name" incorrectly
-        And I click the save turnstile button
-        Then I should see an turnstile name is empty message
+    Cenário: Renomear catraca com nome inválido
+        Quando eu preencho "turnstile_name" incorretamente
+        E do dropdown "turnstile_operation" eu escolho qualquer coisa
+        E do dropdown "turnstile_restaurant_id" eu escolho qualquer coisa
+        E eu clico no botão salvar catraca
+        Então eu devo ver uma mensagem de nome da catraca está vazio
 
-    Scenario Outline: Deactivate a turnstile in operation
-        Given the turnstile I know is <curr_mode>
-        And the turnstile I know has an operator associated to it
-        When from the "turnstile_operation" dropdown I choose "<new_str>"
-        And I fill in "turnstile_name" from a known turnstile
-        And from the "turnstile_restaurant_id" dropdown I choose from a known turnstile
-        And I click the save turnstile button
-        Then I should see a turnstile in operation message
-        Then the turnstile I know should be <curr_mode>
+    Delineação do Cenário: Desativar uma catraca em operação
+        Dado que a catraca que conheço está <curr_mode>
+        E que a catraca que conheço tem um operador associado a ela
+        Quando do dropdown "turnstile_operation" eu escolho "<new_str>"
+        E eu preencho "turnstile_name" com o valor da catraca que conheço
+        E do dropdown "turnstile_restaurant_id" eu escolho o valor da catraca que conheço
+        E eu clico no botão salvar catraca
+        Então eu devo ver uma mensagem de catraca em operação
+        E a catraca que conheço deve estar <curr_mode>
 
-        Examples:
+        Exemplos:
             | curr_mode | new_str |
-            | operating | Ativa   |
-            | operating | Inativa |
+            | operando  | Ativa   |
+            | operando  | Inativa |
             | fastpass  | Ativa   |
             | fastpass  | Inativa |
