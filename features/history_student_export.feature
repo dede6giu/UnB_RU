@@ -1,37 +1,38 @@
-Feature: Export Extrato e Histórico de Refeições
-    As a student
-    I want to export my Extrato e Histórico de Refeições as a PDF
-    So that I can better control my finances
+# language: pt
+Funcionalidade: Exportar o Extrato e Histórico de Refeições
+    Como estudante
+    Eu quero exportar meu Extrato e Histórico de Refeições em PDF
+    Para controlar melhor minhas finanças
 
-    Background:
-        Given I am a student
-        And I am on the "Extrato e Histórico de Refeições" page
+    Contexto:
+        Dado que sou um estudante
+        E que estou na página "Extrato e Histórico de Refeições"
 
-    # Positive Scenarios
-    Scenario: Download my transactions
-        Given I have transaction history
-        When I click the export PDF button
-        Then a PDF file for my transaction history downloads
+    # Cenários positivos
+    Cenário: Baixar meus lançamentos
+        Dado que tenho lançamentos no extrato
+        Quando clico no botão de exportar PDF
+        Então um PDF com o meu extrato é baixado
 
-    Scenario Outline: Filter by entry type
-        Given I have transaction history
-        When I filter by transaction type <type>
-        And I click the export PDF button
-        Then a PDF file for my transaction history downloads
-        And the PDF should only contain entries for the transaction type <type>
+    Esquema do Cenário: Filtrar por tipo de lançamento
+        Dado que tenho lançamentos no extrato
+        Quando filtro pelo tipo de lançamento "<tipo>"
+        E clico no botão de exportar PDF
+        Então um PDF com o meu extrato é baixado
+        E o PDF só deve ter lançamentos do tipo "<tipo>"
 
-        Examples:
-        | type      |
-        | credit    |
-        | meal      |
+        Exemplos:
+        | tipo      |
+        | Recargas  |
+        | Refeições |
 
-        Examples:
-        | type      |
-        | breakfast |
-        | lunch     |
-        | dinner    |
+        Exemplos:
+        | tipo          |
+        | Café da manhã |
+        | Almoço        |
+        | Jantar        |
 
-    # Negative Scenarios
-    Scenario: Try to export with no associated data
-        When I click the export PDF button
-        Then I should see a no transaction history message
+    # Cenários negativos
+    Cenário: Tentar exportar sem lançamentos
+        Quando clico no botão de exportar PDF
+        Então devo ver uma mensagem de extrato vazio

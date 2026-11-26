@@ -1,10 +1,10 @@
-When('I filter by transaction type {word}') do |type|
-  find('#type').find("option[value='#{type}']").select_option
+Quando('filtro pelo tipo de lançamento {string}') do |tipo|
+  select tipo, from: 'type'
   click_button 'Filtrar'
   @values_on_page = all('tbody tr td:last-child').map(&:text)
 end
 
-Then('a PDF file for my transaction history downloads') do
+Então('um PDF com o meu extrato é baixado') do
   expect(page.response_headers['Content-Type']).to eq('application/pdf')
   expect(page.response_headers['Content-Disposition']).to start_with('attachment')
   @pdf_text = PDF::Reader.new(StringIO.new(page.body)).pages.map(&:text).join("\n")
@@ -14,20 +14,20 @@ Then('a PDF file for my transaction history downloads') do
 end
 
 # recarga aparece com "+" e refeição com "-"; os totais do PDF não têm sinal
-Then('the PDF should only contain entries for the transaction type {word}') do |type|
-  case type
-  when 'credit'
+Então('o PDF só deve ter lançamentos do tipo {string}') do |tipo|
+  case tipo
+  when 'Recargas'
     expect(@pdf_text).to include('+ R$')
     expect(@pdf_text).not_to include('- R$')
-  when 'meal'
+  when 'Refeições'
     expect(@pdf_text).to include('- R$')
     expect(@pdf_text).not_to include('+ R$')
-  when 'breakfast', 'lunch', 'dinner'
-    meal_names = { 'breakfast' => 'Café da manhã', 'lunch' => 'Almoço', 'dinner' => 'Jantar' }
-    expect(@pdf_text).to include(meal_names[type])
-    meal_names.except(type).each_value { |other| expect(@pdf_text).not_to include(other) }
+  when 'Café da manhã', 'Almoço', 'Jantar'
+    expect(@pdf_text).to include(tipo)
+    outras = [ 'Café da manhã', 'Almoço', 'Jantar' ] - [ tipo ]
+    outras.each { |outra| expect(@pdf_text).not_to include(outra) }
     expect(@pdf_text).not_to include('+ R$')
   else
-    raise "Tipo sem passo ainda: #{type}"
+    raise "Tipo sem passo ainda: #{tipo}"
   end
 end

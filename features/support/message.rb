@@ -29,13 +29,13 @@ module MessageTexts
     when /invalid (admin|operator|student) id/
       'Matrícula inválida.'
 
-    when /successful recharge/
+    when /recarga realizada/
       'Recarga realizada com sucesso.'
-    when /invalid credit amount/
+    when /quantidade inválida/
       'Quantidade inválida.'
-    when /invalid Credit Card info/
+    when /dados do cartão inválidos/
       'Dados do cartão inválidos.'
-    when /no transaction history/
+    when /extrato vazio/
       'Você ainda não tem lançamentos.'
 
     when /existing student/
@@ -45,11 +45,11 @@ module MessageTexts
     when /too short password/
       'Senha deve ter 8 ou mais caracteres.'
 
-    when /access allowed/
+    when /acesso liberado/
       'Acesso liberado'
-    when /not enough balance/
+    when /saldo insuficiente/
       'Saldo insuficiente'
-    when /unregistered registration/
+    when /matrícula não cadastrada/
       'Matrícula não cadastrada'
 
     when /no global history/

@@ -1,17 +1,18 @@
-Feature: View Extrato e Histórico de Refeições
-    As a Student
-    I want to see my expenses and history of meals
+# language: pt
+Funcionalidade: Ver o Extrato e Histórico de Refeições
+    Como estudante
+    Eu quero ver meus gastos e o histórico das minhas refeições
 
-    Background:
-        Given I am a student
-        And I am on the "Extrato e Histórico de Refeições" page
+    Contexto:
+        Dado que sou um estudante
+        E que estou na página "Extrato e Histórico de Refeições"
 
-    # Positive Scenarios
-    Scenario: Student with any amount of transactions
-        Given I have transaction history
-        Then I should see newest entry first
+    # Cenários positivos
+    Cenário: Estudante com lançamentos
+        Dado que tenho lançamentos no extrato
+        Então devo ver o lançamento mais novo primeiro
 
-    # Negative Scenarios
-    Scenario: Student with no transactions yet
-        # Given I have no entries
-        Then I should see a no transaction history message
+    # Cenários negativos
+    Cenário: Estudante ainda sem lançamentos
+        # Dado que não tenho lançamentos
+        Então devo ver uma mensagem de extrato vazio
