@@ -57,20 +57,15 @@ class AccessPointsController < ApplicationController
   def create
     operator = Account.find_by(user: session[:operator_id], role: "operator")
     turnstile = Turnstile.find_by(id: params.dig(:access_point, :turnstile_id))
-    if turnstile.nil?
-      render_error("Escolha um ponto de acesso para iniciar a operação.")
-    elsif turnstile.operation == "Inativa"
-      render_error("O ponto de acesso escolhido está inativo.")
-    elsif %w[ Operando FastPass ].include?(turnstile.operation)
-      render_error("O ponto de acesso escolhido já está em operação.")
-    else
-      current_turnstile = Turnstile.find_by(operator_id: operator.id)
-      Turnstile.transaction do
-        current_turnstile&.update!(operator_id: nil, operation: "Ativa")
-        turnstile.update!(operator_id: operator.id, operation: "Operando")
-      end
-      redirect_to access_point_path, notice: "Operação iniciada com sucesso."
+    erro = erro_da_catraca(turnstile)
+    return render_error(erro) if erro
+
+    current_turnstile = Turnstile.find_by(operator_id: operator.id)
+    Turnstile.transaction do
+      current_turnstile&.update!(operator_id: nil, operation: "Ativa")
+      turnstile.update!(operator_id: operator.id, operation: "Operando")
     end
+    redirect_to access_point_path, notice: "Operação iniciada com sucesso."
   end
 
   ##
@@ -176,14 +171,39 @@ class AccessPointsController < ApplicationController
     Transaction.debits.where(student_id: access.student_id).order(:id).last&.update!(access: access)
   end
 
+  ##
+  # Mostra mensagem de erro e volta para o formulário de escolha de catraca.
+  #
+  # Recebe o texto de alerta. Renderiza a view `new` com status 422.
   def render_error(message)
     flash.now[:alert] = message
     render :new, status: :unprocessable_entity
   end
 
-    def exigir_operador
+  ##
+  # `before_action` que barra quem não está logado como operador.
+  #
+  # Se existe `session[:operator_id]`, não faz nada e a action continua;
+  # se não existe, redireciona para o login do operador com um alerta.
+  def exigir_operador
     return if session[:operator_id].present?
 
     redirect_to new_operator_session_path, alert: "Faça login para continuar."
+  end
+
+  ##
+  # Verifica se a catraca escolhida pode iniciar uma operação.
+  #
+  # Recebe a catraca encontrada pelo `turnstile_id` do formulário (ou `nil` se não existe).
+  # Retorna a mensagem de erro (catraca não escolhida, Inativa ou já em operação),
+  # ou `nil` quando a catraca está livre para operar.
+  def erro_da_catraca(turnstile)
+    if turnstile.nil?
+      "Escolha um ponto de acesso para iniciar a operação."
+    elsif turnstile.operation == "Inativa"
+      "O ponto de acesso escolhido está inativo."
+    elsif %w[ Operando FastPass ].include?(turnstile.operation)
+      "O ponto de acesso escolhido já está em operação."
     end
+  end
 end
