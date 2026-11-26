@@ -156,7 +156,7 @@ Então(/^(?:eu )?devo ver [oa] nov[oa] "(.+)"$/) do |form_label|
   assert page.has_content?(@form_fill[form_label.intern])
 end
 
-Then(/^(?:eu )?devo ver [oa] (.*) que conheço$/) do |model_name|
+Então(/^(?:eu )?devo ver [oa] (.*) que conheço$/) do |model_name|
   model_params = list_parameter_names(model_name)
   model_params.each do |p|
     assert page.has_content?(@memory_know[internal_name(model_name)].send(p))
