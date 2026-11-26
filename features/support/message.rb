@@ -21,7 +21,7 @@ module MessageTexts
       'Catraca já existente'
 
     # Shift configuration
-    when /invalid shift/
+    when /turno inválido/
       "Horário inválido. Verifique os horários e evite sobreposição entre turnos."
 
     when /incorrect credentials/
