@@ -8,7 +8,7 @@ Funcionalidade: Página inicial
         Dado que estou na página "Página Inicial"
 
     # Cenários positivos
-    Cenário: Ver o cardápio da próxima refeição
+    Cenário: Ver o cardápio da refeição atual
         Dado que é segunda-feira na hora do almoço
         Então devo ver o cardápio do almoço de segunda-feira
 
@@ -29,5 +29,5 @@ Funcionalidade: Página inicial
 
     # Cenários negativos
     Cenário: Fora do horário das refeições mostra a próxima
-        Dado que é segunda-feira depois da hora do jantar
+        Dado que é segunda-feira depois do jantar
         Então devo ver o cardápio do café da manhã de terça-feira
