@@ -7,12 +7,7 @@ class MenusController < ApplicationController
     @weekday_name = @catalog.weekdays[@selected_weekday]
     @widget_weekday_name = @catalog.weekdays[@widget_menu[:weekday_index]]
 
-    if params[:weekday].present?
-      @menus = @catalog.menus_for(@selected_weekday)
-    else
-      @current_meal_key = @catalog.current_meal_at
-      @menus = @current_meal_key ? @catalog.menus_for(@selected_weekday).select { |menu| menu[:key] == @current_meal_key } : []
-    end
+    load_menus
   end
 
   private
@@ -22,5 +17,14 @@ class MenusController < ApplicationController
     return @today unless value.present? && value.match?(/\A[0-6]\z/)
 
     value.to_i
+  end
+
+  def load_menus
+    if params[:weekday].present?
+      @menus = @catalog.menus_for(@selected_weekday)
+    else
+      @current_meal_key = @catalog.current_meal_at
+      @menus = @current_meal_key ? @catalog.menus_for(@selected_weekday).select { |menu| menu[:key] == @current_meal_key } : []
+    end
   end
 end
