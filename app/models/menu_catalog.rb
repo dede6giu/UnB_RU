@@ -62,6 +62,17 @@ class MenuCatalog
   end
 
   def widget_menu_at(time = Time.current)
+    weekday_index, meal_key, current = widget_meal_at(time)
+
+    menus_for(weekday_index).find { |menu| menu[:key] == meal_key }.merge(
+      weekday_index: weekday_index,
+      current: current
+    )
+  end
+
+  private
+
+  def widget_meal_at(time)
     current_meal_key = current_meal_at(time)
     seconds = time.seconds_since_midnight
 
@@ -85,9 +96,6 @@ class MenuCatalog
       current = false
     end
 
-    menus_for(weekday_index).find { |menu| menu[:key] == meal_key }.merge(
-      weekday_index: weekday_index,
-      current: current
-    )
+    [ weekday_index, meal_key, current ]
   end
 end
