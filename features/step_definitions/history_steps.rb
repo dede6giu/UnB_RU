@@ -19,7 +19,7 @@ def meal_access(turnstile, meal)
                  turnstile: turnstile, shift: shift, status: 'allowed')
 end
 
-Given('I have transaction history') do
+Dado('que tenho lançamentos no extrato') do
   turnstile = Restaurant.create!(name: 'RU Darcy', campus: 'Darcy Ribeiro').turnstiles.create!(name: 'Catraca 1', operation: 'Ativa')
   HISTORY_ENTRIES.each do |entry|
     access = meal_access(turnstile, entry[:meal]) if entry[:meal]
@@ -31,7 +31,7 @@ Given('I have transaction history') do
   @values_on_page = all('tbody tr td:last-child').map(&:text)
 end
 
-Then('I should see newest entry first') do
+Então('devo ver o lançamento mais novo primeiro') do
   newest_first = HISTORY_ENTRIES.reverse.map { |entry| entry[:text] }
   within('tbody') do
     rows = all('tr').map(&:text)

@@ -1,32 +1,33 @@
-Feature: Landing page
-    As someone visiting the site
-    I want a home page with the menu of the next meal and a way in for each profile
-    So that I can check the food and get to the right login
+# language: pt
+Funcionalidade: Página inicial
+    Como alguém que visita o site
+    Eu quero uma página inicial com o cardápio da próxima refeição e uma entrada para cada perfil
+    Para conferir a comida e chegar ao login certo
 
-    Background:
-        Given I am on the "Página Inicial" page
+    Contexto:
+        Dado que estou na página "Página Inicial"
 
-    # Positive Scenarios
-    Scenario: See the menu of the next meal
-        Given it is Monday during lunch time
-        Then I should see the lunch menu for Monday
+    # Cenários positivos
+    Cenário: Ver o cardápio da próxima refeição
+        Dado que é segunda-feira na hora do almoço
+        Então devo ver o cardápio do almoço de segunda-feira
 
-    Scenario: Go to the full menu
-        When I click on the full menu button
-        Then I should be on the "Cardápio" page
+    Cenário: Ir para o cardápio completo
+        Quando clico no botão de cardápio completo
+        Então devo estar na página "Cardápio"
 
-    Scenario Outline: Go to the login of each profile
-        When I click on the <profile> button
-        Then I should be on the "<page>" page
+    Esquema do Cenário: Ir para o login de cada perfil
+        Quando clico no botão de <perfil>
+        Então devo estar na página "<página>"
 
-        Examples:
-            | profile        | page                      |
-            | student login  | Autenticação do Estudante |
-            | student signup | Cadastro Estudantil       |
-            | operator login | Autenticação do Operador  |
-            | admin login    | Autenticação de Admin     |
+        Exemplos:
+            | perfil                | página                    |
+            | login do estudante    | Autenticação do Estudante |
+            | cadastro do estudante | Cadastro Estudantil       |
+            | login do operador     | Autenticação do Operador  |
+            | login do admin        | Autenticação de Admin     |
 
-    # Negative Scenarios
-    Scenario: No meal being served shows the next one
-        Given it is Monday after dinner time
-        Then I should see the breakfast menu for Tuesday
+    # Cenários negativos
+    Cenário: Fora do horário das refeições mostra a próxima
+        Dado que é segunda-feira depois da hora do jantar
+        Então devo ver o cardápio do café da manhã de terça-feira

@@ -1,6 +1,6 @@
 WALLET_BALANCE_CENTS = 1800
 
-Given('I am a student') do
+Dado('que sou um estudante') do
   @password = 'senha123'
   conta = Account.create!(user: '232012345', password: @password, name: 'Estudante', role: 'student')
   @student = conta.student
@@ -12,21 +12,21 @@ Given('I am a student') do
   expect(page).to have_content('Sucesso na autenticação.')
 end
 
-Given('I have balance') do
+Dado('que tenho saldo') do
   @student.update!(balance_cents: WALLET_BALANCE_CENTS)
 end
 
-When('I choose PIX credit option') do
+Quando('escolho a opção de recarga PIX') do
   choose 'PIX Instantâneo'
 end
 
-When('I choose (the )Credit Card credit option') do
+Quando('escolho a opção de recarga cartão de crédito') do
   choose 'Cartão de Crédito'
 end
 
 # depois da recarga o estudante continua na página de recarga, então o passo abre o extrato
 # 5 refeições de R$ 4,50
-Then('I should see the new PIX extract entry') do
+Então('devo ver a nova recarga por PIX no extrato') do
   visit path_to('Extrato e Histórico de Refeições')
   within('tbody') do
     expect(page).to have_content('Recarga de Saldo')
@@ -35,7 +35,7 @@ Then('I should see the new PIX extract entry') do
   end
 end
 
-Then('I should see the new Credit Card extract entry') do
+Então('devo ver a nova recarga por cartão de crédito no extrato') do
   visit path_to('Extrato e Histórico de Refeições')
   within('tbody') do
     expect(page).to have_content('Recarga de Saldo')
@@ -45,12 +45,12 @@ Then('I should see the new Credit Card extract entry') do
 end
 
 # R$ 18,00 que já tinha + R$ 22,50 da recarga
-Then('I should see my balance increased by the added amount') do
+Então('devo ver meu saldo aumentado com o valor da recarga') do
   expect(page).to have_content('R$ 40,50')
   expect(@student.reload.balance_cents).to eq(WALLET_BALANCE_CENTS + 2250)
 end
 
-Then('I should see my balance had no change') do
+Então('devo ver meu saldo sem alteração') do
   expect(page).to have_content('R$ 18,00')
   expect(@student.reload.balance_cents).to eq(WALLET_BALANCE_CENTS)
 end
