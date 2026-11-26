@@ -1,17 +1,20 @@
-Given(/^I am logged in as an admin$/) do
-  step "I am an admin"
+SHIFT_MEALS = { "café da manhã" => "breakfast", "almoço" => "lunch", "jantar" => "dinner" }.freeze
+
+Dado(/^que estou logado como admin$/) do
+  step "que sou um admin"
 end
 
-Given(/^the (breakfast|lunch|dinner) shift goes from "(\d{2}:\d{2})" to "(\d{2}:\d{2})"$/) do |meal, starts_at, ends_at|
-  Shift.find_or_initialize_by(meal_type: meal).update!(starts_at: starts_at, ends_at: ends_at)
+Dado(/^que o turno do (café da manhã|almoço|jantar) vai de "(\d{2}:\d{2})" até "(\d{2}:\d{2})"$/) do |refeicao, starts_at, ends_at|
+  Shift.find_or_initialize_by(meal_type: SHIFT_MEALS.fetch(refeicao)).update!(starts_at: starts_at, ends_at: ends_at)
 end
 
-When(/^I set the (breakfast|lunch|dinner) shift from "(\d{2}:\d{2})" to "(\d{2}:\d{2})"$/) do |meal, starts_at, ends_at|
+Quando(/^defino o turno do (café da manhã|almoço|jantar) de "(\d{2}:\d{2})" até "(\d{2}:\d{2})"$/) do |refeicao, starts_at, ends_at|
+  meal = SHIFT_MEALS.fetch(refeicao)
   fill_in "shift-#{meal}-start", with: starts_at
   fill_in "shift-#{meal}-end", with: ends_at
 end
 
-Then(/^I should see the (breakfast|lunch|dinner) shift going from "(\d{2}:\d{2})" to "(\d{2}:\d{2})"$/) do |meal, starts_at, ends_at|
-  meal_labels = { "breakfast" => "Café da manhã", "lunch" => "Almoço", "dinner" => "Janta" }
-  expect(page).to have_content("#{meal_labels.fetch(meal)}: #{starts_at}–#{ends_at}")
+Então(/^devo ver o turno do (café da manhã|almoço|jantar) indo de "(\d{2}:\d{2})" até "(\d{2}:\d{2})"$/) do |refeicao, starts_at, ends_at|
+  meal_labels = { "café da manhã" => "Café da manhã", "almoço" => "Almoço", "jantar" => "Janta" }
+  expect(page).to have_content("#{meal_labels.fetch(refeicao)}: #{starts_at}–#{ends_at}")
 end
