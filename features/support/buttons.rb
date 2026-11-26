@@ -1,10 +1,10 @@
 module ButtonPaths
   def button_path(button_alias)
     case button_alias
-    when "create restaurant", "save restaurant",
-      "create turnstile", "save turnstile", "register"
+    when "criar restaurante", "salvar restaurante",
+      "criar catraca", "salvar catraca", "registrar"
       "commit"
-    when "remove restaurant", "remove turnstile"
+    when "remover restaurante", "remover catraca"
       "btn_destroy"
     when "login"
       "Entrar"

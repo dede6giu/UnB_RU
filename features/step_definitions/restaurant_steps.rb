@@ -1,4 +1,4 @@
-Then(/^I should see the new restaurant$/) do
+Então(/^eu devo ver o novo restaurante$/) do
   value_name = @form_fill[:restaurant_name]
   value_campus = @form_fill[:restaurant_campus]
   assert page.has_content?(value_name) and
@@ -10,7 +10,7 @@ Then(/^operators should see the restaurant's new "(.+)" on the "Configuração d
   pending
 end
 
-Given(/^the restaurant I know has a (.*) turnstile$/) do |status|
+Given(/^que o restaurante que conheço tem uma catraca em estado (.*)$/) do |status|
   r_id = @memory_know[:restaurant].id
   Turnstile.create!(name: valid_value("turnstile_name"),
                     operation: want_mapping(status)[:operation].sample,

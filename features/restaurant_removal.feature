@@ -1,33 +1,34 @@
-Feature: Restaurant removal
-    As an admin
-    I want to remove a restaurant
-    So that operators stop seeing restaurants that no longer exist
+# language: pt
+Funcionalidade: Apagar restaurantes
+    Como um administrador
+    Eu quero apagar restaurantes
+    Para remover restaurantes inexistentes do sistema
 
-    Background:
-        Given I am an admin
-        And there is a restaurant
-        And there exists turnstiles that are non-operational
-        And I know a restaurant
-        And I am on a knowing restaurant edit page
+    Contexto:
+        Dado que sou um admin
+        E que existe um restaurante
+        E que eu conheço um restaurante
+        E que existem catracas que são não-operacionais
+        E que eu estou na págine de edição do restaurante que conheço
 
-    # Positive scenarios
+    # Cenários Positivos
     @javascript
-    Scenario: Remove a restaurant
-        Given the restaurant I know has a non-operational turnstile
-        When I click the remove restaurant link, and confirm
-        Then I should not see the restaurant I know
-#        And I should not see the turnstiles from the restaurant I know
+    Cenário: Remover restaurante
+        Dado que o restaurante que conheço tem uma catraca em estado não-operacional
+        Quando eu clicar no link de remover restaurante, e confirmar
+        Então eu não devo ver o restaurante que conheço
+#        E não devo ver catracas do restaurante que conheço
 
-    # Negative scenarios
+    # Cenários Negativos
     @javascript
-    Scenario: Give up mid-removal
-        When I click the remove restaurant link, and cancel
-        And I go to the "Gestão de Restaurantes e Catracas" page
-        Then I should see the restaurant I know
+    Cenário: Desistir antes de confirmar
+        Quando eu clicar no link de remover restaurante, e cancelar
+        E eu vou para a página de "Gestão de Restaurantes e Catracas"
+        Então eu devo ver o restaurante que conheço
 
     @javascript
-    Scenario: Restaurant with a turnstile in operation
-        Given the restaurant I know has a operational turnstile
-        And I click the remove restaurant link, and confirm
-        Then I should see a turnstiles in operation message
-        And I should see the restaurant I know
+    Cenário: Restaurant with a turnstile in operation
+        Dado que o restaurante que conheço tem uma catraca em estado operacional
+        Quando eu clicar no link de remover restaurante, e confirmar
+        Então eu devo ver uma mensagem de catracas em operação
+        E eu devo ver o restaurante que conheço

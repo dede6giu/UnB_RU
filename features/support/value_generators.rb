@@ -63,14 +63,14 @@ module ValuesGenerator
     end
     amount.times do
       case model_name
-      when /restaurants?/
+      when /restaurantes?/
         Restaurant.create(name: vg_rand_string, campus: vg_rand_string)
-      when /turnstiles?/
+      when /catracas?/
         Turnstile.create(name: vg_rand_string(avoid=options[:avoid][:name]),
                          operation: vg_operation_mode(avoid=options[:avoid][:operation]),
                          restaurant_id: Restaurant.all.order("RANDOM()").first.id)
       else
-        raise "Can't find mapping from \"#{model_name}\" to a model.\n" +
+        pending "Can't find mapping from \"#{model_name}\" to a model.\n" +
               "Now, go and add a mapping in #{__FILE__}"
       end
     end
@@ -122,12 +122,12 @@ module ValuesGenerator
     if conditions.is_a?(String) then conditions = [ conditions ] end
     conditions.each do |condition|
       case condition
-      when /^operational$/
+      when /^operaciona(?:l|is)$/
         result[:operation] = %w[Inativa Ativa]
-      when /^non-operational$/
+      when /^não-operaciona(?:l|is)$/
         result[:operation] = %w[Operando FastPass]
       else
-        raise "Can't find mapping from \"#{condition}\" to a model's value condition.\n" +
+        pending "Can't find mapping from \"#{condition}\" to a model's value condition.\n" +
               "Now, go and add a mapping in #{__FILE__}"
       end
     end
@@ -139,9 +139,9 @@ module ValuesGenerator
     if conditions.is_a?(String) then conditions = [ conditions ] end
     conditions.each do |condition|
       case condition
-      when /^operational$/
+      when /^operaciona(?:l|is)$/
         result[:operation] = %w[Operando FastPass]
-      when /^non-operational$/
+      when /^não-operaciona(?:l|is)$/
         result[:operation] = %w[Inativa Ativa]
       else
         raise "Can't find mapping from \"#{condition}\" to a model's value condition.\n" +

@@ -44,16 +44,16 @@ module NavigationHelpers
   def model_path_to(model_name, page_type, options = {})
     resulting_path = '/'
     case model_name
-    when /restaurants?/
+    when /restaurantes?/
       resulting_path += "admin/restaurants/"
-    when /turnstiles?/
+    when /catracas?/
       resulting_path += "admin/turnstiles/"
     else
       pending "Can't find mapping from \"#{model_name}\" to a model.\n" +
               "Now, go and add a mapping in #{__FILE__}"
     end
     case page_type
-    when /edit/
+    when /edição/
       resulting_path += options[:model].id.to_s
       resulting_path += "/edit"
     else

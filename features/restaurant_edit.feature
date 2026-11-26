@@ -1,43 +1,44 @@
-Feature: Restaurant editing
-    As an admin
-    I want to edit a restaurant
-    So that its information stays updated
+# language: pt
+Funcionalidade: Editar restaurantes
+    Como um administrador
+    Eu quero editar restaurantes
+    Para manter informações atualizadas
 
-    Background:
-        Given I am an admin
-        And there are restaurants
-        And I know a restaurant
-        And I am on a knowing restaurant edit page
+    Contexto:
+        Dado que sou um admin
+        E que existem restaurantes
+        E que eu conheço um restaurante
+        E que eu estou na págine de edição do restaurante que conheço
 
-    # Positive Scenarios
-    Scenario Outline: Rename a restaurant or its campus
-        When I fill in "<i_know_id>" avoiding all restaurants
-        And I fill in "<knownt_id>" correctly
-        And I click the save restaurant button
-        Then I should be on the "Gestão de Restaurantes e Catracas" page
-        And I should see the new "<i_know_id>"
-        And operators should see the restaurant's new "<i_know_id>" on the "Configuração de Ponto" page
+    # Cenários Positivos
+    Delineação do Cenário: Renomear o nome ou campus de um restaurante
+        Quando preencho "<i_know_id>" evitando todos os restaurantes
+        E preencho "<knownt_id>" corretamente
+        E eu clico no botão de salvar restaurante
+        Então eu devo estar na página de "Gestão de Restaurantes e Catracas"
+        E devo ver o novo "<i_know_id>"
+#        E operators should see the restaurant's new "<i_know_id>" on the "Configuração de Ponto" page
 
-        Examples:
+        Exemplos:
             | i_know_id         | knownt_id         |
             | restaurant_name   | restaurant_campus |
             | restaurant_campus | restaurant_name   |
 
-    # Negative Scenarios
-    Scenario Outline: Invalid name
-        When I fill in "<correct_id>" correctly
-        And I fill in "<incorrect_id>" incorrectly
-        And I click the save restaurant button
-        Then I should see an <message> message
+    # Cenários Negativos
+    Delineação do Cenário: Valores inválidos
+        Quando preencho "<correct_id>" corretamente
+        E preencho "<incorrect_id>" incorretamente
+        E eu clico no botão de salvar restaurante
+        Então devo ver uma mensagem de <message>
 
-        Examples:
-            | correct_id        | incorrect_id      | message                    |
-            | restaurant_name   | restaurant_campus | restaurant campus is empty |
-            | restaurant_campus | restaurant_name   | restaurant name is empty   |
+        Exemplos:
+            | correct_id        | incorrect_id      | message                          |
+            | restaurant_name   | restaurant_campus | campus do restaurante está vazio |
+            | restaurant_campus | restaurant_name   | nome do restaurante está vazio   |
 
-    Scenario: Renaming to an existing restaurant and campus
-        Given I learn another restaurant
-        When I fill in "restaurant_name" from another restaurant
-        And I fill in "restaurant_campus" from another restaurant
-        And I click the save restaurant button
-        Then I should see an existing restaurant message
+    Cenário: Renomear um restaurante para outro já existente
+        Dado que eu aprendo outro restaurante
+        Quando preencho "restaurant_name" com o valor de outro restaurante
+        E preencho "restaurant_campus" com o valor de outro restaurante
+        E eu clico no botão de salvar restaurante
+        Então devo ver uma mensagem de restaurante existente

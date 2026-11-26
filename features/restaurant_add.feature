@@ -1,36 +1,37 @@
-Feature: Adding restaurants
-    As an administrator
-    I want to add restaurants
-    So that employees can choose them in the control application and students may frequent them
+# language: pt
+Funcionalidade: Adicionar restaurantes
+    Como um administrador
+    Eu quero adicionar restaurantes
+    Para que empregados possam escolhê-los na aplicação de controle e estudantes possam frequentá-los
 
-    Background:
-        Given I am an admin
-        And I am on the "Cadastrar Restaurante" page
+    Contexto:
+        Dado que sou um admin
+        E estou na página "Cadastrar Restaurante"
 
-    # Positive Scenarios
-    Scenario: Add a restaurant
-        When I fill in "restaurant_name" correctly
-        And I fill in "restaurant_campus" correctly
-        And I click the create restaurant button
-        Then I should be on the "Gestão de Restaurantes e Catracas" page
-        And I should see the new restaurant
+    # Cenários Positivos
+    Cenário: Adicionar um restaurante
+        Quando preencho "restaurant_name" corretamente
+        E preencho "restaurant_campus" corretamente
+        E clico no botão criar restaurante
+        Então eu devo estar na página "Gestão de Restaurantes e Catracas"
+        E eu devo ver o novo restaurante
 
-    # Negative Scenarios
-    Scenario Outline: Add a restaurant with invalid data
-        When I fill in "<correct>" correctly
-        And I fill in "<incorrect>" incorrectly
-        And I click the create restaurant button
-        Then I should see an <message> message
+    # Cenários Negativos
+    Delineação do Cenário: Adicionar um restaurante com valores inválidos
+        Quando preencho "<correct>" corretamente
+        E preencho "<incorrect>" incorretamente
+        E clico no botão criar restaurante
+        Então devo ver uma mensagem de <message>
 
-        Examples:
-            | correct           | incorrect         | message                    |
-            | restaurant_name   | restaurant_campus | restaurant campus is empty |
-            | restaurant_campus | restaurant_name   | restaurant name is empty   |
+        Exemplos:
+            | correct           | incorrect         | message                          |
+            | restaurant_name   | restaurant_campus | campus do restaurante está vazio |
+            | restaurant_campus | restaurant_name   | nome do restaurante está vazio   |
 
-    Scenario: Add an already existing restaurant
-        Given there are restaurants
-        And I know a restaurant
-        When I fill in "restaurant_name" from a known restaurant
-        And I fill in "restaurant_campus" from a known restaurant
-        And I click the create restaurant button
-        Then I should see an existing restaurant message
+    Cenário: Adicionar um restaurante que já existe
+        Dado que existem restaurantes
+        E eu conheço um restaurante
+        Quando preencho "restaurant_name" com o valor do restaurante que conheço
+        E preencho "restaurant_campus" com o valor do restaurante que conheço
+        E clico no botão de criar restaurante
+        Então devo ver uma mensagem de restaurante existente

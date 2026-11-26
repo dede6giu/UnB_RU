@@ -1,4 +1,4 @@
-Given(/^I am an? admin$/) do
+Dado(/^(?:que )?(?:eu )?sou um admin$/) do
   @password = 'senha123'
   conta = Account.create!(user: '1000000', password: @password, name: 'Admin', role: 'admin')
 

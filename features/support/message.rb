@@ -3,21 +3,21 @@ module MessageTexts
     case message_alias
 
     # Restaurant
-    when /restaurant name is empty/
+    when /nome do restaurante está vazio/
       'Nome não pode ser vazio'
-    when /restaurant campus is empty/
+    when /campus do restaurante está vazio/
       'Campus não pode ser vazio'
-    when /existing restaurant/
+    when /restaurante existente/
       'Restaurante já existente'
 
     # Turnstile
-    when /turnstiles in operation/
+    when /catracas em operação/
       'Há catracas em operação'
-    when /turnstile in operation/
+    when /catraca em operação/
       'Um operador está atuando na catraca'
-    when /turnstile name is empty/
+    when /nome da catraca está vazio/
       'Nome não pode ser vazio'
-    when /existing turnstile/
+    when /catraca existente/
       'Catraca já existente'
 
     # Shift configuration
