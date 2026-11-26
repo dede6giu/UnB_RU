@@ -77,4 +77,16 @@ RSpec.describe "AdminSessions", type: :request do
       expect(response).to redirect_to(new_admin_session_path)
     end
   end
+
+  describe "já logado" do
+    before { entrar(user: "1000000", password: "senha123") }
+    it "não mostra o login e redireciona para o restaurants_path" do
+      get new_admin_session_path
+      expect(response).to redirect_to(restaurants_path)
+    end
+    it "não mostra o login e redireciona para o restaurants_path mesmo com matrícula inválida" do
+      get new_admin_session_path, params: { admin: { user: "123", password: "senha123" } }
+      expect(response).to redirect_to(restaurants_path)
+    end
+  end
 end

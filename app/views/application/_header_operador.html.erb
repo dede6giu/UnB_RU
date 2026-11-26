@@ -22,5 +22,6 @@
       <div class="fs-sm fw-medium"><%= current_operator.name %></div>
       <div class="fs-xs fg-3">Operador · <%= current_operator.user %></div>
     </div>
+    <%= button_to "Sair", operator_session_path, method: :delete, class: "btn-text theme-danger" %>
   <% end %>
 </div>

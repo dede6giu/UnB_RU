@@ -1,5 +1,8 @@
 # Controller para a autenticação de Admin.
 class AdminSessionsController < ApplicationController
+  include Authentication
+  before_action :require_no_admin, only: %i[new create]
+
   ##
   # GET /admin/login
   #

@@ -53,4 +53,31 @@ RSpec.describe "OperatorSessions", type: :request do
       expect(session[:operator_id]).to be_nil
     end
   end
+
+  describe "já logado" do
+    before do
+      entrar(user: "2000000", password: "senha123")
+    end
+
+    it "não permite entrar de novo" do
+      get new_operator_session_path
+      expect(response).to redirect_to(new_access_point_path)
+    end
+    it "sai da conta e redireciona para o login" do
+      delete operator_session_path
+      expect(response).to redirect_to(new_operator_session_path)
+      expect(flash[:notice]).to eq("Você saiu da conta.")
+      expect(session[:operator_id]).to be_nil
+    end
+    it "libera a catraca antes de sair da conta" do
+      restaurante = Restaurant.create!(name: "RU", campus: "Darcy Ribeiro")
+      catraca = restaurante.turnstiles.create!(name: "Catraca 1", operation: "Operando", operator_id: operador.id)
+
+      delete operator_session_path
+
+      catraca.reload
+      expect(catraca.operator_id).to be_nil
+      expect(catraca.operation).to eq("Ativa")
+    end
+  end
 end

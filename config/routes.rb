@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   scope "/operator" do
     get "/login", to: "operator_sessions#new", as: :new_operator_session
     post "/login", to: "operator_sessions#create", as: :operator_session
+    delete "/login", to: "operator_sessions#destroy"
 
     get "/access/new", to: "access_points#new", as: :new_access_point
     post "/access", to: "access_points#create"
@@ -29,6 +30,7 @@ Rails.application.routes.draw do
   scope "/student" do
     get "/login", to: "student_sessions#new", as: :new_student_session
     post "/login", to: "student_sessions#create", as: :student_session
+    delete "/login", to: "student_sessions#destroy"
 
     get "/signup", to: "student_sessions#signup", as: :student_session_signup
     post "/newacc", to: "student_sessions#newacc", as: :student_session_newacc

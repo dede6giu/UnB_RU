@@ -1,6 +1,9 @@
 # Controller para a autenticação de Student. É responsável tanto pelo
 # login quanto signup, transmitindo tais ações para o model correspondente.
 class StudentSessionsController < ApplicationController
+  include Authentication
+  before_action :require_no_student, only: %i[new create signup newacc]
+
   ##
   # GET /student/login
   #
@@ -60,6 +63,18 @@ class StudentSessionsController < ApplicationController
       flash.now[:alert] = student.errors.map { |erro| erro.message }
       render :signup, status: :unprocessable_entity
     end
+  end
+
+  ##
+  # DELETE /student/login
+  #
+  # Encerra a sessão do estudante. Não recebe argumentos.
+  #
+  # Remove o registro da sessão e redireciona para
+  # StudentSessionsController#new com "Você saiu da conta.".
+  def destroy
+    session.delete(:student_id)
+    redirect_to new_student_session_path, notice: "Você saiu da conta."
   end
 
   private

@@ -2,7 +2,6 @@
 # para operadores.
 class AccessPointsController < ApplicationController
   layout "operator"
-  helper_method :current_operator
   before_action :load_restaurants, only: %i[new create]
   before_action :set_operator_turnstile, only: %i[show validate]
 
@@ -112,10 +111,6 @@ class AccessPointsController < ApplicationController
   # Não altera o banco de dados.
   def set_operator_turnstile
     @turnstile = Turnstile.find_by(operator_id: session[:operator_id])
-  end
-
-  def current_operator
-    @current_operator ||= Account.find_by(user: session[:operator_id], role: "operator")
   end
 
   ##
