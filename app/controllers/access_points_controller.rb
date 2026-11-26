@@ -60,11 +60,8 @@ class AccessPointsController < ApplicationController
     erro = erro_da_catraca(turnstile)
     return render_error(erro) if erro
 
-    current_turnstile = Turnstile.find_by(operator_id: operator.id)
-    Turnstile.transaction do
-      current_turnstile&.update!(operator_id: nil, operation: "Ativa")
-      turnstile.update!(operator_id: operator.id, operation: "Operando")
-    end
+    assumir_catraca(turnstile, operator)
+
     redirect_to access_point_path, notice: "Operação iniciada com sucesso."
   end
 
@@ -204,6 +201,20 @@ class AccessPointsController < ApplicationController
       "O ponto de acesso escolhido está inativo."
     elsif %w[ Operando FastPass ].include?(turnstile.operation)
       "O ponto de acesso escolhido já está em operação."
+    end
+  end
+
+  ##
+  # Associa o operador a catraca escolhida, liberando a catraca que ele operava antes.
+  #
+  # Recebe o operador logado (`Account`) e a catraca escolhida (`Turnstile`), já validada por `erro_da_catraca`.
+  #
+  # A catraca anterior do operador (se houver) fica "Ativa" e sem operador; a nova fica "Operando" com o operador associado.
+  def assumir_catraca(turnstile, operator)
+    current_turnstile = Turnstile.find_by(operator_id: operator.id)
+    Turnstile.transaction do
+      current_turnstile&.update!(operator_id: nil, operation: "Ativa")
+      turnstile.update!(operator_id: operator.id, operation: "Operando")
     end
   end
 end
