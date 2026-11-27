@@ -1,4 +1,3 @@
-@wip
 Feature: Global access report
     As an admin
     I want to see every access entry and filter it by restaurant and turnstile
