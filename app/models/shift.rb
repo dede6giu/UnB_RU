@@ -6,6 +6,8 @@ class Shift < ApplicationRecord
   # Horário no formato HH:MM, de 00:00 a 23:59.
   TIME_FORMAT = /\A(?:[01]\d|2[0-3]):[0-5]\d\z/
 
+  has_many :timeframes, dependent: :destroy
+
   validates :meal_type, presence: true, inclusion: { in: MEAL_TYPES }, uniqueness: true
   validates :starts_at, :ends_at, presence: true
   validate :time_values_must_be_valid
