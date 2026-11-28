@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     get "/shifts", to: "admin_shifts#show", as: :admin_shifts
     patch "/shifts", to: "admin_shifts#update"
     get "/history", to: "global_histories#index", as: :global_history
+    get "/fastpass_quotas", to: "fastpass_quotas#edit", as: :fastpass_quotas
+    patch "/fastpass_quotas", to: "fastpass_quotas#update"
+    post "/fastpass_quotas/restore", to: "fastpass_quotas#restore", as: :restore_fastpass_quotas
   end
 
   scope "/operator" do
@@ -41,6 +44,8 @@ Rails.application.routes.draw do
     post "/recharge", to: "recharges#create", as: :recharge
 
     get "/statement", to: "statements#show", as: :statement
+
+    get "/fastpass", to: "fastpass#show", as: :fastpass
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
